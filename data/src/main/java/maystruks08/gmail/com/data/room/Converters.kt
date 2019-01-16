@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.data.sources.room
+package maystruks08.gmail.com.data.room
 
 import androidx.room.TypeConverter
 import java.util.*

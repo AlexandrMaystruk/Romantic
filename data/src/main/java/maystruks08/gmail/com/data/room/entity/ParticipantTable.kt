@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.data.sources.room.entity
+package maystruks08.gmail.com.data.room.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

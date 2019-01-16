@@ -1,7 +1,7 @@
-package maystruks08.gmail.com.data.sources.room.dao
+package maystruks08.gmail.com.data.room.dao
 
 import androidx.room.*
-import maystruks08.gmail.com.data.sources.room.entity.HikeTable
+import maystruks08.gmail.com.data.room.entity.HikeTable
 
 
 @Dao

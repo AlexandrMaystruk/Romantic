@@ -1,10 +1,10 @@
-package maystruks08.gmail.com.data.sources.room
+package maystruks08.gmail.com.data.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import maystruks08.gmail.com.data.sources.room.dao.*
-import maystruks08.gmail.com.data.sources.room.entity.*
+import maystruks08.gmail.com.data.room.dao.*
+import maystruks08.gmail.com.data.room.entity.*
 
 @Database(
     entities = [HikeTable::class, ParticipantTable::class,

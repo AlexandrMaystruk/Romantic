@@ -1,8 +1,8 @@
-package maystruks08.gmail.com.data.sources.room.dao
+package maystruks08.gmail.com.data.room.dao
 
 
 import androidx.room.*
-import maystruks08.gmail.com.data.sources.room.entity.ToolsTable
+import maystruks08.gmail.com.data.room.entity.ToolsTable
 
 @Dao
 interface ToolsDAO {
