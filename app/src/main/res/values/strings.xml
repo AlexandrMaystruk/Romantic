@@ -38,4 +38,5 @@
 
     <string name="tab_news">Все</string>
     <string name="tab_favorite_news">Закладки</string>
+    <string name="toast_exit_app_warning_text">Tap again to exit</string>
 </resources>

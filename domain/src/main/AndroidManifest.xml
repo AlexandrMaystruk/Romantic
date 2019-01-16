@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="maystruks08.gmail.com.domain"/>
+<manifest package="maystruks08.gmail.com.domain"/>

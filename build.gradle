@@ -58,7 +58,7 @@ ext {
     workManagerVersion = '1.0.0-alpha10'
 
     glideVersion = '4.8.0'
-    ciceroneVersion = '3.0.0'
+    ciceroneVersion = '4.0.2'
 
     roomVersion = '2.1.0-alpha01'
 

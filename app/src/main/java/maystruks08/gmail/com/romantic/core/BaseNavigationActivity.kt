@@ -1,113 +1,151 @@
-//package maystruks08.gmail.com.core
-//
-//import android.os.Bundle
-//import android.view.View
-//import androidx.appcompat.app.AppCompatActivity
-//import androidx.drawerlayout.widget.DrawerLayout
-//import androidx.recyclerview.widget.DefaultItemAnimator
-//import androidx.recyclerview.widget.LinearLayoutManager
-//import maystruks08.gmail.com.romantic.App
-//import ru.terrakok.cicerone.Navigator
-//import ru.terrakok.cicerone.NavigatorHolder
-//import ru.terrakok.cicerone.Router
-//import ru.terrakok.cicerone.commands.BackTo
-//import ru.terrakok.cicerone.commands.Command
-//import ru.terrakok.cicerone.commands.Forward
-//import javax.inject.Inject
-//
-//
-//abstract class BaseNavigationActivity : AppCompatActivity() {
-//
-//    @Inject
-//    lateinit var router: Router
-//
-//    @Inject
-//    lateinit var navigatorHolder: NavigatorHolder
-//
-//
-//    private var currentScene = ""
-//    private var isOpen = false
-//
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.drawer_layout)
-//
-//        App.operationComponent?.inject(this)
-//
-//        router.navigateTo(Screens.MENU_SCENE)
+package maystruks08.gmail.com.romantic.core
+
+import android.content.Context
+import android.os.Bundle
+import android.view.Menu
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+
+import maystruks08.gmail.com.romantic.App
+import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.core.navigation.AppNavigator
+import maystruks08.gmail.com.romantic.core.navigation.Screens
+import ru.terrakok.cicerone.Navigator
+import ru.terrakok.cicerone.NavigatorHolder
+import ru.terrakok.cicerone.Router
+import ru.terrakok.cicerone.commands.Command
+import javax.inject.Inject
+
+
+abstract class BaseNavigationActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
+
+    private var onBackHandler: Runnable? = null
+    private val pressTwiceInterval: Long = 2000
+    private var lastBackPressTime: Long = 0
+
+    private var menu: Menu? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_root)
+
+        App.operationComponent?.inject(this)
+        router.navigateTo(Screens.HikeListScreen)
+    }
+
+
+    private val navigator: Navigator = object : AppNavigator(this, supportFragmentManager, R.id.main_content) {
+
+        override fun setupFragmentTransaction(
+            command: Command?,
+            currentFragment: Fragment?,
+            nextFragment: Fragment?,
+            fragmentTransaction: FragmentTransaction
+        ) {
+            fragmentTransaction.setReorderingAllowed(true)
+        }
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        navigatorHolder.setNavigator(navigator)
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        navigatorHolder.removeNavigator()
+    }
+
+
+    override fun onBackPressed() {
+        this.hideSoftKeyboard()
+        this.navigateBack()
+    }
+
+    private fun navigateBack() {
+        when {
+            onBackHandler != null -> onBackHandler!!.run()
+            supportFragmentManager.backStackEntryCount > 0 -> router.exit()
+            this.lastBackPressTime < System.currentTimeMillis() - pressTwiceInterval -> {
+                Toast.makeText(this, R.string.toast_exit_app_warning_text, Toast.LENGTH_SHORT).show()
+                this.lastBackPressTime = System.currentTimeMillis()
+            }
+            else -> router.exit()
+        }
+    }
+
+
+    protected fun hideSoftKeyboard() {
+        if (currentFocus != null) {
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        }
+    }
+
+//    fun setBackground(icon: Int) {
+//        mainBackground.background = getDrawable(icon)
 //    }
 //
 //
-//    override fun onResumeFragments() {
-//        super.onResumeFragments()
-//        navigatorHolder.setNavigator(navigator)
-//    }
-//
-//    private val navigator = object : Navigator {
-//        override fun applyCommands(commands: Array<out Command>?) {
-//            commands?.forEach {
-//                when (it) {
-//                    is Forward -> onForwardCommand(it)
-//                    is BackTo -> onBackCommand(it)
-//                }
-//            }
+//    fun setNavigationIcon(@DrawableRes icon: Int) {
+//        main_toolbar.setNavigationIcon(icon)
+//        main_toolbar.setNavigationOnClickListener {
+//            navigateBack()
 //        }
+//    }
 //
-//        fun onForwardCommand(command: Forward) {
-//            if (command.screenKey == Screens.CASH_PAYMENT_SCENE && currentScene != Screens.CASH_PAYMENT_SCENE) {
-//                val amount = command.transitionData as Double
-//                currentScene = Screens.CASH_PAYMENT_SCENE
+//    fun removeNavigationIcon() {
+//        main_toolbar.navigationIcon = null
+//    }
 //
-//                supportFragmentManager.transaction {
-//                    replace(R.id.mainContainer, PayManagerFragment.getInstance(amount, PayManagerFragment.METHOD_CASH))
-//                    addToBackStack(Screens.PAYMENT_SCENE)
-//                }
-//            } else if (command.screenKey == Screens.CASHLESS_PAYMENT_SCENE && currentScene != Screens.CASHLESS_PAYMENT_SCENE) {
-//                val amount = command.transitionData as Double
-//                currentScene = Screens.CASHLESS_PAYMENT_SCENE
-//                supportFragmentManager.transaction {
-//                    replace(R.id.mainContainer, PayManagerFragment.getInstance(amount, PayManagerFragment.METHOD_EFT))
-//                    addToBackStack(Screens.PAYMENT_SCENE)
-//                }
-//            } else if (command.screenKey == Screens.BILL_SCENE && currentScene != Screens.BILL_SCENE) {
-//                currentScene = Screens.BILL_SCENE
-//                supportFragmentManager.transaction {
-//                    replace(R.id.mainContainer, BillFragment())
-//                    addToBackStack(Screens.BILL_SCENE)
-//                }
-//            } else if (command.screenKey == Screens.CLOSE_DAY_SCENE && currentScene != Screens.CLOSE_DAY_SCENE) {
-//                currentScene = Screens.CLOSE_DAY_SCENE
-//                supportFragmentManager.transaction {
-//                    replace(R.id.mainContainer, CloseDayFragment())
-//                    addToBackStack(Screens.CLOSE_DAY_SCENE)
-//                }
-//            } else if (command.screenKey == Screens.MENU_SCENE && currentScene != Screens.MENU_SCENE) {
-//                currentScene = Screens.MENU_SCENE
-//                supportFragmentManager.transaction {
-//                    replace(R.id.mainContainer, OrderFragment(), Screens.MENU_SCENE)
-//                }
-//            }
-//        }
+//    fun showOptionMenu(showMenu: Boolean) {
+//        if (menu == null) return
+//        this.menu?.setGroupVisible(R.id.main_menu_group, showMenu)
+//    }
 //
-//        fun onBackCommand(command: BackTo) {
-//            currentScene = Screens.MENU_SCENE
-//            activateDrawerItem(DRAWER_MAIN)
 //
-//            onBackPressed()
+//    fun configToolbarOfflineMessage(isOffline: Boolean) {
+//        if (isOffline) {
+//            main_toolbar.title = null
+//            tvTitleToolbar.visibility = View.VISIBLE
+//            progressToolbar.visibility = View.VISIBLE
+//
+//        } else {
+//            main_toolbar.title = getString(R.string.app_name)
+//            tvTitleToolbar.visibility = View.GONE
+//            progressToolbar.visibility = View.GONE
 //        }
 //    }
 //
-//    companion object {
-//
-//        const val DRAWER_MAIN = 0
-//
-//        const val DRAWER_COSEDAY = 1
-//
-//        const val DRAWER_WARTUNG = 2
-//
-//        const val DRAWER_ADMINISTRATOR = 3
+//    fun configOverlay(overlay: Boolean) {
+//        if (overlay) {
+//            viewFrameController.visibility = View.GONE
+//        } else viewFrameController.visibility = View.VISIBLE
 //
 //    }
 //
-//}
+//    fun setToolbarTitle(title: String) {
+//        main_toolbar.title = title
+//    }
+//    private fun setupBackgroundImage() {
+//
+//        val idImageBackground = getSharedPreferences("BACKGROUND_IMAGE", Context.MODE_PRIVATE)
+//            ?.getString("BACKGROUND_IMAGE", R.drawable.default_back.toString())
+//
+//        if (idImageBackground != null) {
+//            setBackground(idImageBackground.toInt())
+//        }
+//    }
+
+}

@@ -12,4 +12,9 @@ class NewsFragment : Fragment() {
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
+
+    companion object {
+
+        fun getInstance(): NewsFragment = NewsFragment()
+    }
 }
