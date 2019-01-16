@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="maystruks08.gmail.com.romanticfirebase.tabbedActivity.TabbedActivity">
+    <item
+        android:icon="@color/colorPrimary"
+        android:id="@+id/sing_out"
+        android:orderInCategory="100"
+        android:title="Sing out"
+        app:showAsAction="never" />
+</menu>

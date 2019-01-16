@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view_hike"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:layout_marginBottom="5dp"
+    card_view:cardCornerRadius="10dp"
+    card_view:cardElevation="3dp"
+    card_view:cardPreventCornerOverlap="false"
+    card_view:contentPadding="0dp">
+
+    <ImageView
+        android:id="@+id/iv_news_image"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/hike_walking_back" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_news_image"
+        android:layout_marginTop="100dp">
+
+
+        <TextView
+            android:id="@+id/tv_card_item_news_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/color_black"
+            android:text="Презентация спортивного туризма тк Романтик"
+            android:textSize="@dimen/text_mid_size" />
+
+
+        <TextView
+            android:id="@+id/tv_card_item_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/color_black"
+            android:layout_below="@+id/tv_card_item_news_title"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Любишь природу и спорт? Искренность и приключения..." />
+
+
+
+        <ImageView
+            android:id="@+id/iv_add_news_to_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/tv_card_item_body"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_turned_in_gray_24dp" />
+
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
