@@ -59,6 +59,8 @@ dependencies {
     implementation presentationDependencies.recyclerView
     implementation presentationDependencies.constraintLayout
     implementation presentationDependencies.swipe
+    implementation presentationDependencies.circleImageView
+
 
     implementation presentationDependencies.rxJava
     implementation presentationDependencies.rxAndroid

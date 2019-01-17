@@ -19,4 +19,32 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 
+    <style name="TextBottomNavigation">
+        <item name="android:textSize">@dimen/text_xs</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <style name="TextXS">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_xs</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
+    <style name="TextS">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_s</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
+    <style name="ButtonS">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/text_xs</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+
 </resources>

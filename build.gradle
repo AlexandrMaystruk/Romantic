@@ -42,6 +42,9 @@ ext {
     //swipe refresh
     swipeRefreshVersion = '1.2.3@aar'
 
+    //circle image view
+    circleImageViewVersion = '3.0.0'
+
     //RxJava
     rxJavaVersion = '2.1.11'
     rxAndroidVersion = '2.0.2'
@@ -93,6 +96,7 @@ ext {
             glideCompiler   : "com.github.bumptech.glide:compiler:${glideVersion}",
             cicerone        : "ru.terrakok.cicerone:cicerone:${ciceroneVersion}",
             swipe           : "com.github.orangegangsters:swipy:${swipeRefreshVersion}",
+            circleImageView : "de.hdodenhof:circleimageview:${circleImageViewVersion}",
     ]
 
     presentationTestDependencies = [

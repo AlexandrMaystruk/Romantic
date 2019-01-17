@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="text_small_size">10sp</dimen>
-    <dimen name="text_mid_size">18sp</dimen>
-    <dimen name="text_big_size">20sp</dimen>
-    <dimen name="text_super_big__size">32sp</dimen>
-
+    <dimen name="text_xs">10sp</dimen>
+    <dimen name="text_s">14sp</dimen>
+    <dimen name="text_m">18sp</dimen>
+    <dimen name="text_l">20sp</dimen>
+    <dimen name="text_xl">32sp</dimen>
     <dimen name="tab_size">32dp</dimen>
 
-    <dimen name="bottom_navigation_view">70dp</dimen>
-    <dimen name="height_main_icon_bottom_navigation_view">50dp</dimen>
-    <dimen name="width_main_icon_bottom_navigation_view">50dp</dimen>
-    <dimen name="height_icon_bottom_navigation_view">40dp</dimen>
-    <dimen name="width_icon_bottom_navigation_view">40dp</dimen>
+    <dimen name="margin_xs">8sp</dimen>
+    <dimen name="margin_s">14sp</dimen>
+    <dimen name="margin_m">18sp</dimen>
+    <dimen name="margin_l">20sp</dimen>
+    <dimen name="margin_xl">32sp</dimen>
+    <dimen name="margin_xxl">44sp</dimen>
+    <dimen name="margin_xxxl">56sp</dimen>
+
+    <dimen name="size_xs">8sp</dimen>
+    <dimen name="size_s">14sp</dimen>
+    <dimen name="size_m">18sp</dimen>
+    <dimen name="size_l">20sp</dimen>
+    <dimen name="size_xl">32sp</dimen>
+    <dimen name="size_xxl">44sp</dimen>
+    <dimen name="size_xxxl">56sp</dimen>
+
+    <dimen name="size_bottom_navigation">56sp</dimen>
+    <dimen name="size_bottom_navigation_icon">24sp</dimen>
+    <dimen name="size_bottom_navigation_icon_main">34sp</dimen>
+
+
 
 </resources>

@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_white_selected"
-                android:textSize="@dimen/text_super_big__size"/>
+                android:textSize="@dimen/text_xl"/>
 
     </androidx.appcompat.widget.Toolbar>
 
