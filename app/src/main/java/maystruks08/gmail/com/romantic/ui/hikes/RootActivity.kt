@@ -4,11 +4,11 @@ import android.os.Bundle
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.core.BaseNavigationActivity
 
-class HikesActivity : BaseNavigationActivity()  {
+class RootActivity : BaseNavigationActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        App.operationComponent?.inject(this)
+        App.rootComponent?.inject(this)
     }
 }

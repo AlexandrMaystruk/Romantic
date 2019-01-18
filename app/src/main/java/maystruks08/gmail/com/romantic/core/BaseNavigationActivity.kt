@@ -39,7 +39,7 @@ abstract class BaseNavigationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_root)
 
-        App.operationComponent?.inject(this)
+        App.rootComponent?.inject(this)
         router.navigateTo(Screens.HikeListScreen)
     }
 

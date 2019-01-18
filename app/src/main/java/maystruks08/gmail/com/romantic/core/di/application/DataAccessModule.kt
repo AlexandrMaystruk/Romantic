@@ -12,7 +12,6 @@ import javax.inject.Singleton
 @Module
 class DataAccessModule {
 
-
     @Provides
     @Singleton
     fun executor(): ThreadExecutor = BaseExecutor()
