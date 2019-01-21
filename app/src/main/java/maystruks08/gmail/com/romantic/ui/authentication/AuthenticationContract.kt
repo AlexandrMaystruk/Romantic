@@ -11,7 +11,7 @@ interface AuthenticationContract {
     interface Presenter {
 
         interface SignUp : BasePresenter<AuthenticationContract.View> {
-            fun singup(email: String, password: String, displayName: String)
+            fun signUp(email: String, password: String, displayName: String)
         }
 
         interface SignIn : BasePresenter<AuthenticationContract.View> {

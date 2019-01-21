@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.hikes.RootActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.PopupOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <FrameLayout
+                    android:background="@drawable/logo_in_toolbar"
+                    android:layout_width="?actionBarSize"
+                    android:layout_height="?actionBarSize">
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_marginTop="14dp"
+                        android:layout_marginStart="3.5dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"/>
+            </FrameLayout>
+
+
+            <TextView
+                    android:layout_marginStart="@dimen/margin_xl"
+                    style="@style/TextBottomNavigation"
+                    android:text="@string/app_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </androidx.appcompat.widget.Toolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <View
+                android:id="@+id/collapseView"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"/>
+
+        <FrameLayout
+                android:id="@+id/rootContainer"
+                android:layout_below="@+id/collapseView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true">
+
+        </FrameLayout>
+    </RelativeLayout>
+
+    <include
+            android:visibility="visible"
+            layout="@layout/layout_bottom_navigation_view"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

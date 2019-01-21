@@ -35,7 +35,7 @@ class RootActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.root_activity)
+        setContentView(R.layout.activity_root)
 
         App.appComponent.inject(this)
 

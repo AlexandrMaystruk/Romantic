@@ -7,7 +7,7 @@
         android:background="@drawable/start_activity">
 
     <EditText
-            android:id="@+id/edit_text_email_id"
+            android:id="@+id/etEmail"
             android:layout_width="236dp"
             android:layout_height="40dp"
             android:layout_marginBottom="8dp"
@@ -25,7 +25,7 @@
             app:layout_constraintVertical_bias="0.296"/>
 
     <EditText
-            android:id="@+id/edit_text_password"
+            android:id="@+id/etPassword"
             android:layout_width="236dp"
             android:layout_height="40dp"
             android:layout_marginBottom="164dp"
@@ -39,12 +39,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_email_id"
+            app:layout_constraintTop_toBottomOf="@+id/etEmail"
             app:layout_constraintVertical_bias="0.0"/>
 
 
     <Button
-            android:id="@+id/button_login"
+            android:id="@+id/btnLogin"
             android:layout_width="236dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
@@ -60,7 +60,7 @@
 
 
     <TextView
-            android:id="@+id/tv_register"
+            android:id="@+id/tvSignUp"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_alignParentBottom="true"
@@ -74,12 +74,12 @@
             android:textSize="@dimen/text_s"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_login"
+            app:layout_constraintTop_toBottomOf="@+id/btnLogin"
             app:layout_constraintVertical_bias="0.0"/>
 
 
     <TextView
-            android:id="@+id/tv_registry_now"
+            android:id="@+id/tvRegistryNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="72dp"
@@ -90,7 +90,7 @@
             android:textSize="17dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_login"
+            app:layout_constraintTop_toBottomOf="@+id/btnLogin"
             app:layout_constraintVertical_bias="0.0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
