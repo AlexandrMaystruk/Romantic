@@ -37,7 +37,7 @@ class RootActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.root_activity)
 
-        App.rootComponent?.inject(this)
+        App.appComponent.inject(this)
 
         router.newRootScreen(Screens.HikeListScreen)
 
