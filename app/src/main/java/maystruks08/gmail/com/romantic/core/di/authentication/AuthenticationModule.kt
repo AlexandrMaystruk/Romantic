@@ -2,6 +2,7 @@ package maystruks08.gmail.com.romantic.core.di.authentication
 
 import dagger.Module
 import dagger.Provides
+import maystruks08.gmail.com.data.mappers.UserMapper
 import maystruks08.gmail.com.data.repository.AuthenticationRepositoryImpl
 import maystruks08.gmail.com.domain.interactor.authentication.AuthenticationInteractor
 import maystruks08.gmail.com.domain.interactor.authentication.AuthenticationInteractorImpl
@@ -38,6 +39,10 @@ class AuthenticationModule {
     @AuthenticationScope
     fun presenterSignUp(authenticationPresenter: SignUpPresenter): AuthenticationContract.Presenter.SignUp =
         authenticationPresenter
+
+    @Provides
+    @AuthenticationScope
+    fun userMapper(): UserMapper = UserMapper()
 
 
 }

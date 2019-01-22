@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.PRESS_TWICE_INTERVAL
-import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.core.navigation.AppNavigator
 import maystruks08.gmail.com.romantic.core.navigation.Screens
 import ru.terrakok.cicerone.Navigator
