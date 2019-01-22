@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "38396164800",
+    "firebase_url": "https://romantic-ab0ef.firebaseio.com",
+    "project_id": "romantic-ab0ef",
+    "storage_bucket": "romantic-ab0ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38396164800:android:ebd2e1d9ca218a08",
+        "android_client_info": {
+          "package_name": "com.gmail.maystruks08"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38396164800-njbdshtoitm9fce3q2p1p3v5end5aqkt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmail.maystruks08",
+            "certificate_hash": "131951770d68d1510f18a5c4b554b21dfa3db44d"
+          }
+        },
+        {
+          "client_id": "38396164800-umfv7lq4cad35nfgbiogtp1dmvlceev8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtvZA1XhxoezKr6-JUDBZsQPNPRyvLaNg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "38396164800-umfv7lq4cad35nfgbiogtp1dmvlceev8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

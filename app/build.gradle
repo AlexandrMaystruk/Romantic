@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'com.google.gms.google-services'
+
 android {
     def globalConfiguration = rootProject.ext
     compileSdkVersion globalConfiguration.androidCompileSdkVersion
@@ -48,19 +50,15 @@ dependencies {
     implementation project(':domain')
     api project(':data')
 
-    implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
     compileOnly presentationDependencies.javaxAnnotation
     compileOnly presentationDependencies.javaxInject
-
+    implementation presentationDependencies.constraintLayout
     implementation presentationDependencies.kotlin
     implementation presentationDependencies.supportAndroid
     implementation presentationDependencies.supportAppCompat
     implementation presentationDependencies.supportDesign
     implementation presentationDependencies.cardView
     implementation presentationDependencies.recyclerView
-    implementation presentationDependencies.constraintLayout
     implementation presentationDependencies.swipe
     implementation presentationDependencies.circleImageView
 

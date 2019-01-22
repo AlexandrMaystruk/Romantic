@@ -1,13 +1,14 @@
 buildscript {
-    ext.kotlin_version = '1.2.71'
+
+    ext.kotlin_version = '1.3.11'
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
+        classpath 'com.google.gms:google-services:4.2.0'
     }
 }
 
@@ -29,6 +30,7 @@ ext {
     //Android
     androidBuildToolsVersion = "28.0.0"
     androidXToolsVersion = "1.0.0"
+    androidXAppCompatToolsVersion = "1.1.0-alpha01"
     androidMinSdkVersion = 21
     androidTargetSdkVersion = 28
     androidCompileSdkVersion = 28
@@ -36,7 +38,7 @@ ext {
     //{ Libraries }
 
     //Android
-    constraintVersion = '2.0.0-alpha2'
+    constraintVersion = '1.1.3'
     designVersion = '1.0.0-rc01'
 
     //swipe refresh
@@ -76,10 +78,15 @@ ext {
 
     gsonVersion = '2.8.5'
 
+    //FireBase
+    firebaseAuthVersion = '16.1.0'
+    firebaseCoreVersion = '16.0.6'
+
+
     presentationDependencies = [
             kotlin          : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
             supportAndroid  : "androidx.legacy:legacy-support-v4:${androidXToolsVersion}",
-            supportAppCompat: "androidx.appcompat:appcompat:${androidXToolsVersion}",
+            supportAppCompat: "androidx.appcompat:appcompat:${androidXAppCompatToolsVersion}",
             supportDesign   : "com.google.android.material:material:${designVersion}",
             recyclerView    : "androidx.recyclerview:recyclerview:${androidXToolsVersion}",
             javaxAnnotation : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
@@ -130,7 +137,9 @@ ext {
             roomCompiler   : "androidx.room:room-compiler:$roomVersion",
             roomRxJava     : "androidx.room:room-rxjava2:$roomVersion",
             gson           : "com.google.code.gson:gson:$gsonVersion",
-            workManager    : "android.arch.work:work-runtime-ktx:$workManagerVersion"
+            workManager    : "android.arch.work:work-runtime-ktx:$workManagerVersion",
+            firebaseAuth   : "com.google.firebase:firebase-auth:$firebaseAuthVersion",
+            firebaseCore   : "com.google.firebase:firebase-core:$firebaseCoreVersion"
     ]
 
     dataTestDependencies = [
