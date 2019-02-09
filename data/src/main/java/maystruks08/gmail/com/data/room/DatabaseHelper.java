@@ -30,12 +30,12 @@ package maystruks08.gmail.com.data.room;//package maystruks08.gmail.com.data.sou
 //        INSTANCE.hikeDao().insertAll(hikeTable);
 //    }
 //
-//    public void insertParticipant(ParticipantTable participantTable) {
-//        INSTANCE.participantDao().insertAll(participantTable);
+//    public void insertParticipant(UserTable participantTable) {
+//        INSTANCE.userDao().insertAll(participantTable);
 //    }
 //
-//    public void insertParticipant(List<ParticipantTable> participants) {
-//        INSTANCE.participantDao().insertList(participants);
+//    public void insertParticipant(List<UserTable> participants) {
+//        INSTANCE.userDao().insertList(participants);
 //    }
 //
 //    public void insertTool(ToolsTable tools) {
@@ -54,15 +54,15 @@ package maystruks08.gmail.com.data.room;//package maystruks08.gmail.com.data.sou
 //    }
 //
 //
-//    public List<ParticipantTable> getParticipantsByHikeId(int hikeId) {
+//    public List<UserTable> getParticipantsByHikeId(int hikeId) {
 //
-//        List<ParticipantTable> group = new ArrayList<>();
+//        List<UserTable> group = new ArrayList<>();
 //        List<HikesParticipantsTable> listIds = INSTANCE.hikesParticipantsDAO().getListIdByHikeId(hikeId);
 //
 //        for (int i = 0; i < listIds.size(); i++) {
 //
-//            if (null != INSTANCE.participantDao().getParticipantById(listIds.get(i).getIdParticipant())) {
-//                group.add(INSTANCE.participantDao().getParticipantById(listIds.get(i).getIdParticipant()));
+//            if (null != INSTANCE.userDao().getUserById(listIds.get(i).getIdParticipant())) {
+//                group.add(INSTANCE.userDao().getUserById(listIds.get(i).getIdParticipant()));
 //            }
 //        }
 //        return group;
@@ -109,21 +109,21 @@ package maystruks08.gmail.com.data.room;//package maystruks08.gmail.com.data.sou
 //        return hikeTableList;
 //    }
 //
-//    public List<ParticipantTable> getAllParticipants() {
-//        return INSTANCE.participantDao().getAllParticipants();
+//    public List<UserTable> getAllUsers() {
+//        return INSTANCE.userDao().getAllUsers();
 //    }
 //
-//    public ParticipantTable getParticipantById(String id) {
-//        return INSTANCE.participantDao().getParticipantById(id);
+//    public UserTable getUserById(String id) {
+//        return INSTANCE.userDao().getUserById(id);
 //    }
 //
 //
-//    public void updateParticipant(ParticipantTable participant) {
-//        INSTANCE.participantDao().update(participant);
+//    public void updateParticipant(UserTable participant) {
+//        INSTANCE.userDao().update(participant);
 //    }
 //
-//    public void updateListParticipant(List<ParticipantTable> list) {
-//        INSTANCE.participantDao().update(list);
+//    public void updateListParticipant(List<UserTable> list) {
+//        INSTANCE.userDao().update(list);
 //    }
 //
 //    public void updateListTools(List<ToolsTable> tool) {
@@ -153,14 +153,14 @@ package maystruks08.gmail.com.data.room;//package maystruks08.gmail.com.data.sou
 //
 //    }
 //
-//    public void deleteListParticipant(List<ParticipantTable> participants) {
-//        INSTANCE.participantDao().delete(participants);
+//    public void deleteListParticipant(List<UserTable> participants) {
+//        INSTANCE.userDao().delete(participants);
 //    }
 //
 //
-//    public void dropAndInsertParticipant(List<ParticipantTable> list) {
-//        INSTANCE.participantDao().dropTable();
-//        INSTANCE.participantDao().insertList(list);
+//    public void dropAndInsertParticipant(List<UserTable> list) {
+//        INSTANCE.userDao().dropTable();
+//        INSTANCE.userDao().insertList(list);
 //    }
 //
 //    public void dropAndInsertHikes(List<HikeTable> list) {

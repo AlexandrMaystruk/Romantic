@@ -8,7 +8,7 @@
     <color name="bottom_navigation_view_color">#bf3d4269</color>
     <color name="color_grey">#cb444869</color>
     <color name="color_grey_700">#616161</color>
-    <color name="text_white_unselected">#8effffff</color>
+    <color name="text_white_unselected">#A3FFFFFF</color>
     <color name="text_white_selected">#ffffff</color>
     <color name="color_white">#ffffff</color>
     <color name="color_black">#000000</color>

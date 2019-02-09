@@ -6,7 +6,7 @@ import maystruks08.gmail.com.domain.entity.User
 
 interface AuthenticationInteractor {
 
-    fun singup(email: String, password: String, displayName: String): Single<User>
+    fun singup(email: String, password: String, displayName: String): Completable
 
     fun login(email: String, password: String): Completable
 

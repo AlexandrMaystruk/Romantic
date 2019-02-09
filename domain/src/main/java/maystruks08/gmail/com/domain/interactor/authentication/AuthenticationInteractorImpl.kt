@@ -12,7 +12,7 @@ class AuthenticationInteractorImpl @Inject constructor(
     private val repository: AuthenticationRepository
 ) : AuthenticationInteractor {
 
-    override fun singup(email: String, password: String, displayName: String): Single<User> {
+    override fun singup(email: String, password: String, displayName: String): Completable {
         return repository.signUp(email, password, displayName)
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)

@@ -7,7 +7,7 @@ import maystruks08.gmail.com.data.room.dao.*
 import maystruks08.gmail.com.data.room.entity.*
 
 @Database(
-    entities = [HikeTable::class, ParticipantTable::class,
+    entities = [HikeTable::class, UserTable::class,
         HikesParticipantsTable::class, HikeToolsTable::class,
         ToolsTable::class, NewsTable::class], version = 1
 )
@@ -16,7 +16,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun hikeDao(): HikeDAO
 
-    abstract fun participantDao(): ParticipantDAO
+    abstract fun userDao(): UserDAO
 
     abstract fun hikesParticipantsDAO(): HikesParticipantsDAO
 

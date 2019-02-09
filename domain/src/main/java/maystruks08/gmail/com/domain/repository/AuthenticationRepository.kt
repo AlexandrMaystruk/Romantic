@@ -6,7 +6,7 @@ import maystruks08.gmail.com.domain.entity.User
 
 interface AuthenticationRepository {
 
-    fun signUp(email: String, password: String, displayName: String): Single<User>
+    fun signUp(email: String, password: String, displayName: String): Completable
 
     fun login(email: String, password: String): Completable
 

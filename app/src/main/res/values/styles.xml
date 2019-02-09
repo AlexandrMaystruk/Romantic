@@ -21,7 +21,7 @@
 
     <style name="TextBottomNavigation">
         <item name="android:textSize">@dimen/text_xs</item>
-        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textColor">@color/text_white_unselected</item>
     </style>
 
     <style name="TextXS">
@@ -44,6 +44,14 @@
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/text_xs</item>
         <item name="android:textColor">@color/color_white</item>
+    </style>
+
+
+    <style name="HeaderTextFont" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/konkord_retro</item>
+        <item name="android:textSize">@dimen/text_xl</item>
+        <item name="android:textColor">@color/color_white</item>
+
     </style>
 
 

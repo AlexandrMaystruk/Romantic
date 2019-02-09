@@ -1,24 +1,33 @@
 package maystruks08.gmail.com.romantic.ui.hikes
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_root.*
+import kotlinx.android.synthetic.main.layout_bottom_navigation_view.*
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.PRESS_TWICE_INTERVAL
+import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.core.navigation.AppNavigator
 import maystruks08.gmail.com.romantic.core.navigation.Screens
+import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.commands.Command
 import javax.inject.Inject
 
-class RootActivity : AppCompatActivity() {
+class RootActivity : AppCompatActivity(), View.OnClickListener, ConfigToolbar {
 
     @Inject
     lateinit var router: Router
@@ -32,14 +41,40 @@ class RootActivity : AppCompatActivity() {
 
     private var menu: Menu? = null
 
+    private val bottomButtonMap: MutableMap<CircleImageView, TextView> = mutableMapOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_root)
 
         App.appComponent.inject(this)
-
         router.newRootScreen(Screens.HikeListScreen)
 
+        bottomNavigationClickHandler()
+
+    }
+
+    override fun onClick(v: View?) {
+        bottomButtonMap.keys.forEach {
+            if (v?.id == it.id) {
+                it.borderWidth = 2
+                bottomButtonMap[it]?.setTextColor(Color.WHITE)
+            } else {
+                it.borderWidth = 0
+                bottomButtonMap[it]?.setTextColor(resources.getColor(R.color.text_white_unselected))
+            }
+        }
+    }
+
+    private fun bottomNavigationClickHandler() {
+        bottomButtonMap[bottom_news] = tvBottomNews
+        bottomButtonMap[bottom_message] = tvBottomMessage
+        bottomButtonMap[bottom_main] = tvBottomMain
+        bottomButtonMap[bottom_events] = tvBottomEvents
+        bottomButtonMap[bottom_my_hikes] = tvBottomMyHikes
+        bottomButtonMap.keys.forEach {
+            it.setOnClickListener(this)
+        }
     }
 
     private val navigator: Navigator = object : AppNavigator(this, supportFragmentManager, R.id.rootContainer) {
@@ -82,8 +117,6 @@ class RootActivity : AppCompatActivity() {
             else -> router.exit()
         }
     }
-
-
     private fun hideSoftKeyboard() {
         if (currentFocus != null) {
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -91,59 +124,44 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
-//    fun setBackground(icon: Int) {
-//        mainBackground.background = getDrawable(icon)
-//    }
-//
-//
-//    fun setNavigationIcon(@DrawableRes icon: Int) {
-//        main_toolbar.setNavigationIcon(icon)
-//        main_toolbar.setNavigationOnClickListener {
-//            navigateBack()
-//        }
-//    }
-//
-//    fun removeNavigationIcon() {
-//        main_toolbar.navigationIcon = null
-//    }
-//
-//    fun showOptionMenu(showMenu: Boolean) {
-//        if (menu == null) return
+    override fun enableToolbar() {
+        actionBar?.show()
+    }
+
+    override fun disableToolbar() {
+        actionBar?.hide()
+    }
+
+    override fun setToolbarTitle(title: String) {
+        toolbar.title = title
+    }
+
+    override fun disableOverlay() {
+        collapseView.visibility = View.VISIBLE
+    }
+
+    override fun enableOverlay() {
+        collapseView.visibility = View.GONE
+    }
+
+    override fun setBackground(icon: Int) {
+        toolbar.background = getDrawable(icon)
+    }
+
+    override fun setNavigationIcon(@DrawableRes icon: Int) {
+        toolbar.setNavigationIcon(icon)
+        toolbar.setNavigationOnClickListener {
+            navigateBack()
+        }
+    }
+
+    override fun removeNavigationIcon() {
+        toolbar.navigationIcon = null
+    }
+
+    override fun showOptionMenu(showMenu: Boolean) {
+        if (menu == null) return
 //        this.menu?.setGroupVisible(R.id.main_menu_group, showMenu)
-//    }
-//
-//
-//    fun configToolbarOfflineMessage(isOffline: Boolean) {
-//        if (isOffline) {
-//            main_toolbar.title = null
-//            tvTitleToolbar.visibility = View.VISIBLE
-//            progressToolbar.visibility = View.VISIBLE
-//
-//        } else {
-//            main_toolbar.title = getString(R.string.app_name)
-//            tvTitleToolbar.visibility = View.GONE
-//            progressToolbar.visibility = View.GONE
-//        }
-//    }
-//
-//    fun configOverlay(overlay: Boolean) {
-//        if (overlay) {
-//            viewFrameController.visibility = View.GONE
-//        } else viewFrameController.visibility = View.VISIBLE
-//
-//    }
-//
-//    fun setToolbarTitle(title: String) {
-//        main_toolbar.title = title
-//    }
-//    private fun setupBackgroundImage() {
-//
-//        val idImageBackground = getSharedPreferences("BACKGROUND_IMAGE", Context.MODE_PRIVATE)
-//            ?.getString("BACKGROUND_IMAGE", R.drawable.default_back.toString())
-//
-//        if (idImageBackground != null) {
-//            setBackground(idImageBackground.toInt())
-//        }
-//    }
+    }
 
 }

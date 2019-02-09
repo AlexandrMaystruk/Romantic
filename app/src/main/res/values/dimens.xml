@@ -23,9 +23,9 @@
     <dimen name="size_xxl">44sp</dimen>
     <dimen name="size_xxxl">56sp</dimen>
 
-    <dimen name="size_bottom_navigation">56sp</dimen>
-    <dimen name="size_bottom_navigation_icon">24sp</dimen>
-    <dimen name="size_bottom_navigation_icon_main">34sp</dimen>
+    <dimen name="size_bottom_navigation">62sp</dimen>
+    <dimen name="size_bottom_navigation_icon">28sp</dimen>
+    <dimen name="size_bottom_navigation_icon_main">38sp</dimen>
 
 
 

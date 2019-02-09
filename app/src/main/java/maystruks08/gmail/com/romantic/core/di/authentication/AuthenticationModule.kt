@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.Provides
 import maystruks08.gmail.com.data.mappers.UserMapper
 import maystruks08.gmail.com.data.repository.AuthenticationRepositoryImpl
+import maystruks08.gmail.com.data.room.AppDatabase
+import maystruks08.gmail.com.data.room.dao.UserDAO
 import maystruks08.gmail.com.domain.interactor.authentication.AuthenticationInteractor
 import maystruks08.gmail.com.domain.interactor.authentication.AuthenticationInteractorImpl
 import maystruks08.gmail.com.domain.repository.AuthenticationRepository
@@ -43,6 +45,10 @@ class AuthenticationModule {
     @Provides
     @AuthenticationScope
     fun userMapper(): UserMapper = UserMapper()
+
+    @Provides
+    @AuthenticationScope
+    fun userDao(appDatabase: AppDatabase): UserDAO = appDatabase.userDao()
 
 
 }
