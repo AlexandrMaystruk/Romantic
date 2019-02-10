@@ -7,6 +7,7 @@
     <color name="background_header">#9ca1c9</color>
     <color name="bottom_navigation_view_color">#bf3d4269</color>
     <color name="color_grey">#cb444869</color>
+    <color name="hint_color">#77FFFFFF</color>
     <color name="color_grey_700">#616161</color>
     <color name="text_white_unselected">#A3FFFFFF</color>
     <color name="text_white_selected">#ffffff</color>

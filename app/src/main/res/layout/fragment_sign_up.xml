@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/start_activity">
 
@@ -10,19 +10,11 @@
             android:id="@+id/etDisplayName"
             android:layout_width="236dp"
             android:layout_height="40dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:hint="@string/user_name"
             android:inputType="textEmailAddress"
             android:textColor="@color/text_white_selected"
-            android:textColorHint="@color/color_grey"
-            app:layout_constraintBottom_toTopOf="@+id/etEmail"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"/>
+            android:textColorHint="@color/hint_color"
+            tools:layout_editor_absoluteY="315dp" tools:layout_editor_absoluteX="88dp"/>
 
 
     <EditText
@@ -37,7 +29,7 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:textColor="@color/text_white_selected"
-            android:textColorHint="@color/color_grey"
+            android:textColorHint="@color/hint_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -53,7 +45,7 @@
             android:layout_width="236dp"
             android:layout_height="40dp"
             android:textColor="@color/text_white_selected"
-            android:textColorHint="@color/color_grey"
+            android:textColorHint="@color/hint_color"
             android:layout_marginRight="8dp"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginLeft="8dp"

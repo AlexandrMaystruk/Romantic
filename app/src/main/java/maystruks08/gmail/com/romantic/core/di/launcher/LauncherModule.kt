@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.core.di.authentication
+package maystruks08.gmail.com.romantic.core.di.launcher
 
 import dagger.Module
 import dagger.Provides
@@ -10,44 +10,40 @@ import maystruks08.gmail.com.domain.interactor.authentication.AuthenticationInte
 import maystruks08.gmail.com.domain.interactor.authentication.AuthenticationInteractorImpl
 import maystruks08.gmail.com.domain.repository.AuthenticationRepository
 import maystruks08.gmail.com.romantic.ui.authentication.AuthenticationContract
-import maystruks08.gmail.com.romantic.ui.authentication.LogoutPresenter
-import maystruks08.gmail.com.romantic.ui.authentication.SignInPresenter
-import maystruks08.gmail.com.romantic.ui.authentication.SignUpPresenter
+import maystruks08.gmail.com.romantic.ui.authentication.AuthenticationPresenter
+import maystruks08.gmail.com.romantic.ui.splash.SplashContract
+import maystruks08.gmail.com.romantic.ui.splash.SplashPresenter
 
 @Module
-class AuthenticationModule {
+class LauncherModule {
 
     @Provides
-    @AuthenticationScope
+    @LauncherScope
     fun repository(authenticationRepository: AuthenticationRepositoryImpl): AuthenticationRepository =
         authenticationRepository
 
+
     @Provides
-    @AuthenticationScope
+    @LauncherScope
     fun interactor(authenticationInteractorImpl: AuthenticationInteractorImpl): AuthenticationInteractor =
         authenticationInteractorImpl
 
     @Provides
-    @AuthenticationScope
-    fun presenteSignIn(authenticationPresenter: SignInPresenter): AuthenticationContract.Presenter.SignIn =
+    @LauncherScope
+    fun presenteSplash(splashPresenter: SplashPresenter): SplashContract.Presenter =
+        splashPresenter
+
+    @Provides
+    @LauncherScope
+    fun presenter(authenticationPresenter: AuthenticationPresenter): AuthenticationContract.Presenter =
         authenticationPresenter
 
     @Provides
-    @AuthenticationScope
-    fun presenterLogOut(authenticationPresenter: LogoutPresenter): AuthenticationContract.Presenter.LogOut =
-        authenticationPresenter
-
-    @Provides
-    @AuthenticationScope
-    fun presenterSignUp(authenticationPresenter: SignUpPresenter): AuthenticationContract.Presenter.SignUp =
-        authenticationPresenter
-
-    @Provides
-    @AuthenticationScope
+    @LauncherScope
     fun userMapper(): UserMapper = UserMapper()
 
     @Provides
-    @AuthenticationScope
+    @LauncherScope
     fun userDao(appDatabase: AppDatabase): UserDAO = appDatabase.userDao()
 
 

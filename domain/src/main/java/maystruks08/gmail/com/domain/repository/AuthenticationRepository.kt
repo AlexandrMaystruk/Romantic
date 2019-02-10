@@ -11,4 +11,6 @@ interface AuthenticationRepository {
     fun login(email: String, password: String): Completable
 
     fun logout(): Completable
+
+    fun getCurrentUser(): Completable
 }

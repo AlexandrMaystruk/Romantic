@@ -1,6 +1,11 @@
 package maystruks08.gmail.com.data.room.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Delete
+import androidx.room.Update
+import io.reactivex.Completable
 import io.reactivex.Single
 import maystruks08.gmail.com.data.room.entity.UserTable
 
@@ -14,7 +19,7 @@ interface UserDAO {
     fun getUserById(id: String): Single<UserTable>
 
     @Insert
-    fun insert(vararg users: UserTable)
+    fun insert(vararg users: UserTable): Completable
 
     @Insert
     fun insert(listUsers: List<UserTable>): List<Long>

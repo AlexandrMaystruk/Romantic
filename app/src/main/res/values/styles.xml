@@ -11,7 +11,7 @@
         <item name="coordinatorLayoutStyle">@style/AppTheme.NoActionBar</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/start_activity</item>
     </style>
 
@@ -48,10 +48,9 @@
 
 
     <style name="HeaderTextFont" parent="@android:style/TextAppearance.Small">
-        <item name="android:fontFamily">@font/konkord_retro</item>
+        <item name="android:fontFamily">@font/kon_kord_retro</item>
         <item name="android:textSize">@dimen/text_xl</item>
         <item name="android:textColor">@color/color_white</item>
-
     </style>
 
 

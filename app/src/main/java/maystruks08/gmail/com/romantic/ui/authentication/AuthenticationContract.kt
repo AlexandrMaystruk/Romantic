@@ -6,20 +6,17 @@ import maystruks08.gmail.com.romantic.core.BaseView
 
 interface AuthenticationContract {
 
-    interface View : BaseView
+    interface View : BaseView{
+         fun startRootActivity()
+    }
 
-    interface Presenter {
+    interface Presenter : BasePresenter<AuthenticationContract.View> {
 
-        interface SignUp : BasePresenter<AuthenticationContract.View> {
-            fun signUp(email: String, password: String, displayName: String)
-        }
+        fun signUp(email: String, password: String, displayName: String)
 
-        interface SignIn : BasePresenter<AuthenticationContract.View> {
-            fun login(email: String, password: String)
-        }
+        fun login(email: String, password: String)
 
-        interface LogOut : BasePresenter<AuthenticationContract.View> {
-            fun logout()
-        }
+        fun onNavigateToSingUpClick()
+
     }
 }
