@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
-import maystruks08.gmail.com.romantic.ui.hikes.RootActivity
+import maystruks08.gmail.com.romantic.ui.main.RootActivity
 import javax.inject.Inject
 
 class SingUpFragment : Fragment(), AuthenticationContract.View {

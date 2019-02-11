@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.hikes.RootActivity"
+        <activity android:name=".ui.main.RootActivity"
                   android:theme="@style/AppTheme"/>
     </application>
 

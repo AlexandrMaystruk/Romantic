@@ -28,7 +28,7 @@ class HikeListFragment : Fragment(), HikeListContract.View {
     }
 
 
-    override fun initUI(hikeList: Single<List<Hike>>) {
+    override fun initUI(hikeList: List<Hike>) {
     }
 
     override fun showLoading() {
@@ -43,7 +43,7 @@ class HikeListFragment : Fragment(), HikeListContract.View {
 
 
     companion object {
-        fun getInstance(): HikeListFragment =
+        fun getInstance(listHikes: List<Hike>): HikeListFragment =
             HikeListFragment()
     }
 

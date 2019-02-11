@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.hikes
+package maystruks08.gmail.com.romantic.ui.main
 
 import android.content.Context
 import android.graphics.Color
@@ -48,17 +48,35 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, ConfigToolbar {
         setContentView(R.layout.activity_root)
 
         App.appComponent.inject(this)
-        router.newRootScreen(Screens.HikeListScreen)
+        router.newRootScreen(Screens.RootTabScreen)
 
         bottomNavigationClickHandler()
-
     }
 
     override fun onClick(v: View?) {
+        when (v) {
+            bottom_news -> {
+                router.newRootScreen(Screens.NewsScreen)
+            }
+            bottom_message -> {
+                router.newRootScreen(Screens.MessageScreen)
+            }
+            bottom_main -> {
+                router.newRootScreen(Screens.RootTabScreen)
+            }
+            bottom_events -> {
+                router.newRootScreen(Screens.EventScreen)
+            }
+            bottom_my_hikes -> {
+                router.newRootScreen(Screens.MyHikeScreen)
+            }
+        }
+
         bottomButtonMap.keys.forEach {
             if (v?.id == it.id) {
                 it.borderWidth = 2
                 bottomButtonMap[it]?.setTextColor(Color.WHITE)
+
             } else {
                 it.borderWidth = 0
                 bottomButtonMap[it]?.setTextColor(resources.getColor(R.color.text_white_unselected))
@@ -117,6 +135,7 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, ConfigToolbar {
             else -> router.exit()
         }
     }
+
     private fun hideSoftKeyboard() {
         if (currentFocus != null) {
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

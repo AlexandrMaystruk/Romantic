@@ -3,7 +3,6 @@ package maystruks08.gmail.com.romantic.ui.splash
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,8 +12,7 @@ import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.PRESS_TWICE_INTERVAL
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.core.navigation.AppNavigator
-import maystruks08.gmail.com.romantic.ui.authentication.AuthenticationContract
-import maystruks08.gmail.com.romantic.ui.hikes.RootActivity
+import maystruks08.gmail.com.romantic.ui.main.RootActivity
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
