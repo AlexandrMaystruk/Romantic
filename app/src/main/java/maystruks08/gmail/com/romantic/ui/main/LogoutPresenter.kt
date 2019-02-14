@@ -1,6 +1,6 @@
-package maystruks08.gmail.com.romantic.ui.authentication
+package maystruks08.gmail.com.romantic.ui.main
 
-import maystruks08.gmail.com.domain.interactor.authentication.LogOutInteractor
+import maystruks08.gmail.com.domain.interactor.main.LogOutInteractor
 import maystruks08.gmail.com.romantic.core.ABasePresenter
 import javax.inject.Inject
 

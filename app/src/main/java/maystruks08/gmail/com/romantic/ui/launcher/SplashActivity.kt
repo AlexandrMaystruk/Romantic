@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.splash
+package maystruks08.gmail.com.romantic.ui.launcher
 
 import android.content.Context
 import android.content.Intent

@@ -1,8 +1,7 @@
 package maystruks08.gmail.com.romantic.core.navigation
 
-import maystruks08.gmail.com.romantic.ui.authentication.SingInFragment
-import maystruks08.gmail.com.romantic.ui.authentication.SingUpFragment
-import maystruks08.gmail.com.romantic.ui.hikes.HikeListFragment
+import maystruks08.gmail.com.romantic.ui.launcher.SingInFragment
+import maystruks08.gmail.com.romantic.ui.launcher.SingUpFragment
 import maystruks08.gmail.com.romantic.ui.main.RootTabFragment
 import maystruks08.gmail.com.romantic.ui.news.NewsFragment
 

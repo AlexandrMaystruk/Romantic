@@ -6,13 +6,13 @@ import maystruks08.gmail.com.data.mappers.UserMapper
 import maystruks08.gmail.com.data.repository.AuthenticationRepositoryImpl
 import maystruks08.gmail.com.data.room.AppDatabase
 import maystruks08.gmail.com.data.room.dao.UserDAO
-import maystruks08.gmail.com.domain.interactor.authentication.AuthenticationInteractor
-import maystruks08.gmail.com.domain.interactor.authentication.AuthenticationInteractorImpl
+import maystruks08.gmail.com.domain.interactor.launcher.AuthenticationInteractor
+import maystruks08.gmail.com.domain.interactor.launcher.AuthenticationInteractorImpl
 import maystruks08.gmail.com.domain.repository.AuthenticationRepository
-import maystruks08.gmail.com.romantic.ui.authentication.AuthenticationContract
-import maystruks08.gmail.com.romantic.ui.authentication.AuthenticationPresenter
-import maystruks08.gmail.com.romantic.ui.splash.SplashContract
-import maystruks08.gmail.com.romantic.ui.splash.SplashPresenter
+import maystruks08.gmail.com.romantic.ui.launcher.AuthenticationContract
+import maystruks08.gmail.com.romantic.ui.launcher.AuthenticationPresenter
+import maystruks08.gmail.com.romantic.ui.launcher.SplashContract
+import maystruks08.gmail.com.romantic.ui.launcher.SplashPresenter
 
 @Module
 class LauncherModule {

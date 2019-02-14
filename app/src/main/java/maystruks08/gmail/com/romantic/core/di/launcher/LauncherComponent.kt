@@ -1,9 +1,9 @@
 package maystruks08.gmail.com.romantic.core.di.launcher
 
 import dagger.Subcomponent
-import maystruks08.gmail.com.romantic.ui.authentication.SingInFragment
-import maystruks08.gmail.com.romantic.ui.authentication.SingUpFragment
-import maystruks08.gmail.com.romantic.ui.splash.SplashActivity
+import maystruks08.gmail.com.romantic.ui.launcher.SingInFragment
+import maystruks08.gmail.com.romantic.ui.launcher.SingUpFragment
+import maystruks08.gmail.com.romantic.ui.launcher.SplashActivity
 
 @Subcomponent(modules = [LauncherModule::class])
 @LauncherScope

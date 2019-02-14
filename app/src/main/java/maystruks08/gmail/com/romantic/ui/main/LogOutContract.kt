@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.authentication
+package maystruks08.gmail.com.romantic.ui.main
 
 import maystruks08.gmail.com.romantic.core.BasePresenter
 import maystruks08.gmail.com.romantic.core.BaseView
@@ -11,7 +11,7 @@ interface LogOutContract {
          fun startLauncherActivity()
     }
 
-    interface Presenter : BasePresenter<LogOutContract.View> {
+    interface Presenter : BasePresenter<View> {
 
         fun logout()
 

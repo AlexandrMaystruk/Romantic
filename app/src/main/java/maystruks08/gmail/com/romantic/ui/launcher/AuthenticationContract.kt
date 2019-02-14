@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.authentication
+package maystruks08.gmail.com.romantic.ui.launcher
 
 import maystruks08.gmail.com.romantic.core.BasePresenter
 import maystruks08.gmail.com.romantic.core.BaseView
@@ -10,7 +10,7 @@ interface AuthenticationContract {
          fun startRootActivity()
     }
 
-    interface Presenter : BasePresenter<AuthenticationContract.View> {
+    interface Presenter : BasePresenter<View> {
 
         fun signUp(email: String, password: String, displayName: String)
 

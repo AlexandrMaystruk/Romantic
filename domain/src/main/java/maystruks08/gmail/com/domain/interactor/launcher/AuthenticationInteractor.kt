@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.domain.interactor.authentication
+package maystruks08.gmail.com.domain.interactor.launcher
 
 import io.reactivex.Completable
 

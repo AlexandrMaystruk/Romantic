@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.domain.interactor.authentication
+package maystruks08.gmail.com.domain.interactor.main
 
 import io.reactivex.Completable
 import maystruks08.gmail.com.domain.executor.ThreadExecutor

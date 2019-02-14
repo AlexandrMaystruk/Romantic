@@ -28,8 +28,7 @@ import ru.terrakok.cicerone.commands.Command
 import javax.inject.Inject
 import android.view.MenuItem
 import maystruks08.gmail.com.romantic.R
-import maystruks08.gmail.com.romantic.ui.authentication.LogOutContract
-import maystruks08.gmail.com.romantic.ui.splash.SplashActivity
+import maystruks08.gmail.com.romantic.ui.launcher.SplashActivity
 
 class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.View, ConfigToolbar {
 

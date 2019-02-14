@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.authentication
+package maystruks08.gmail.com.romantic.ui.launcher
 
 import android.content.Intent
 import android.os.Bundle
@@ -53,6 +53,7 @@ class SingUpFragment : Fragment(), AuthenticationContract.View {
 
     companion object {
 
-        fun getInstance(): SingUpFragment = SingUpFragment()
+        fun getInstance(): SingUpFragment =
+            SingUpFragment()
     }
 }
