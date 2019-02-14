@@ -26,9 +26,5 @@ class AuthenticationInteractorImpl @Inject constructor(
             .observeOn(executor.postExecutor)
     }
 
-    override fun logout(): Completable {
-        return repository.logout()
-            .subscribeOn(executor.mainExecutor)
-            .observeOn(executor.postExecutor)
-    }
+
 }

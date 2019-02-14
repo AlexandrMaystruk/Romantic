@@ -28,5 +28,14 @@
     <dimen name="size_bottom_navigation_icon_main">38sp</dimen>
 
 
+    <!--Launcher size-->
+    <dimen name="button_width">236dp</dimen>
+    <dimen name="button_height">40dp</dimen>
+    <dimen name="button_margin_bottom">130dp</dimen>
+
+
+
+
+
 
 </resources>

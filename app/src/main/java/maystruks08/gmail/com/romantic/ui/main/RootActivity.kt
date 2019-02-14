@@ -1,6 +1,7 @@
 package maystruks08.gmail.com.romantic.ui.main
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -17,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_root.*
 import kotlinx.android.synthetic.main.layout_bottom_navigation_view.*
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.PRESS_TWICE_INTERVAL
-import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.core.navigation.AppNavigator
 import maystruks08.gmail.com.romantic.core.navigation.Screens
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
@@ -26,14 +26,21 @@ import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.commands.Command
 import javax.inject.Inject
+import android.view.MenuItem
+import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.ui.authentication.LogOutContract
+import maystruks08.gmail.com.romantic.ui.splash.SplashActivity
 
-class RootActivity : AppCompatActivity(), View.OnClickListener, ConfigToolbar {
+class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.View, ConfigToolbar {
 
     @Inject
     lateinit var router: Router
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
+
+    @Inject
+    lateinit var logoutPresenter: LogOutContract.Presenter
 
     private var onBackHandler: Runnable? = null
 
@@ -48,9 +55,17 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, ConfigToolbar {
         setContentView(R.layout.activity_root)
 
         App.appComponent.inject(this)
+        logoutPresenter.bindView(this)
+
         router.newRootScreen(Screens.RootTabScreen)
 
         bottomNavigationClickHandler()
+        setToolbar()
+    }
+
+
+    private fun setToolbar() {
+        setSupportActionBar(toolbar)
     }
 
     override fun onClick(v: View?) {
@@ -118,6 +133,37 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, ConfigToolbar {
         navigatorHolder.removeNavigator()
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.sing_out -> {
+                logoutPresenter.logout()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun startLauncherActivity() {
+        this.startActivity(Intent(this, SplashActivity::class.java))
+        finish()
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
+    override fun showError(t: Throwable) {
+    }
 
     override fun onBackPressed() {
         this.hideSoftKeyboard()

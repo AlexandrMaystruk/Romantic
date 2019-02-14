@@ -39,10 +39,4 @@ class AuthenticationRepositoryImpl @Inject constructor(
                 }
             }
     }
-
-    override fun logout(): Completable {
-        return Completable.fromAction {
-            fireBaseAuth.signOut()
-        }
-    }
 }

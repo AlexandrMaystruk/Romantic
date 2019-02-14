@@ -22,6 +22,13 @@ class App : Application() {
                 return field
             }
 
+//        var logOutComponent: LogOutComponent? = null
+//            get () {
+//                if (field == null)
+//                    field = appComponent.logOutComponent()
+//                return field
+//            }
+
         var hikeComponent: HikeComponent? = null
             get () {
                 if (field == null)
@@ -39,6 +46,10 @@ class App : Application() {
 
         fun clearLauncherComponent() {
             launcherComponent = null
+        }
+
+        fun clearLogOutComponent() {
+//            logOutComponent = null
         }
 
         fun clearHikeListComponent() {

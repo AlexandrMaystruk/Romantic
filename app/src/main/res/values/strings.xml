@@ -8,6 +8,11 @@
     <string name="hikes">Походы</string>
 
 
+    <!--Launcher-->
+    <string name="havent_register_yet">haven\'t register yet?</string>
+
+
+
     <string name="action_settings">Settings</string>
     <string name="email">Email Id</string>
     <string name="user_name">Display name</string>
