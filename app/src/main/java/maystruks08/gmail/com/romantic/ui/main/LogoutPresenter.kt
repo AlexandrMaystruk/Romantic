@@ -1,12 +1,13 @@
 package maystruks08.gmail.com.romantic.ui.main
 
 import maystruks08.gmail.com.domain.interactor.main.LogOutInteractor
-import maystruks08.gmail.com.romantic.core.ABasePresenter
+import maystruks08.gmail.com.romantic.core.base.BaseActivityPresenter
+import maystruks08.gmail.com.romantic.core.base.BasePresenter
 import javax.inject.Inject
 
 
 class LogoutPresenter @Inject constructor(private val logOutInteractor: LogOutInteractor) :
-    LogOutContract.Presenter, ABasePresenter<LogOutContract.View>() {
+    LogOutContract.Presenter, BaseActivityPresenter<LogOutContract.View>() {
 
     override fun logout() {
         view?.showLoading()

@@ -3,14 +3,13 @@ package maystruks08.gmail.com.romantic.ui.news
 import io.reactivex.Single
 import maystruks08.gmail.com.domain.entity.News
 import maystruks08.gmail.com.domain.interactor.news.NewsInteractor
-import maystruks08.gmail.com.romantic.core.ABasePresenter
-import maystruks08.gmail.com.romantic.ui.hikes.HikeListContract
+import maystruks08.gmail.com.romantic.core.base.BasePresenter
 
 import javax.inject.Inject
 
 
 class NewsPresenter @Inject constructor(private val newsInteractor: NewsInteractor)
-    : NewsContract.Presenter, ABasePresenter<NewsContract.View>() {
+    : NewsContract.Presenter, BasePresenter<NewsContract.View>() {
 
 
     override fun initNewsList(url: String): Single<News> {

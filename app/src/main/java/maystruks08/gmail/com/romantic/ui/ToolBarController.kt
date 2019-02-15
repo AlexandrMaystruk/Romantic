@@ -1,13 +1,8 @@
 package maystruks08.gmail.com.romantic.ui
 
-import javax.inject.Inject
+class ToolBarController {
 
-class ToolBarController(private val configToolbar: ConfigToolbar) {
-
-    @Inject
-    lateinit var toolbarDescriptor: ToolbarDescriptor
-
-    fun configure() {
+    fun configure(toolbarDescriptor: ToolbarDescriptor, configToolbar: ConfigToolbar) {
         if (toolbarDescriptor.visible) {
             configToolbar.enableToolbar()
         } else {
@@ -21,13 +16,21 @@ class ToolBarController(private val configToolbar: ConfigToolbar) {
         }
 
         if (toolbarDescriptor.title != null) {
-            configToolbar.setToolbarTitle(toolbarDescriptor.title!!)
+            configToolbar.setToolbarTitle(toolbarDescriptor.title)
+        }
+
+        if (toolbarDescriptor.logoIcon) {
+            configToolbar.enableLogoIcon()
+        } else {
+            configToolbar.disableLogoIcon()
         }
 
         if (toolbarDescriptor.navigationIcon != null) {
-            configToolbar.setNavigationIcon(toolbarDescriptor.navigationIcon!!)
+            configToolbar.setNavigationIcon(toolbarDescriptor.navigationIcon)
+            configToolbar.disableLogoIcon()
         } else {
             configToolbar.removeNavigationIcon()
+            configToolbar.enableLogoIcon()
         }
 
     }

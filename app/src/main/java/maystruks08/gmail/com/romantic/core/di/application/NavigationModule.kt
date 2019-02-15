@@ -2,6 +2,7 @@ package maystruks08.gmail.com.romantic.core.di.application
 
 import dagger.Module
 import dagger.Provides
+import maystruks08.gmail.com.romantic.ui.ToolBarController
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
@@ -14,10 +15,14 @@ class NavigationModule {
 
     @Provides
     @Singleton
-    fun router (): Router = cicerone.router
+    fun router(): Router = cicerone.router
 
     @Provides
     @Singleton
-    fun navigatorHolder (): NavigatorHolder = cicerone.navigatorHolder
+    fun navigatorHolder(): NavigatorHolder = cicerone.navigatorHolder
+
+    @Provides
+    @Singleton
+    fun toolbarController(): ToolBarController = ToolBarController()
 
 }

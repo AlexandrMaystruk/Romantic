@@ -42,6 +42,9 @@ class SingUpFragment : Fragment(), AuthenticationContract.View {
     }
 
 
+    override fun configToolbar() {
+    }
+
     override fun showLoading() {
     }
 

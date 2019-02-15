@@ -1,7 +1,7 @@
 package maystruks08.gmail.com.romantic.ui.launcher
 
 import maystruks08.gmail.com.domain.interactor.launcher.AuthenticationInteractor
-import maystruks08.gmail.com.romantic.core.ABasePresenter
+import maystruks08.gmail.com.romantic.core.base.BasePresenter
 import maystruks08.gmail.com.romantic.core.navigation.Screens
 import ru.terrakok.cicerone.Router
 
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 
 class AuthenticationPresenter @Inject constructor(private val authenticationInteractor: AuthenticationInteractor) :
-    AuthenticationContract.Presenter, ABasePresenter<AuthenticationContract.View>() {
+    AuthenticationContract.Presenter, BasePresenter<AuthenticationContract.View>() {
 
     @Inject
     lateinit var router: Router

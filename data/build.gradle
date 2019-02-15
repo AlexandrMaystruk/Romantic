@@ -34,8 +34,11 @@ dependencies {
 
     api dataDependencies.room
     api dataDependencies.workManager
-    api dataDependencies.firebaseAuth
     api dataDependencies.firebaseCore
+    api dataDependencies.firebaseAuth
+    api dataDependencies.firebaseStorage
+    api dataDependencies.firebaseDatabase
+
 
     implementation dataDependencies.annotations
     implementation dataDependencies.kotlin

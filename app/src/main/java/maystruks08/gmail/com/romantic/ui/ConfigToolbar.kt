@@ -12,6 +12,10 @@ interface ConfigToolbar {
 
     fun disableOverlay()
 
+    fun enableLogoIcon()
+
+    fun disableLogoIcon()
+
     fun setBackground(icon: Int)
 
     fun setNavigationIcon(@DrawableRes icon: Int)

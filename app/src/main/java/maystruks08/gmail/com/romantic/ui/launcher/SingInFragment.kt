@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_sing_in.*
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.ui.ConfigToolbar
+import maystruks08.gmail.com.romantic.ui.ToolBarController
+import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import maystruks08.gmail.com.romantic.ui.main.RootActivity
 import javax.inject.Inject
 
@@ -16,6 +19,9 @@ class SingInFragment : Fragment(), AuthenticationContract.View {
 
     @Inject
     lateinit var presenter: AuthenticationContract.Presenter
+
+    @Inject
+    lateinit var controller: ToolBarController
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         App.launcherComponent?.inject(this)
@@ -42,6 +48,10 @@ class SingInFragment : Fragment(), AuthenticationContract.View {
     override fun startRootActivity() {
        this.startActivity(Intent(activity, RootActivity::class.java))
         activity?.finish()
+    }
+
+    override fun configToolbar() {
+        controller.configure(ToolbarDescriptor(false), activity as ConfigToolbar)
     }
 
     override fun showLoading() {

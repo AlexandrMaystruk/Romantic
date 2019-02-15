@@ -1,7 +1,8 @@
 package maystruks08.gmail.com.romantic.ui.launcher
 
 import maystruks08.gmail.com.domain.interactor.launcher.AuthenticationInteractor
-import maystruks08.gmail.com.romantic.core.ABasePresenter
+import maystruks08.gmail.com.romantic.core.base.BaseActivityPresenter
+import maystruks08.gmail.com.romantic.core.base.BasePresenter
 import maystruks08.gmail.com.romantic.core.navigation.Screens
 import ru.terrakok.cicerone.Router
 
@@ -9,7 +10,7 @@ import javax.inject.Inject
 
 
 class SplashPresenter @Inject constructor(private val authenticationInteractor: AuthenticationInteractor) :
-    SplashContract.Presenter, ABasePresenter<SplashContract.View>() {
+    SplashContract.Presenter, BaseActivityPresenter<SplashContract.View>() {
 
     @Inject
     lateinit var router: Router

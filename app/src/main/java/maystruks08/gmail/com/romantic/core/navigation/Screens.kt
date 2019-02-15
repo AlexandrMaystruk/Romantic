@@ -4,6 +4,7 @@ import maystruks08.gmail.com.romantic.ui.launcher.SingInFragment
 import maystruks08.gmail.com.romantic.ui.launcher.SingUpFragment
 import maystruks08.gmail.com.romantic.ui.main.RootTabFragment
 import maystruks08.gmail.com.romantic.ui.news.NewsFragment
+import maystruks08.gmail.com.romantic.ui.hike.HikeFragment
 
 object Screens {
 
@@ -32,7 +33,12 @@ object Screens {
     }
 
     object MyHikeScreen : AppScreen() {
-        override fun getFragment() = NewsFragment.getInstance()
+        override fun getFragment() = HikeFragment.getInstance()
+    }
+
+
+    object SelectedHikeScreen : AppScreen() {
+        override fun getFragment() = HikeFragment.getInstance()
     }
 
 }
