@@ -27,6 +27,7 @@ import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.commands.Command
 import javax.inject.Inject
 import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.launcher.SplashActivity
 
@@ -64,8 +65,8 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
 
 
     private fun setToolbar() {
-        toolbar.title = null
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
     }
 
@@ -95,7 +96,7 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
 
             } else {
                 it.borderWidth = 0
-                bottomButtonMap[it]?.setTextColor(resources.getColor(R.color.text_white_unselected))
+                bottomButtonMap[it]?.setTextColor(ContextCompat.getColor(applicationContext, R.color.text_white_unselected))
             }
         }
     }

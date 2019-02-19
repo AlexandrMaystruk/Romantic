@@ -9,9 +9,8 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_sing_in.*
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
-import maystruks08.gmail.com.romantic.ui.ConfigToolbar
+import maystruks08.gmail.com.romantic.toast
 import maystruks08.gmail.com.romantic.ui.ToolBarController
-import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import maystruks08.gmail.com.romantic.ui.main.RootActivity
 import javax.inject.Inject
 
@@ -46,12 +45,16 @@ class SingInFragment : Fragment(), AuthenticationContract.View {
     }
 
     override fun startRootActivity() {
-       this.startActivity(Intent(activity, RootActivity::class.java))
+        this.startActivity(Intent(activity, RootActivity::class.java))
         activity?.finish()
     }
 
+    override fun blockUi(enable: Boolean) {
+        tvSignUp.isClickable = enable
+        btnLogin.isClickable = enable
+    }
+
     override fun configToolbar() {
-        controller.configure(ToolbarDescriptor(false), activity as ConfigToolbar)
     }
 
     override fun showLoading() {
@@ -60,7 +63,12 @@ class SingInFragment : Fragment(), AuthenticationContract.View {
     override fun hideLoading() {
     }
 
+    override fun showMessage(message: String) {
+        context?.toast(message)
+    }
+
     override fun showError(t: Throwable) {
+        t.printStackTrace()
     }
 
     companion object {

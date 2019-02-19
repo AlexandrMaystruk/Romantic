@@ -7,6 +7,10 @@ interface AuthenticationContract {
 
     interface View : IView {
          fun startRootActivity()
+
+        fun blockUi(enable: Boolean)
+
+        fun showMessage(message: String)
     }
 
     interface Presenter : IPresenter<View> {
