@@ -1,18 +1,18 @@
-package maystruks08.gmail.com.romantic.ui.financerhelper
+package maystruks08.gmail.com.romantic.ui.selectedhike
 
+import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.romantic.core.BasePresenter
 import maystruks08.gmail.com.romantic.core.BaseView
 
 
-interface FinancerHelperContract {
+interface SelectedHikeContract {
 
     interface View : BaseView {
 
-        fun initUI()
+        fun initUI(hikeList: List<Hike>)
     }
 
     interface Presenter : BasePresenter<View> {
 
-        fun initUI()
     }
 }

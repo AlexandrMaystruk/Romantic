@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.financerhelper
+package maystruks08.gmail.com.romantic.ui.selectedhike.financerhelper
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,8 @@ import androidx.fragment.app.Fragment
 import maystruks08.gmail.com.romantic.R
 import javax.inject.Inject
 
-class FinancerHelperFragment : Fragment(), FinancerHelperContract.View {
+class FinancerHelperFragment : Fragment(),
+    FinancerHelperContract.View {
 
     @Inject
     lateinit var presenter: FinancerHelperContract.Presenter
@@ -38,7 +39,8 @@ class FinancerHelperFragment : Fragment(), FinancerHelperContract.View {
 
     companion object {
 
-        fun getInstance(): FinancerHelperFragment = FinancerHelperFragment()
+        fun getInstance(): FinancerHelperFragment =
+            FinancerHelperFragment()
     }
 }
 
