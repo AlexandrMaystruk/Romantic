@@ -1,13 +1,291 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:theme="@style/AppTheme"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/size_bottom_navigation"
         android:orientation="vertical"
         android:layout_width="match_parent">
 
-    <include
-            layout="@layout/layout_hike_header"/>
+    <androidx.cardview.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            app:cardElevation="10dp"
+            app:cardCornerRadius="1dp"
+            app:cardPreventCornerOverlap="false" android:id="@+id/cardView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:orientation="vertical"
+                android:background="@drawable/shadow"
+                android:layout_width="match_parent"
+                android:layout_height="230dp">
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginBottom="15dp"
+                    app:cardElevation="10dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:layout_constraintBottom_toTopOf="@+id/textViewsfdf"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/hike_walking_back"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
 
 
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/rect">
 
-</LinearLayout>
+                    <TextView
+                            android:id="@+id/card_hike_region"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_s"
+                            android:textSize="@dimen/text_m"
+                            android:text="Черногорский хребет, Карпаты"
+                            android:textColor="@color/text_white_selected" android:layout_alignParentStart="true"
+                            android:layout_marginTop="11dp" android:layout_alignParentTop="true"/>
+
+                    <TextView
+                            android:id="@+id/card_hike_category"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="@dimen/margin_xs"
+                            android:layout_marginEnd="@dimen/margin_m"
+                            android:text="пвд"
+                            android:textColor="@color/text_white_selected"/>
+
+                    <TextView
+                            android:id="@+id/card_hike_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/card_hike_region"
+                            android:text="27.09.18-02.10.18"
+                            android:textColor="@color/text_white_selected"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/margin_m"/>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <TextView
+                    style="@style/TextXS"
+                    android:text="Ура! Ты участник этого похода."
+                    android:id="@+id/textViewsfdf"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/card_hike_chief"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                    style="@style/TextS"
+                    android:text="Руководитель:"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:id="@+id/textView"/>
+
+            <TextView
+                    style="@style/TextS"
+                    android:text="Юрьева Анастасия"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/button"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:id="@+id/card_hike_chief"/>
+
+
+            <Button
+                    style="@style/ButtonS"
+                    android:text="Написать"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:id="@+id/button"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/image_button_width"
+            android:layout_height="@dimen/image_button_height"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            android:id="@+id/civParticipant"
+            android:src="@color/bottom_navigation_view_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/civGroupChat"
+            app:layout_constraintBottom_toTopOf="@+id/civMyPost"/>
+
+    <TextView
+            android:text="@string/participant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xs"
+            app:layout_constraintTop_toBottomOf="@+id/civParticipant"
+            app:layout_constraintEnd_toEndOf="@+id/civParticipant"
+            app:layout_constraintStart_toStartOf="@+id/civParticipant"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/image_button_width"
+            android:layout_height="@dimen/image_button_height"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            android:id="@+id/civGroupChat"
+            android:src="@color/bottom_navigation_view_color"
+            app:layout_constraintStart_toEndOf="@+id/civParticipant"
+            app:layout_constraintEnd_toStartOf="@+id/civTrainingCalendar"
+            app:layout_constraintBottom_toTopOf="@+id/civTools"/>
+
+
+    <TextView
+            android:text="@string/group_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xs"
+            app:layout_constraintTop_toBottomOf="@+id/civGroupChat"
+            app:layout_constraintEnd_toEndOf="@+id/civGroupChat"
+            app:layout_constraintStart_toStartOf="@+id/civGroupChat"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/image_button_width"
+            android:layout_height="@dimen/image_button_height"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            android:id="@+id/civTrainingCalendar"
+            android:src="@color/bottom_navigation_view_color"
+            app:layout_constraintStart_toEndOf="@+id/civGroupChat"
+            app:layout_constraintEnd_toStartOf="@+id/civRoute"
+            app:layout_constraintBottom_toTopOf="@+id/civMaterials"/>
+
+    <TextView
+            android:text="@string/training_calendar"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_xs"
+            app:layout_constraintTop_toBottomOf="@+id/civTrainingCalendar"
+            app:layout_constraintEnd_toEndOf="@+id/civTrainingCalendar"
+            app:layout_constraintStart_toStartOf="@+id/civTrainingCalendar"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/image_button_width"
+            android:layout_height="@dimen/image_button_height"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            android:id="@+id/civRoute"
+            android:src="@color/bottom_navigation_view_color"
+            app:layout_constraintStart_toEndOf="@+id/civTrainingCalendar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/civHikeInformation"/>
+
+    <TextView
+            android:text="@string/route"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xs"
+            app:layout_constraintTop_toBottomOf="@+id/civRoute"
+            app:layout_constraintEnd_toEndOf="@+id/civRoute"
+            app:layout_constraintStart_toStartOf="@+id/civRoute"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/image_button_width"
+            android:layout_height="@dimen/image_button_height"
+            app:layout_constraintTop_toBottomOf="@+id/civParticipant"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/civMyPost"
+            android:src="@color/bottom_navigation_view_color"
+            app:layout_constraintEnd_toStartOf="@+id/civTools"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+            android:text="@string/my_post"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_xs"
+            app:layout_constraintTop_toBottomOf="@+id/civMyPost"
+            app:layout_constraintEnd_toEndOf="@+id/civMyPost"
+            app:layout_constraintStart_toStartOf="@+id/civMyPost"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/image_button_width"
+            android:layout_height="@dimen/image_button_height"
+            app:layout_constraintTop_toBottomOf="@+id/civGroupChat"
+            android:id="@+id/civTools"
+            android:src="@color/bottom_navigation_view_color"
+            app:layout_constraintStart_toEndOf="@+id/civMyPost"
+            app:layout_constraintEnd_toStartOf="@+id/civMaterials"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+            android:text="@string/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xs"
+            app:layout_constraintTop_toBottomOf="@+id/civTools"
+            app:layout_constraintEnd_toEndOf="@+id/civTools"
+            app:layout_constraintStart_toStartOf="@+id/civTools"/>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/image_button_width"
+            android:layout_height="@dimen/image_button_height"
+            app:layout_constraintTop_toBottomOf="@+id/civTrainingCalendar"
+            android:id="@+id/civMaterials"
+            android:src="@color/bottom_navigation_view_color"
+            app:layout_constraintStart_toEndOf="@+id/civTools"
+            app:layout_constraintEnd_toStartOf="@+id/civHikeInformation"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+            android:text="@string/material_lecture"
+            android:layout_width="90dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xs"
+            app:layout_constraintTop_toBottomOf="@+id/civMaterials"
+            app:layout_constraintEnd_toEndOf="@+id/civMaterials"
+            app:layout_constraintStart_toStartOf="@+id/civMaterials"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/image_button_width"
+            android:layout_height="@dimen/image_button_height"
+            app:layout_constraintTop_toBottomOf="@+id/civRoute"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/civHikeInformation"
+            android:src="@color/bottom_navigation_view_color"
+            app:layout_constraintStart_toEndOf="@+id/civMaterials"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+            android:text="@string/hike_information"
+            android:layout_width="90dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xs"
+            app:layout_constraintTop_toBottomOf="@+id/civHikeInformation"
+            app:layout_constraintEnd_toEndOf="@+id/civHikeInformation"
+            app:layout_constraintStart_toStartOf="@+id/civHikeInformation"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

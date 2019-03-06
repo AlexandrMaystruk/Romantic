@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.selectedhike
+package maystruks08.gmail.com.romantic.ui.chat
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,20 +11,20 @@ import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
 import javax.inject.Inject
 
-class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
+class ChatFragment : Fragment(), ChatContract.View {
 
     @Inject
-    lateinit var presenter: SelectedHikeContract.Presenter
+    lateinit var presenter: ChatContract.Presenter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        App.selectedHikeComponent?.inject(this)
+        App.chatComponent?.inject(this)
         presenter.bindView(this)
 
-        return inflater.inflate(R.layout.fragment_hike, container, false)
+        return inflater.inflate(R.layout.fragment_chat, container, false)
     }
 
 
@@ -41,10 +41,9 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
 
     }
 
-
     companion object {
-        fun getInstance(): SelectedHikeFragment =
-            SelectedHikeFragment()
+        fun getInstance(): ChatFragment =
+            ChatFragment()
     }
 
 

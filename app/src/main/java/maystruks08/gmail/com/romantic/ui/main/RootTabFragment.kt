@@ -32,8 +32,7 @@ class RootTabFragment : Fragment(){
 
 
     companion object {
-        fun getInstance(): RootTabFragment =
-            RootTabFragment()
+        fun getInstance(): RootTabFragment = RootTabFragment()
     }
 
 

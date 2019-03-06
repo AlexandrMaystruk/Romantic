@@ -1,9 +1,11 @@
 package maystruks08.gmail.com.romantic.core.di.application
 
 import dagger.Component
+import maystruks08.gmail.com.romantic.core.di.chat.ChatComponent
 import maystruks08.gmail.com.romantic.core.di.hike.HikeComponent
 import maystruks08.gmail.com.romantic.core.di.launcher.LauncherComponent
 import maystruks08.gmail.com.romantic.core.di.news.NewsComponent
+import maystruks08.gmail.com.romantic.core.di.selectedhike.SelectedHikeComponent
 import maystruks08.gmail.com.romantic.ui.main.RootActivity
 import javax.inject.Singleton
 
@@ -18,4 +20,9 @@ interface AppComponent {
     fun hikeComponent(): HikeComponent
 
     fun newsComponent(): NewsComponent
+
+    fun selectedHikeComponent(): SelectedHikeComponent
+
+    fun chatComponent(): ChatComponent
+
 }
