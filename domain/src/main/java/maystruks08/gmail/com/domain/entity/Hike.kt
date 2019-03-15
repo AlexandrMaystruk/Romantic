@@ -5,5 +5,6 @@ data class Hike(
     val typeHike: TypeHike,
     val dateOfHike: String,
     val hikeChief: String,
-    val region: String
+    val region: String,
+    val category: String
 )

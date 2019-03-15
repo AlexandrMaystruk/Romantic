@@ -1,9 +1,66 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/size_bottom_navigation"
-    android:orientation="vertical">
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+    <CalendarView
+            android:id="@+id/cvDateOfHike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_xs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/spinnerCategory"/>
 
-</LinearLayout>
+    <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_xs"
+            android:entries="@array/category_list"
+            app:layout_constraintBottom_toTopOf="@+id/etBossHike"
+            app:layout_constraintStart_toStartOf="@+id/cvDateOfHike"
+            app:layout_constraintEnd_toEndOf="@+id/cvDateOfHike"/>
+
+    <EditText
+            android:id="@+id/etBossHike"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:hint="@string/create_hike_boss"
+            android:inputType="datetime"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:layout_marginBottom="@dimen/margin_xs"
+            app:layout_constraintBottom_toTopOf="@+id/etHikeRegion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+            android:id="@+id/etHikeRegion"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:hint="@string/create_hike_region"
+            android:inputType="text"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            app:layout_constraintStart_toEndOf="@+id/etBossHike"
+            app:layout_constraintEnd_toStartOf="@+id/etBossHike"
+            android:layout_marginBottom="@dimen/margin_xs"
+            app:layout_constraintBottom_toTopOf="@+id/btnRegister"/>
+
+    <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_alignParentEnd="true"
+            android:background="@color/colorPrimary"
+            android:text="@string/create_hike"
+            android:textColor="@color/text_white_selected"
+            app:layout_constraintStart_toEndOf="@+id/etHikeRegion"
+            app:layout_constraintEnd_toStartOf="@+id/etHikeRegion"
+            android:layout_marginBottom="@dimen/button_margin_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

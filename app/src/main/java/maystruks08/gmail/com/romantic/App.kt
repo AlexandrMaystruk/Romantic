@@ -5,6 +5,7 @@ import maystruks08.gmail.com.romantic.core.di.application.AndroidModule
 import maystruks08.gmail.com.romantic.core.di.application.AppComponent
 import maystruks08.gmail.com.romantic.core.di.application.DaggerAppComponent
 import maystruks08.gmail.com.romantic.core.di.chat.ChatComponent
+import maystruks08.gmail.com.romantic.core.di.event.EventComponent
 import maystruks08.gmail.com.romantic.core.di.hike.HikeComponent
 import maystruks08.gmail.com.romantic.core.di.launcher.LauncherComponent
 import maystruks08.gmail.com.romantic.core.di.news.NewsComponent
@@ -31,6 +32,13 @@ class App : Application() {
                 return field
             }
 
+
+        var eventComponent: EventComponent? = null
+            get () {
+                if (field == null)
+                    field = appComponent.eventComponent()
+                return field
+            }
 
         var selectedHikeComponent: SelectedHikeComponent? = null
             get () {

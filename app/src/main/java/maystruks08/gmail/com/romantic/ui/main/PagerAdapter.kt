@@ -3,6 +3,7 @@ package maystruks08.gmail.com.romantic.ui.main
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import maystruks08.gmail.com.domain.entity.TypeHike
 import maystruks08.gmail.com.romantic.ui.hikes.HikeListFragment
 
 class PagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
@@ -11,15 +12,15 @@ class PagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                HikeListFragment.getInstance(emptyList())
+                HikeListFragment.getInstance(TypeHike.MOUNTAIN)
             }
             1 -> {
-                HikeListFragment.getInstance(emptyList())
+                HikeListFragment.getInstance(TypeHike.WALKING)
             }
             2 -> {
-                HikeListFragment.getInstance(emptyList())
+                HikeListFragment.getInstance(TypeHike.WATER)
             }
-            else ->  HikeListFragment.getInstance(emptyList())
+            else ->  HikeListFragment.getInstance(TypeHike.SKI)
         }
 
     }

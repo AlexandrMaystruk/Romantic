@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import maystruks08.gmail.com.domain.entity.TypeHike;
+import maystruks08.gmail.com.romantic.ui.viewmodel.HikeViewModel;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.commands.*;
 
@@ -19,10 +21,6 @@ public class AppNavigator implements Navigator {
     private final int containerId;
     private LinkedList<String> localStackCopy;
 
-    public AppNavigator(FragmentActivity activity, int containerId) {
-        this(activity, activity.getSupportFragmentManager(), containerId);
-    }
-
     public AppNavigator(FragmentActivity activity, FragmentManager fragmentManager, int containerId) {
         this.activity = activity;
         this.fragmentManager = fragmentManager;
@@ -32,8 +30,6 @@ public class AppNavigator implements Navigator {
     @Override
     public void applyCommands(Command[] commands) {
         fragmentManager.executePendingTransactions();
-
-        //copy stack before apply commands
         copyStackToLocal();
 
         for (Command command : commands) {
@@ -55,9 +51,9 @@ public class AppNavigator implements Navigator {
      *
      * @param command the navigation command to apply
      */
-    protected void applyCommand(Command command) {
+    private void applyCommand(Command command) {
         if (command instanceof Forward) {
-            activityForward((Forward) command);
+            fragmentForward((Forward) command);
         } else if (command instanceof Replace) {
             activityReplace((Replace) command);
         } else if (command instanceof BackTo) {
@@ -67,21 +63,7 @@ public class AppNavigator implements Navigator {
         }
     }
 
-
-    protected void activityForward(Forward command) {
-        AppScreen screen = (AppScreen) command.getScreen();
-        Intent activityIntent = screen.getActivityIntent(activity);
-
-        // Start activity
-        if (activityIntent != null) {
-            Bundle options = createStartActivityOptions(command, activityIntent);
-            checkAndStartActivity(screen, activityIntent, options);
-        } else {
-            fragmentForward(command);
-        }
-    }
-
-    protected void fragmentForward(Forward command) {
+    private void fragmentForward(Forward command) {
         AppScreen screen = (AppScreen) command.getScreen();
         Fragment fragment = createFragment(screen);
 
@@ -101,7 +83,7 @@ public class AppNavigator implements Navigator {
         localStackCopy.add(screen.getScreenKey());
     }
 
-    protected void fragmentBack() {
+    private void fragmentBack() {
         if (localStackCopy.size() > 0) {
             fragmentManager.popBackStack();
             localStackCopy.removeLast();
@@ -110,11 +92,11 @@ public class AppNavigator implements Navigator {
         }
     }
 
-    protected void activityBack() {
+    private void activityBack() {
         activity.finish();
     }
 
-    protected void activityReplace(Replace command) {
+    private void activityReplace(Replace command) {
         AppScreen screen = (AppScreen) command.getScreen();
         Intent activityIntent = screen.getActivityIntent(activity);
 
@@ -128,7 +110,7 @@ public class AppNavigator implements Navigator {
         }
     }
 
-    protected void fragmentReplace(Replace command) {
+    private void fragmentReplace(Replace command) {
         AppScreen screen = (AppScreen) command.getScreen();
         Fragment fragment = createFragment(screen);
 
@@ -167,10 +149,7 @@ public class AppNavigator implements Navigator {
         }
     }
 
-    /**
-     * Performs {@link BackTo} command transition
-     */
-    protected void backTo(BackTo command) {
+    private void backTo(BackTo command) {
         if (command.getScreen() == null) {
             backToRoot();
         } else {
@@ -236,7 +215,7 @@ public class AppNavigator implements Navigator {
      * @param screen         screen
      * @param activityIntent intent passed to start Activity for the {@code screenKey}
      */
-    protected void unexistingActivity(AppScreen screen, Intent activityIntent) {
+    private void unexistingActivity(AppScreen screen, Intent activityIntent) {
         // Do nothing by default_back
     }
 
@@ -246,7 +225,7 @@ public class AppNavigator implements Navigator {
      * @param screen screen
      * @return instantiated fragment for the passed screen
      */
-    protected Fragment createFragment(AppScreen screen) {
+    private Fragment createFragment(AppScreen screen) {
         Fragment fragment = screen.getFragment();
 
         if (fragment == null) {
@@ -255,17 +234,18 @@ public class AppNavigator implements Navigator {
         return fragment;
     }
 
+
     /**
      * Called when we tried to fragmentBack to some specific screen (via {@link BackTo} command),
      * but didn't found it.
      *
      * @param screen screen
      */
-    protected void backToUnexisting(AppScreen screen) {
+    private void backToUnexisting(AppScreen screen) {
         backToRoot();
     }
 
-    protected void errorWhileCreatingScreen(AppScreen screen) {
+    private void errorWhileCreatingScreen(AppScreen screen) {
         throw new RuntimeException("Can't create a screen: " + screen.getScreenKey());
     }
 }

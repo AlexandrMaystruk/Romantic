@@ -2,6 +2,7 @@ package maystruks08.gmail.com.romantic.core.di.application
 
 import dagger.Component
 import maystruks08.gmail.com.romantic.core.di.chat.ChatComponent
+import maystruks08.gmail.com.romantic.core.di.event.EventComponent
 import maystruks08.gmail.com.romantic.core.di.hike.HikeComponent
 import maystruks08.gmail.com.romantic.core.di.launcher.LauncherComponent
 import maystruks08.gmail.com.romantic.core.di.news.NewsComponent
@@ -24,5 +25,7 @@ interface AppComponent {
     fun selectedHikeComponent(): SelectedHikeComponent
 
     fun chatComponent(): ChatComponent
+
+    fun eventComponent(): EventComponent
 
 }

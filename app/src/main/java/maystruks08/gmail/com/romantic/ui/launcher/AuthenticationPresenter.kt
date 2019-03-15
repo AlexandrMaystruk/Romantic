@@ -31,7 +31,7 @@ class AuthenticationPresenter @Inject constructor(private val authenticationInte
     }
 
     override fun onNavigateToSingUpClick() {
-        router.navigateTo(Screens.SignUpScreen)
+        router.navigateTo(Screens.SignUpScreen())
     }
 
     private fun onSignInSuccess() {

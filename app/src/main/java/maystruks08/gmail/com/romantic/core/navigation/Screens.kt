@@ -1,45 +1,58 @@
 package maystruks08.gmail.com.romantic.core.navigation
 
 import maystruks08.gmail.com.domain.entity.Hike
+import maystruks08.gmail.com.domain.entity.TypeHike
+import maystruks08.gmail.com.romantic.ui.chat.ChatFragment
+import maystruks08.gmail.com.romantic.ui.createhike.CreateNewHikeFragment
+import maystruks08.gmail.com.romantic.ui.event.EventFragment
 import maystruks08.gmail.com.romantic.ui.hikes.HikeListFragment
 import maystruks08.gmail.com.romantic.ui.launcher.SingInFragment
 import maystruks08.gmail.com.romantic.ui.launcher.SingUpFragment
 import maystruks08.gmail.com.romantic.ui.main.RootTabFragment
 import maystruks08.gmail.com.romantic.ui.news.NewsFragment
 import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikeFragment
+import maystruks08.gmail.com.romantic.ui.viewmodel.HikeViewModel
 
 object Screens {
 
-    object SignInScreen : AppScreen() {
+    class SignInScreen : AppScreen() {
         override fun getFragment() = SingInFragment.getInstance()
     }
 
-    object SignUpScreen : AppScreen() {
+    class SignUpScreen : AppScreen() {
         override fun getFragment() = SingUpFragment.getInstance()
     }
 
-    object RootTabScreen : AppScreen() {
+    class RootTabScreen : AppScreen() {
         override fun getFragment() = RootTabFragment.getInstance()
     }
 
-    object NewsScreen : AppScreen() {
+    class NewsScreen : AppScreen() {
         override fun getFragment() = NewsFragment.getInstance()
     }
 
-    object MessageScreen : AppScreen() {
-        override fun getFragment() = NewsFragment.getInstance()
+    class MessageScreen : AppScreen() {
+        override fun getFragment() = ChatFragment.getInstance()
     }
 
-    object EventScreen : AppScreen() {
-        override fun getFragment() = NewsFragment.getInstance()
+    class EventScreen : AppScreen() {
+        override fun getFragment() = EventFragment.getInstance()
     }
 
-    object MyHikeScreen : AppScreen() {
-        override fun getFragment(hikes: List<Hike>) = HikeListFragment.getInstance(hikes)
+    class HikesScreen(private val typeHike: TypeHike) : AppScreen() {
+        override fun getFragment() = HikeListFragment.getInstance(typeHike)
     }
 
-    object SelectedHikeScreen : AppScreen() {
-        override fun getFragment() = SelectedHikeFragment.getInstance()
+    class MyHikesScreen : AppScreen() {
+        override fun getFragment() = HikeListFragment.getInstance()
+    }
+
+    class SelectedHikeScreen(private val hike: HikeViewModel) : AppScreen() {
+        override fun getFragment() = SelectedHikeFragment.getInstance(hike)
+    }
+
+    class CreateHikeScreen : AppScreen() {
+        override fun getFragment() = CreateNewHikeFragment.getInstance()
     }
 
 }

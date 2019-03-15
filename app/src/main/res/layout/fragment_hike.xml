@@ -52,17 +52,19 @@
                         android:background="@drawable/rect">
 
                     <TextView
-                            android:id="@+id/card_hike_region"
+                            android:id="@+id/tvRegion"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_s"
                             android:textSize="@dimen/text_m"
                             android:text="Черногорский хребет, Карпаты"
-                            android:textColor="@color/text_white_selected" android:layout_alignParentStart="true"
-                            android:layout_marginTop="11dp" android:layout_alignParentTop="true"/>
+                            android:textColor="@color/text_white_selected"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginTop="11dp"
+                            android:layout_alignParentTop="true"/>
 
                     <TextView
-                            android:id="@+id/card_hike_category"
+                            android:id="@+id/tvCategory"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -72,10 +74,10 @@
                             android:textColor="@color/text_white_selected"/>
 
                     <TextView
-                            android:id="@+id/card_hike_date"
+                            android:id="@+id/tvHikeDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/card_hike_region"
+                            android:layout_below="@+id/tvRegion"
                             android:text="27.09.18-02.10.18"
                             android:textColor="@color/text_white_selected"
                             android:layout_alignParentEnd="true"
@@ -90,7 +92,7 @@
                     android:text="Ура! Ты участник этого похода."
                     android:id="@+id/textViewsfdf"
                     android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/card_hike_chief"
+                    app:layout_constraintBottom_toTopOf="@+id/tvHikeChief"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
 
@@ -104,6 +106,7 @@
                     android:id="@+id/textView"/>
 
             <TextView
+
                     style="@style/TextS"
                     android:text="Юрьева Анастасия"
                     android:layout_marginBottom="16dp"
@@ -113,7 +116,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/button"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintHorizontal_bias="0.0"
-                    android:id="@+id/card_hike_chief"/>
+                    android:id="@+id/tvHikeChief"/>
 
 
             <Button

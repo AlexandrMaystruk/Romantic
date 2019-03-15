@@ -22,14 +22,13 @@ class RootTabFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(activity?.supportFragmentManager != null) {
+        if (activity?.supportFragmentManager != null) {
             val fragmentAdapter = PagerAdapter(activity!!.supportFragmentManager)
             rootViewPager.adapter = fragmentAdapter
             rootTabs.setupWithViewPager(rootViewPager)
         } else throw Exception("Error get supportFragmentManager")
 
     }
-
 
     companion object {
         fun getInstance(): RootTabFragment = RootTabFragment()

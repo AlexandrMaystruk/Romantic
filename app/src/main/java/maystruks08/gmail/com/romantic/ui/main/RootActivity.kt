@@ -56,7 +56,7 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
         App.appComponent.inject(this)
         logoutPresenter.bindView(this)
 
-        router.newRootScreen(Screens.RootTabScreen)
+        router.newRootScreen(Screens.RootTabScreen())
 
         bottomNavigationClickHandler()
         setToolbar()
@@ -70,19 +70,19 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
     override fun onClick(v: View?) {
         when (v) {
             bottom_news -> {
-                router.newRootScreen(Screens.NewsScreen)
+                router.newRootScreen(Screens.NewsScreen())
             }
             bottom_message -> {
-                router.newRootScreen(Screens.MessageScreen)
+                router.newRootScreen(Screens.MessageScreen())
             }
             bottom_main -> {
-                router.newRootScreen(Screens.RootTabScreen)
+                router.newRootScreen(Screens.RootTabScreen())
             }
             bottom_events -> {
-                router.newRootScreen(Screens.EventScreen)
+                router.newRootScreen(Screens.EventScreen())
             }
             bottom_my_hikes -> {
-                router.newRootScreen(Screens.MyHikeScreen)
+                router.newRootScreen(Screens.MyHikesScreen())
             }
         }
 

@@ -46,7 +46,6 @@
     <string name="toast_exit_app_warning_text">Tap again to exit</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="participant">Участники</string>
     <string name="hike_information">Информация для похода</string>
     <string name="material_lecture">Материалы, лекции</string>
@@ -55,4 +54,22 @@
     <string name="route">Маршрут</string>
     <string name="training_calendar">Календарь тренировок</string>
     <string name="group_chat">Групповой чат</string>
+    <string name="create_hike">Создать поход</string>
+
+
+    <!--create hike-->
+    <string name="create_hike_boss">Руководитель</string>
+    <string name="create_hike_region">Район</string>
+
+
+
+    <string-array name="category_list">
+        <item>Поход выходного дня</item>
+        <item>1 категория сложности</item>
+        <item>2 категория сложности</item>
+        <item>3 категория сложности</item>
+        <item>4 категория сложности</item>
+        <item>5 категория сложности</item>
+        <item>6 категория сложности</item>
+    </string-array>
 </resources>

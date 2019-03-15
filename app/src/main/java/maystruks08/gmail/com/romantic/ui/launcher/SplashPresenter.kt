@@ -31,7 +31,7 @@ class SplashPresenter @Inject constructor(private val authenticationInteractor: 
 
     private fun navigateToLoginScreen(t: Throwable) {
         t.printStackTrace()
-        router.newRootScreen(Screens.SignInScreen)
+        router.newRootScreen(Screens.SignInScreen())
     }
 
 

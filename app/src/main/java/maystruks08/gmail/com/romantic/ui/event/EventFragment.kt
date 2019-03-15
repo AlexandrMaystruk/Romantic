@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.createhike
+package maystruks08.gmail.com.romantic.ui.event
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,24 +11,20 @@ import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
 import javax.inject.Inject
 
-class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
+class EventFragment : Fragment(), EventContract.View {
 
     @Inject
-    lateinit var presenter: CreateNewHikeContract.Presenter
+    lateinit var presenter: EventContract.Presenter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        App.hikeComponent?.inject(this)
+        App.eventComponent?.inject(this)
         presenter.bindView(this)
 
-        return inflater.inflate(R.layout.fragment_create_new_hike, container, false)
-    }
-
-
-    override fun initUI(hikeList: List<Hike>) {
+        return inflater.inflate(R.layout.fragment_events, container, false)
     }
 
     override fun showLoading() {
@@ -43,7 +39,7 @@ class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
 
 
     companion object {
-        fun getInstance(): CreateNewHikeFragment = CreateNewHikeFragment()
+        fun getInstance(): EventFragment = EventFragment()
     }
 
 
