@@ -1,16 +1,16 @@
 package maystruks08.gmail.com.romantic.ui.event
 
-import maystruks08.gmail.com.romantic.core.BasePresenter
-import maystruks08.gmail.com.romantic.core.BaseView
+import maystruks08.gmail.com.romantic.core.base.IPresenter
+import maystruks08.gmail.com.romantic.core.base.IView
 
 
 interface EventContract {
 
-    interface View : BaseView {
+    interface View : IView {
 
     }
 
-    interface Presenter : BasePresenter<View> {
+    interface Presenter : IPresenter<View> {
 
     }
 }

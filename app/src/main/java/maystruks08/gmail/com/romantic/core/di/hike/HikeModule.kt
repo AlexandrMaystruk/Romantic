@@ -12,8 +12,8 @@ import maystruks08.gmail.com.romantic.ui.createhike.CreateNewHikeContract
 import maystruks08.gmail.com.romantic.ui.createhike.CreateNewHikePresenter
 import maystruks08.gmail.com.romantic.ui.hikes.HikeListContract
 import maystruks08.gmail.com.romantic.ui.hikes.HikeListPresenter
-import maystruks08.gmail.com.romantic.ui.hike.HikeContract
-import maystruks08.gmail.com.romantic.ui.hike.HikePresenter
+import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikeContract
+import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikePresenter
 
 @Module
 class HikeModule {
@@ -42,7 +42,7 @@ class HikeModule {
 //todo move to another scope
     @Provides
     @HikeScope
-    fun SelectedHikePresenter(hikePresenter: HikePresenter): HikeContract.Presenter = hikePresenter
+    fun selectedHikePresenter(hikePresenter: SelectedHikePresenter): SelectedHikeContract.Presenter = hikePresenter
 
 
 

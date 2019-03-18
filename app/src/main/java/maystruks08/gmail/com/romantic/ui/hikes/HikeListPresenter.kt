@@ -3,7 +3,7 @@ package maystruks08.gmail.com.romantic.ui.hikes
 import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.domain.entity.TypeHike
 import maystruks08.gmail.com.domain.interactor.hike.HikeInteractor
-import maystruks08.gmail.com.romantic.core.ABasePresenter
+import maystruks08.gmail.com.romantic.core.base.BasePresenter
 import maystruks08.gmail.com.romantic.core.navigation.Screens
 import maystruks08.gmail.com.romantic.ui.viewmodel.HikeViewModel
 import ru.terrakok.cicerone.Router
@@ -13,7 +13,7 @@ class HikeListPresenter @Inject constructor(
     private val hikeInteractor: HikeInteractor,
     private val router: Router
 ) :
-    HikeListContract.Presenter, ABasePresenter<HikeListContract.View>() {
+    HikeListContract.Presenter, BasePresenter<HikeListContract.View>() {
 
     override fun initUI(typeHike: TypeHike?) {
         view?.showLoading()

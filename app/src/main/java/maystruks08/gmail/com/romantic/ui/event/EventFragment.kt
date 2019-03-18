@@ -9,12 +9,19 @@ import io.reactivex.Single
 import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.ui.ConfigToolbar
+import maystruks08.gmail.com.romantic.ui.ToolBarController
+import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import javax.inject.Inject
 
 class EventFragment : Fragment(), EventContract.View {
 
     @Inject
     lateinit var presenter: EventContract.Presenter
+
+
+    @Inject
+    lateinit var controller: ToolBarController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +32,10 @@ class EventFragment : Fragment(), EventContract.View {
         presenter.bindView(this)
 
         return inflater.inflate(R.layout.fragment_events, container, false)
+    }
+
+    override fun configToolbar() {
+        controller.configure(ToolbarDescriptor(true, "Event"), activity as ConfigToolbar)
     }
 
     override fun showLoading() {

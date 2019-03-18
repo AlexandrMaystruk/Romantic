@@ -5,5 +5,6 @@ data class ToolbarDescriptor(
     val title: String? = null,
     val logoIcon: Boolean = true,
     val navigationIcon: Int? = null,
-    val collapse: Boolean = false
+    val collapse: Boolean = false,
+    val bottomBarVisibility: Boolean = true
 )

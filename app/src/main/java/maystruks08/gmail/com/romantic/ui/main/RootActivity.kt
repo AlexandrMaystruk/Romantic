@@ -225,6 +225,14 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
         toolbar.navigationIcon = null
     }
 
+    override fun enableBottomBar() {
+        rootBottomNavigationBar.visibility = View.VISIBLE
+    }
+
+    override fun disableBottomBar() {
+        rootBottomNavigationBar.visibility = View.GONE
+    }
+
     override fun showOptionMenu(showMenu: Boolean) {
         if (menu == null) return
 //        this.menu?.setGroupVisible(R.id.main_menu_group, showMenu)

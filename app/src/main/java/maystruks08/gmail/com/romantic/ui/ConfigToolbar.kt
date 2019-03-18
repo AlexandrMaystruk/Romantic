@@ -25,4 +25,8 @@ interface ConfigToolbar {
     fun showOptionMenu(showMenu: Boolean)
 
     fun setToolbarTitle(title: String)
+
+    fun enableBottomBar()
+
+    fun disableBottomBar()
 }

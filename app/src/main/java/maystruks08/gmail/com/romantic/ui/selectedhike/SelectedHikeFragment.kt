@@ -5,13 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.reactivex.Single
-import kotlinx.android.synthetic.main.fragment_hike.*
-import maystruks08.gmail.com.domain.entity.Hike
-import maystruks08.gmail.com.domain.entity.TypeHike
+import kotlinx.android.synthetic.main.fragment_selected_hike.*
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
-import maystruks08.gmail.com.romantic.ui.hikes.HikeListFragment
+import maystruks08.gmail.com.romantic.ui.ConfigToolbar
+import maystruks08.gmail.com.romantic.ui.ToolBarController
+import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import maystruks08.gmail.com.romantic.ui.viewmodel.HikeViewModel
 import javax.inject.Inject
 
@@ -19,6 +18,9 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
 
     @Inject
     lateinit var presenter: SelectedHikeContract.Presenter
+
+    @Inject
+    lateinit var controller: ToolBarController
 
     private var hike: HikeViewModel? = null
 
@@ -32,7 +34,7 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
 
         presenter.bindView(this)
 
-        return inflater.inflate(R.layout.fragment_hike, container, false)
+        return inflater.inflate(R.layout.fragment_selected_hike, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,6 +44,15 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
         tvHikeDate.text = hike?.dateOfHike
         tvRegion.text = hike?.region
         tvHikeChief.text = hike?.hikeChief
+    }
+
+    override fun configToolbar() {
+        controller.configure(
+            ToolbarDescriptor(true, "Hike",
+                navigationIcon = R.drawable.ic_arrow_back_white_24dp,
+                bottomBarVisibility = false),
+            activity as ConfigToolbar
+        )
     }
 
 
@@ -64,7 +75,7 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
             SelectedHikeFragment().apply {
                 arguments = Bundle().apply {
                     if (hike != null) {
-                       putParcelable(SELECTED_HIKE, hike)
+                        putParcelable(SELECTED_HIKE, hike)
                     }
                 }
             }

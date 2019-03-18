@@ -33,6 +33,10 @@ class ToolBarController {
             configToolbar.enableLogoIcon()
         }
 
+        if (toolbarDescriptor.bottomBarVisibility) {
+            configToolbar.enableBottomBar()
+        } else {
+            configToolbar.disableBottomBar()
+        }
     }
-
 }

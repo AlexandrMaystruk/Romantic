@@ -22,13 +22,13 @@ class HikeListFragment : Fragment(), HikeListContract.View {
     @Inject
     lateinit var presenter: HikeListContract.Presenter
 
-    private lateinit var hikeAdapter: HikeAdapter
+    @Inject
+    lateinit var controller: ToolBarController
 
+    private lateinit var hikeAdapter: HikeAdapter
 
     private var typeHike: TypeHike? = null
 
-    @Inject
-    lateinit var controller: ToolBarController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,21 +38,34 @@ class HikeListFragment : Fragment(), HikeListContract.View {
         App.hikeComponent?.inject(this)
         presenter.bindView(this)
 
+        val type = arguments?.getInt(TYPE_HIKE)
+        typeHike = if (type != null) TypeHike.fromValue(type) else null
+
         return inflater.inflate(R.layout.fragment_hike_list, container, false)
     }
 
     override fun configToolbar() {
-        controller.configure(ToolbarDescriptor(true, "Hike", navigationIcon = R.drawable.ic_arrow_back_white_24dp), activity as ConfigToolbar)
-
+        controller.configure(
+            ToolbarDescriptor(true, "Hike", navigationIcon = R.drawable.ic_arrow_back_white_24dp),
+            activity as ConfigToolbar
+        )
     }
 
-    private fun init() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         hikeAdapter = HikeAdapter { position: Hike ->
             hikeItemClicked(position)
         }
         hikesRecyclerView.layoutManager = LinearLayoutManager(context)
         hikesRecyclerView.itemAnimator = DefaultItemAnimator()
         hikesRecyclerView.adapter = hikeAdapter
+
+        init()
+    }
+
+    private fun init() {
 
         presenter.initUI(typeHike)
 
@@ -81,7 +94,7 @@ class HikeListFragment : Fragment(), HikeListContract.View {
 
     companion object {
 
-        const val TYPE_HIKE = "typeHike"
+        private const val TYPE_HIKE = "typeHike"
 
         fun getInstance(typeHike: TypeHike? = null): HikeListFragment =
             HikeListFragment().apply {

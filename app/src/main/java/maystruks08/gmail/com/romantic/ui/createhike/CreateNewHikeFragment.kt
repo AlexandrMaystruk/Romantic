@@ -9,12 +9,18 @@ import io.reactivex.Single
 import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.ui.ConfigToolbar
+import maystruks08.gmail.com.romantic.ui.ToolBarController
+import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import javax.inject.Inject
 
 class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
 
     @Inject
     lateinit var presenter: CreateNewHikeContract.Presenter
+
+    @Inject
+    lateinit var controller: ToolBarController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +31,18 @@ class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
         presenter.bindView(this)
 
         return inflater.inflate(R.layout.fragment_create_new_hike, container, false)
+    }
+
+    override fun configToolbar() {
+        controller.configure(
+            ToolbarDescriptor(
+                true, "Create new hike",
+                navigationIcon = R.drawable.ic_arrow_back_white_24dp,
+                bottomBarVisibility = false
+            ),
+            activity as ConfigToolbar
+        )
+
     }
 
 
