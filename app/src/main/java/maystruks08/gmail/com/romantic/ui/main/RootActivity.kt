@@ -27,6 +27,7 @@ import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.commands.Command
 import javax.inject.Inject
 import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.launcher.SplashActivity
 
@@ -65,6 +66,8 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
 
     private fun setToolbar() {
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
     }
 
     override fun onClick(v: View?) {
@@ -93,7 +96,7 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
 
             } else {
                 it.borderWidth = 0
-                bottomButtonMap[it]?.setTextColor(resources.getColor(R.color.text_white_unselected))
+                bottomButtonMap[it]?.setTextColor(ContextCompat.getColor(applicationContext, R.color.text_white_unselected))
             }
         }
     }
@@ -155,15 +158,6 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
         finish()
     }
 
-    override fun showLoading() {
-    }
-
-    override fun hideLoading() {
-    }
-
-    override fun showError(t: Throwable) {
-    }
-
     override fun onBackPressed() {
         this.hideSoftKeyboard()
         this.navigateBack()
@@ -196,8 +190,16 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
         actionBar?.hide()
     }
 
+    override fun enableLogoIcon() {
+        toolbarIcon.visibility = View.VISIBLE
+    }
+
+    override fun disableLogoIcon() {
+        toolbarIcon.visibility = View.GONE
+    }
+
     override fun setToolbarTitle(title: String) {
-        toolbar.title = title
+        toolbarTitle.text = title
     }
 
     override fun disableOverlay() {
@@ -228,4 +230,12 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
 //        this.menu?.setGroupVisible(R.id.main_menu_group, showMenu)
     }
 
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
+    override fun showError(t: Throwable) {
+    }
 }

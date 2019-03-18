@@ -6,12 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "hikes_participants")
 data class HikesParticipantsTable(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    @PrimaryKey(autoGenerate = true) var id: Int,
 
-
-    @field:ColumnInfo(name = "id_hike_firestore")
-    var idHike: String,
-    @field:ColumnInfo(name = "id_participant")
-    var idParticipant: String
+    @ColumnInfo(name = "id_hike_firestore") var idHike: String,
+    @ColumnInfo(name = "id_participant") var idParticipant: String
 )

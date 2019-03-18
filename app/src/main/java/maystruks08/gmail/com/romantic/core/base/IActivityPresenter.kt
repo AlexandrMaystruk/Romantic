@@ -1,8 +1,8 @@
-package maystruks08.gmail.com.romantic.core
+package maystruks08.gmail.com.romantic.core.base
 
 import io.reactivex.disposables.CompositeDisposable
 
-interface BasePresenter <T: BaseView> {
+interface IActivityPresenter <T: IActivityView> {
 
     var view: T?
 

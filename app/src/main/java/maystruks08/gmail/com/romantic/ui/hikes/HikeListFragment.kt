@@ -12,6 +12,9 @@ import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.domain.entity.TypeHike
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.ui.ConfigToolbar
+import maystruks08.gmail.com.romantic.ui.ToolBarController
+import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import javax.inject.Inject
 
 class HikeListFragment : Fragment(), HikeListContract.View {
@@ -24,6 +27,9 @@ class HikeListFragment : Fragment(), HikeListContract.View {
 
     private var typeHike: TypeHike? = null
 
+    @Inject
+    lateinit var controller: ToolBarController
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,15 +41,10 @@ class HikeListFragment : Fragment(), HikeListContract.View {
         return inflater.inflate(R.layout.fragment_hike_list, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun configToolbar() {
+        controller.configure(ToolbarDescriptor(true, "Hike", navigationIcon = R.drawable.ic_arrow_back_white_24dp), activity as ConfigToolbar)
 
-        val type = arguments?.getInt(TYPE_HIKE)
-        typeHike = if (type != null) TypeHike.fromValue(type) else null
-
-        init()
     }
-
 
     private fun init() {
         hikeAdapter = HikeAdapter { position: Hike ->

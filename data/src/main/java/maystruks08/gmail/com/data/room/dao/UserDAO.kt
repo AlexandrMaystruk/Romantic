@@ -13,9 +13,9 @@ import maystruks08.gmail.com.data.room.entity.UserTable
 interface UserDAO {
 
     @Query("SELECT * FROM users")
-    fun getAllUsers(): Single<List<UserTable>>
+    fun getUsers(): Single<List<UserTable>>
 
-    @Query("SELECT * FROM users WHERE users.id LIKE :id ")
+    @Query("SELECT * FROM users WHERE id LIKE :id ")
     fun getUserById(id: String): Single<UserTable>
 
     @Insert

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.toast
 import maystruks08.gmail.com.romantic.ui.main.RootActivity
 import javax.inject.Inject
 
@@ -41,6 +42,12 @@ class SingUpFragment : Fragment(), AuthenticationContract.View {
         activity?.finish()
     }
 
+    override fun configToolbar() {
+    }
+
+    override fun blockUi(enable: Boolean) {
+        btnRegister.isClickable = enable
+    }
 
     override fun showLoading() {
     }
@@ -48,11 +55,15 @@ class SingUpFragment : Fragment(), AuthenticationContract.View {
     override fun hideLoading() {
     }
 
+    override fun showMessage(message: String) {
+        context?.toast(message)
+    }
+
     override fun showError(t: Throwable) {
+        t.printStackTrace()
     }
 
     companion object {
-
         fun getInstance(): SingUpFragment =
             SingUpFragment()
     }

@@ -1,17 +1,19 @@
-package maystruks08.gmail.com.romantic.core
+package maystruks08.gmail.com.romantic.core.base
 
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class ABasePresenter<T: BaseView>: BasePresenter<T> {
+abstract class BasePresenter<T : IView> :
+    IPresenter<T> {
 
     override var view: T? = null
     override val compositeDisposable = CompositeDisposable()
 
     override fun bindView(view: T) {
         this.view = view
+        view.configToolbar()
     }
 
-    fun showBaseError (t: Throwable) {
+    fun showBaseError(t: Throwable) {
         view?.hideLoading()
         view?.showError(t)
         t.printStackTrace()
