@@ -42,7 +42,6 @@
                     android:layout_height="wrap_content"/>
         </androidx.appcompat.widget.Toolbar>
 
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout
@@ -59,12 +58,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/collapseView"
-                android:layout_alignParentBottom="true">
-        </FrameLayout>
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
-    <include
-            android:id="@+id/rootBottomNavigationBar"
-            layout="@layout/layout_bottom_navigation_view"/>
+    <include android:id="@+id/rootBottomNavigationBar"
+             layout="@layout/layout_bottom_navigation_view"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
