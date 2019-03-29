@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
     <com.google.android.material.tabs.TabLayout
             android:id="@+id/rootTabs"
@@ -17,8 +17,8 @@
 
     <androidx.viewpager.widget.ViewPager
             android:id="@+id/rootViewPager"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintTop_toBottomOf="@+id/rootTabs"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

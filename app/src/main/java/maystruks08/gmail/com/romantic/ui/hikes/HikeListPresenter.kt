@@ -18,7 +18,8 @@ class HikeListPresenter @Inject constructor(
     override fun initUI(typeHike: TypeHike?) {
         view?.showLoading()
         compositeDisposable.add(
-            hikeInteractor.provideHikes(typeHike).subscribe(::onProvideHikesSuccess, ::onProvideHikesFailure)
+            hikeInteractor.provideHikes(typeHike)
+                .subscribe(::onProvideHikesSuccess, ::onProvideHikesFailure)
         )
     }
 

@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_root_tab.*
 import maystruks08.gmail.com.romantic.R
-import java.lang.Exception
 
-class RootTabFragment : Fragment(){
+class RootTabFragment : Fragment() {
+
+   lateinit var fragmentAdapter: PagerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,18 +23,13 @@ class RootTabFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (activity?.supportFragmentManager != null) {
-            val fragmentAdapter = PagerAdapter(activity!!.supportFragmentManager)
-            rootViewPager.adapter = fragmentAdapter
-            rootTabs.setupWithViewPager(rootViewPager)
-        } else throw Exception("Error get supportFragmentManager")
-
+        fragmentAdapter = PagerAdapter(childFragmentManager)
+        rootTabs.setupWithViewPager(rootViewPager)
+        rootViewPager.setPageTransformer(true, ZoomOutPageTransformer())
+        rootViewPager.adapter = fragmentAdapter
     }
 
     companion object {
         fun getInstance(): RootTabFragment = RootTabFragment()
     }
-
-
-
 }

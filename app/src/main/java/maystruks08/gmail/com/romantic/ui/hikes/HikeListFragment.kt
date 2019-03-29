@@ -1,12 +1,13 @@
 package maystruks08.gmail.com.romantic.ui.hikes
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_root.*
 import kotlinx.android.synthetic.main.fragment_hike_list.*
 import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.domain.entity.TypeHike
@@ -29,18 +30,16 @@ class HikeListFragment : Fragment(), HikeListContract.View {
 
     private var typeHike: TypeHike? = null
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         App.hikeComponent?.inject(this)
-        presenter.bindView(this)
-
+        Log.e("LIFECYCLE", "HikeListFragment onCreate"+ typeHike?.name)
         val type = arguments?.getInt(TYPE_HIKE)
         typeHike = if (type != null) TypeHike.fromValue(type) else null
+    }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        Log.e("LIFECYCLE", "HikeListFragment onCreateView" + typeHike?.name)
         return inflater.inflate(R.layout.fragment_hike_list, container, false)
     }
 
@@ -51,27 +50,26 @@ class HikeListFragment : Fragment(), HikeListContract.View {
         )
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        hikeAdapter = HikeAdapter { position: Hike ->
-            hikeItemClicked(position)
-        }
-        hikesRecyclerView.layoutManager = LinearLayoutManager(context)
-        hikesRecyclerView.itemAnimator = DefaultItemAnimator()
-        hikesRecyclerView.adapter = hikeAdapter
-
+        presenter.bindView(this)
         init()
+        Log.e("LIFECYCLE", "HikeListFragment onViewCreated" + typeHike?.name)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("LIFECYCLE", "HikeListFragment onResume" + typeHike?.name)
     }
 
     private fun init() {
+        hikeAdapter = HikeAdapter { hikeItemClicked(it) }
+        hikesRecyclerView.layoutManager = LinearLayoutManager(context)
+        hikesRecyclerView.adapter = hikeAdapter
+        rootFab?.setOnClickListener { presenter.onCreateHikeClicked() }
 
         presenter.initUI(typeHike)
 
-        fabCreateNewHike.setOnClickListener {
-            presenter.onCreateHikeClicked()
-        }
     }
 
     private fun hikeItemClicked(hike: Hike) {
@@ -80,6 +78,22 @@ class HikeListFragment : Fragment(), HikeListContract.View {
 
     override fun showHikes(hikeList: List<Hike>) {
         hikeAdapter.hikeList = hikeList
+        Log.e("LIFECYCLE", "HikeListFragment $hikeList")
+        view?.invalidate()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.e("LIFECYCLE", "HikeListFragment onDestroyView" + typeHike?.name)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.end()
+        App.clearHikeListComponent()
+        Log.e("LIFECYCLE", "HikeListFragment onDestroy" + typeHike?.name)
+
     }
 
     override fun showLoading() {
@@ -89,7 +103,6 @@ class HikeListFragment : Fragment(), HikeListContract.View {
     }
 
     override fun showError(t: Throwable) {
-
     }
 
     companion object {
@@ -98,9 +111,10 @@ class HikeListFragment : Fragment(), HikeListContract.View {
 
         fun getInstance(typeHike: TypeHike? = null): HikeListFragment =
             HikeListFragment().apply {
-                arguments = Bundle().apply {
-                    if (typeHike?.type != null)
+                if (typeHike?.type != null) {
+                    arguments = Bundle().apply {
                         putInt(TYPE_HIKE, typeHike.type)
+                    }
                 }
             }
     }

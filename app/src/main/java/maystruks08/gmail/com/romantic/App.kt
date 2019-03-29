@@ -9,6 +9,7 @@ import maystruks08.gmail.com.romantic.core.di.event.EventComponent
 import maystruks08.gmail.com.romantic.core.di.hike.HikeComponent
 import maystruks08.gmail.com.romantic.core.di.launcher.LauncherComponent
 import maystruks08.gmail.com.romantic.core.di.news.NewsComponent
+import maystruks08.gmail.com.romantic.core.di.selectedhike.route.RouteComponent
 import maystruks08.gmail.com.romantic.core.di.selectedhike.SelectedHikeComponent
 
 
@@ -44,6 +45,13 @@ class App : Application() {
             get () {
                 if (field == null)
                     field = appComponent.selectedHikeComponent()
+                return field
+            }
+
+        var routeComponent: RouteComponent? = null
+            get () {
+                if (field == null)
+                    field = selectedHikeComponent?.routeComponent()
                 return field
             }
 

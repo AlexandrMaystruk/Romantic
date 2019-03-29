@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import maystruks08.gmail.com.domain.entity.TypeHike;
-import maystruks08.gmail.com.romantic.ui.viewmodel.HikeViewModel;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.commands.*;
 

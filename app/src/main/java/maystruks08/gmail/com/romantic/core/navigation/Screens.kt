@@ -1,6 +1,5 @@
 package maystruks08.gmail.com.romantic.core.navigation
 
-import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.domain.entity.TypeHike
 import maystruks08.gmail.com.romantic.ui.chat.ChatFragment
 import maystruks08.gmail.com.romantic.ui.createhike.CreateNewHikeFragment
@@ -11,6 +10,7 @@ import maystruks08.gmail.com.romantic.ui.launcher.SingUpFragment
 import maystruks08.gmail.com.romantic.ui.main.RootTabFragment
 import maystruks08.gmail.com.romantic.ui.news.NewsFragment
 import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikeFragment
+import maystruks08.gmail.com.romantic.ui.selectedhike.route.RouteFragment
 import maystruks08.gmail.com.romantic.ui.viewmodel.HikeViewModel
 
 object Screens {
@@ -53,6 +53,10 @@ object Screens {
 
     class CreateHikeScreen : AppScreen() {
         override fun getFragment() = CreateNewHikeFragment.getInstance()
+    }
+
+    class RouteScreen : AppScreen() {
+        override fun getFragment() = RouteFragment.getInstance()
     }
 
 }

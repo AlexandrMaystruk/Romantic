@@ -44,6 +44,8 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
         tvHikeDate.text = hike?.dateOfHike
         tvRegion.text = hike?.region
         tvHikeChief.text = hike?.hikeChief
+
+        initViews()
     }
 
     override fun configToolbar() {
@@ -55,6 +57,21 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
         )
     }
 
+    private fun initViews(){
+        civParticipant.setOnClickListener {}
+        civGroupChat.setOnClickListener {}
+        civTrainingCalendar.setOnClickListener {}
+        civRoute.setOnClickListener { presenter.onRouteClick() }
+        civMyPost.setOnClickListener {}
+        civTools.setOnClickListener {}
+        civMaterials.setOnClickListener {}
+        civHikeInformation.setOnClickListener {}
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        App.clearSelectedHikeComponent()
+    }
 
     override fun showLoading() {
     }

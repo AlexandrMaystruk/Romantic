@@ -1,24 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:layout_marginTop="?actionBarSize"
-             android:layout_marginBottom="@dimen/size_bottom_navigation">
+<androidx.recyclerview.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/hikesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/hikesRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-    </androidx.recyclerview.widget.RecyclerView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabCreateNewHike"
-            android:src="@drawable/ic_add"
-            android:layout_gravity="bottom|end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_l"
-            android:layout_marginEnd="@dimen/margin_l"
-            android:backgroundTint="@color/colorPrimary"/>
-
-</FrameLayout>

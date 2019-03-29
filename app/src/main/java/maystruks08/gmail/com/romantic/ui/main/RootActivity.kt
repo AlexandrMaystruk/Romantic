@@ -53,21 +53,18 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_root)
+        setToolbar()
 
         App.appComponent.inject(this)
-        logoutPresenter.bindView(this)
-
-        router.newRootScreen(Screens.RootTabScreen())
-
         bottomNavigationClickHandler()
-        setToolbar()
+        logoutPresenter.bindView(this)
+        router.newRootScreen(Screens.RootTabScreen())
     }
 
 
     private fun setToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
     }
 
     override fun onClick(v: View?) {
@@ -96,7 +93,12 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
 
             } else {
                 it.borderWidth = 0
-                bottomButtonMap[it]?.setTextColor(ContextCompat.getColor(applicationContext, R.color.text_white_unselected))
+                bottomButtonMap[it]?.setTextColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.text_white_unselected
+                    )
+                )
             }
         }
     }
@@ -124,8 +126,8 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
         }
     }
 
-    override fun onResumeFragments() {
-        super.onResumeFragments()
+    override fun onResume() {
+        super.onResume()
         navigatorHolder.setNavigator(navigator)
     }
 
@@ -183,11 +185,11 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
     }
 
     override fun enableToolbar() {
-        actionBar?.show()
+        supportActionBar?.show()
     }
 
     override fun disableToolbar() {
-        actionBar?.hide()
+        supportActionBar?.hide()
     }
 
     override fun enableLogoIcon() {

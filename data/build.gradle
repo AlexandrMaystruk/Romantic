@@ -38,6 +38,8 @@ dependencies {
     api dataDependencies.firebaseAuth
     api dataDependencies.firebaseStorage
     api dataDependencies.firebaseDatabase
+    api dataDependencies.osm
+
 
 
     implementation dataDependencies.annotations
@@ -49,6 +51,7 @@ dependencies {
     implementation dataDependencies.rxJava
     implementation dataDependencies.rxAndroid
     implementation dataDependencies.rxFirebase
+
 
     implementation dataDependencies.gson
 
