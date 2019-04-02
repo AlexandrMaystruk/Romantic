@@ -8,6 +8,7 @@ import maystruks08.gmail.com.romantic.core.di.chat.ChatComponent
 import maystruks08.gmail.com.romantic.core.di.event.EventComponent
 import maystruks08.gmail.com.romantic.core.di.hike.HikeComponent
 import maystruks08.gmail.com.romantic.core.di.launcher.LauncherComponent
+import maystruks08.gmail.com.romantic.core.di.myhike.MyHikesComponent
 import maystruks08.gmail.com.romantic.core.di.news.NewsComponent
 import maystruks08.gmail.com.romantic.core.di.selectedhike.route.RouteComponent
 import maystruks08.gmail.com.romantic.core.di.selectedhike.SelectedHikeComponent
@@ -33,6 +34,12 @@ class App : Application() {
                 return field
             }
 
+        var myHikeComponent: MyHikesComponent? = null
+            get () {
+                if (field == null)
+                    field = appComponent.myHikesComponent()
+                return field
+            }
 
         var eventComponent: EventComponent? = null
             get () {
@@ -73,6 +80,10 @@ class App : Application() {
 
         fun clearLauncherComponent() {
             launcherComponent = null
+        }
+
+        fun clearMeHikesComponent() {
+            myHikeComponent = null
         }
 
         fun clearHikeListComponent() {

@@ -36,7 +36,7 @@ class ChatFragment : Fragment(), ChatContract.View {
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(true, "Hike", navigationIcon = R.drawable.ic_arrow_back_white_24dp),
+            ToolbarDescriptor(true, "Message"),
             activity as ConfigToolbar
         )
     }

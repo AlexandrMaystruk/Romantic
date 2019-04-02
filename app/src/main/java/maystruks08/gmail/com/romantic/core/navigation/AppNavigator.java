@@ -2,7 +2,6 @@ package maystruks08.gmail.com.romantic.core.navigation;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -44,16 +43,11 @@ public class AppNavigator implements Navigator {
         }
     }
 
-    /**
-     * Perform transition described by the navigation command
-     *
-     * @param command the navigation command to apply
-     */
     private void applyCommand(Command command) {
         if (command instanceof Forward) {
             fragmentForward((Forward) command);
         } else if (command instanceof Replace) {
-            activityReplace((Replace) command);
+            fragmentReplace((Replace) command);
         } else if (command instanceof BackTo) {
             backTo((BackTo) command);
         } else if (command instanceof Back) {
@@ -92,20 +86,6 @@ public class AppNavigator implements Navigator {
 
     private void activityBack() {
         activity.finish();
-    }
-
-    private void activityReplace(Replace command) {
-        AppScreen screen = (AppScreen) command.getScreen();
-        Intent activityIntent = screen.getActivityIntent(activity);
-
-        // Replace activity
-        if (activityIntent != null) {
-            Bundle options = createStartActivityOptions(command, activityIntent);
-            checkAndStartActivity(screen, activityIntent, options);
-            activity.finish();
-        } else {
-            fragmentReplace(command);
-        }
     }
 
     private void fragmentReplace(Replace command) {
@@ -161,7 +141,7 @@ public class AppNavigator implements Navigator {
                 }
                 fragmentManager.popBackStack(key, 0);
             } else {
-                backToUnexisting((AppScreen) command.getScreen());
+                backToUnexisting();
             }
         }
     }
@@ -171,58 +151,13 @@ public class AppNavigator implements Navigator {
         localStackCopy.clear();
     }
 
-    /**
-     * Override this method to setup fragment transaction {@link FragmentTransaction}.
-     * For example: setCustomAnimations(...), addSharedElement(...) or setReorderingAllowed(...)
-     *
-     * @param command             current navigation command. Will be only {@link Forward} or {@link Replace}
-     * @param currentFragment     current fragment in container
-     *                            (for {@link Replace} command it will be screen previous in new chain, NOT replaced screen)
-     * @param nextFragment        next screen fragment
-     * @param fragmentTransaction fragment transaction
-     */
     protected void setupFragmentTransaction(Command command,
                                             Fragment currentFragment,
                                             Fragment nextFragment,
                                             FragmentTransaction fragmentTransaction) {
     }
 
-    /**
-     * Override this method to create option for start activity
-     *
-     * @param command        current navigation command. Will be only {@link Forward} or {@link Replace}
-     * @param activityIntent activity intent
-     * @return transition options
-     */
-    protected Bundle createStartActivityOptions(Command command, Intent activityIntent) {
-        return null;
-    }
 
-    private void checkAndStartActivity(AppScreen screen, Intent activityIntent, Bundle options) {
-        // Check if we can start activity
-        if (activityIntent.resolveActivity(activity.getPackageManager()) != null) {
-            activity.startActivity(activityIntent, options);
-        } else {
-            unexistingActivity(screen, activityIntent);
-        }
-    }
-
-    /**
-     * Called when there is no activity to open {@code screenKey}.
-     *
-     * @param screen         screen
-     * @param activityIntent intent passed to start Activity for the {@code screenKey}
-     */
-    private void unexistingActivity(AppScreen screen, Intent activityIntent) {
-        // Do nothing by default_back
-    }
-
-    /**
-     * Creates Fragment matching {@code screenKey}.
-     *
-     * @param screen screen
-     * @return instantiated fragment for the passed screen
-     */
     private Fragment createFragment(AppScreen screen) {
         Fragment fragment = screen.getFragment();
 
@@ -233,13 +168,7 @@ public class AppNavigator implements Navigator {
     }
 
 
-    /**
-     * Called when we tried to fragmentBack to some specific screen (via {@link BackTo} command),
-     * but didn't found it.
-     *
-     * @param screen screen
-     */
-    private void backToUnexisting(AppScreen screen) {
+    private void backToUnexisting() {
         backToRoot();
     }
 

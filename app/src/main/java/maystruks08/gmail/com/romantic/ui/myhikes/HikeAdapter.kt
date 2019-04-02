@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.hikes
+package maystruks08.gmail.com.romantic.ui.myhikes
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -31,8 +31,8 @@ class HikeAdapter(private val clickListener: (Hike) -> Unit) : RecyclerView.Adap
 
         fun bindHolder(hike: Hike, clickListener: (Hike) -> Unit) {
             itemView.card_hike_chief.text = hike.hikeChief
-            itemView.card_hike_date.text = hike.dateOfHike
-            itemView.card_hike_category.text = hike.category
+            itemView.card_hike_date.text = hike.dateEnd.toString()
+            itemView.card_hike_category.text = hike.category.toString()
             itemView.card_hike_region.text = hike.region
             itemView.setOnClickListener { clickListener(hike) }
         }

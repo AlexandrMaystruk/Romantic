@@ -10,8 +10,8 @@ import maystruks08.gmail.com.domain.interactor.hike.HikeInteractorImpl
 import maystruks08.gmail.com.domain.repository.HikesRepository
 import maystruks08.gmail.com.romantic.ui.createhike.CreateNewHikeContract
 import maystruks08.gmail.com.romantic.ui.createhike.CreateNewHikePresenter
-import maystruks08.gmail.com.romantic.ui.hikes.HikeListContract
-import maystruks08.gmail.com.romantic.ui.hikes.HikeListPresenter
+import maystruks08.gmail.com.romantic.ui.main.pager.HikeListContract
+import maystruks08.gmail.com.romantic.ui.main.pager.HikeListPresenter
 import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikeContract
 import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikePresenter
 
@@ -37,13 +37,5 @@ class HikeModule {
     @Provides
     @HikeScope
     fun presenterCreate(createNewPresenter: CreateNewHikePresenter): CreateNewHikeContract.Presenter = createNewPresenter
-
-
-//todo move to another scope
-    @Provides
-    @HikeScope
-    fun selectedHikePresenter(hikePresenter: SelectedHikePresenter): SelectedHikeContract.Presenter = hikePresenter
-
-
 
 }

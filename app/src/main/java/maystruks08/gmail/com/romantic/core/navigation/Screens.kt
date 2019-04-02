@@ -1,13 +1,12 @@
 package maystruks08.gmail.com.romantic.core.navigation
 
-import maystruks08.gmail.com.domain.entity.TypeHike
 import maystruks08.gmail.com.romantic.ui.chat.ChatFragment
 import maystruks08.gmail.com.romantic.ui.createhike.CreateNewHikeFragment
 import maystruks08.gmail.com.romantic.ui.event.EventFragment
-import maystruks08.gmail.com.romantic.ui.hikes.HikeListFragment
+import maystruks08.gmail.com.romantic.ui.myhikes.MyHikesFragment
 import maystruks08.gmail.com.romantic.ui.launcher.SingInFragment
 import maystruks08.gmail.com.romantic.ui.launcher.SingUpFragment
-import maystruks08.gmail.com.romantic.ui.main.RootTabFragment
+import maystruks08.gmail.com.romantic.ui.main.pager.RootTabFragment
 import maystruks08.gmail.com.romantic.ui.news.NewsFragment
 import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikeFragment
 import maystruks08.gmail.com.romantic.ui.selectedhike.route.RouteFragment
@@ -39,12 +38,8 @@ object Screens {
         override fun getFragment() = EventFragment.getInstance()
     }
 
-    class HikesScreen(private val typeHike: TypeHike) : AppScreen() {
-        override fun getFragment() = HikeListFragment.getInstance(typeHike)
-    }
-
     class MyHikesScreen : AppScreen() {
-        override fun getFragment() = HikeListFragment.getInstance()
+        override fun getFragment() = MyHikesFragment.getInstance()
     }
 
     class SelectedHikeScreen(private val hike: HikeViewModel) : AppScreen() {

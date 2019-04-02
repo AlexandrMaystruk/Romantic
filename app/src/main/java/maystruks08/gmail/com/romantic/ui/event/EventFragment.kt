@@ -35,7 +35,7 @@ class EventFragment : Fragment(), EventContract.View {
     }
 
     override fun configToolbar() {
-        controller.configure(ToolbarDescriptor(true, "Event"), activity as ConfigToolbar)
+        controller.configure(ToolbarDescriptor(true, "Events"), activity as ConfigToolbar)
     }
 
     override fun showLoading() {

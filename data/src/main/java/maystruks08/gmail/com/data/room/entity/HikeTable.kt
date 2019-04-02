@@ -8,10 +8,11 @@ data class HikeTable(
     @PrimaryKey
     var id: Int,
     val type: Int,
-    val dateStart: String,
-    val dateEnd: String,
+    val dateStart: Long,
+    val dateEnd: Long,
     val hikeChief: String,
-    val region: String
+    val region: String,
+    val category: Int
 )
 
 

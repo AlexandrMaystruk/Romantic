@@ -51,7 +51,10 @@ class RouteFragment : Fragment(), RouteContract.View {
     }
 
     override fun configToolbar() {
-        controller.configure(ToolbarDescriptor(true, "Route"), activity as ConfigToolbar)
+        controller.configure(
+            ToolbarDescriptor(true, "Route", navigationIcon = R.drawable.ic_arrow_back_white_24dp, bottomBarVisibility = false),
+            activity as ConfigToolbar
+        )
     }
 
     override fun showRoute(geoPointList: ArrayList<GeoPoint>) {
@@ -79,7 +82,7 @@ class RouteFragment : Fragment(), RouteContract.View {
             true
         }
 
-        marker.setOnMarkerDragListener(object : Marker.OnMarkerDragListener{
+        marker.setOnMarkerDragListener(object : Marker.OnMarkerDragListener {
             override fun onMarkerDragEnd(marker: Marker?) {
             }
 

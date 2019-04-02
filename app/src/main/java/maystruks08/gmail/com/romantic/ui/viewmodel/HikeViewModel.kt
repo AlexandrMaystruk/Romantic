@@ -47,10 +47,10 @@ data class HikeViewModel(val id: Int,
                 HikeViewModel(
                     it.id,
                     it.typeHike.type,
-                    it.dateOfHike,
+                    it.dateStart.toString(),
                     it.hikeChief,
                     it.region,
-                    it.category
+                    it.category.name
                 )
             }
     }

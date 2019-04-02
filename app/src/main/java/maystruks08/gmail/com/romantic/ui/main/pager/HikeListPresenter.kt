@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.hikes
+package maystruks08.gmail.com.romantic.ui.main.pager
 
 import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.domain.entity.TypeHike
@@ -15,7 +15,15 @@ class HikeListPresenter @Inject constructor(
 ) :
     HikeListContract.Presenter, BasePresenter<HikeListContract.View>() {
 
-    override fun initUI(typeHike: TypeHike?) {
+    override fun loadHikeData() {
+        view?.showLoading()
+        compositeDisposable.add(
+            hikeInteractor.downloadHikeData()
+                .subscribe(::onDownloadHikesSuccess, ::onDownloadHikesFailure)
+        )
+    }
+
+    override fun initFragment(typeHike: TypeHike?, position: Int) {
         view?.showLoading()
         compositeDisposable.add(
             hikeInteractor.provideHikes(typeHike)
@@ -27,17 +35,21 @@ class HikeListPresenter @Inject constructor(
         router.navigateTo(Screens.SelectedHikeScreen(HikeViewModel.fromHike(hike)))
     }
 
-    override fun onCreateHikeClicked() {
-        router.navigateTo(Screens.CreateHikeScreen())
-    }
-
-
-    private fun onProvideHikesSuccess(hikeList: List<Hike>) {
+    private fun onProvideHikesSuccess(pair: Pair<List<Hike>, Int>) {
         view?.hideLoading()
-        view?.showHikes(hikeList)
+        view?.showHikes(pair.first, pair.second)
     }
 
     private fun onProvideHikesFailure(t: Throwable) {
+        view?.hideLoading()
+        t.printStackTrace()
+    }
+
+    private fun onDownloadHikesSuccess() {
+        view?.hideLoading()
+    }
+
+    private fun onDownloadHikesFailure(t: Throwable) {
         view?.hideLoading()
         t.printStackTrace()
     }
