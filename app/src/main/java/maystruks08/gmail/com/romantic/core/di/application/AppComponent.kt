@@ -7,6 +7,7 @@ import maystruks08.gmail.com.romantic.core.di.hike.HikeComponent
 import maystruks08.gmail.com.romantic.core.di.launcher.LauncherComponent
 import maystruks08.gmail.com.romantic.core.di.myhike.MyHikesComponent
 import maystruks08.gmail.com.romantic.core.di.news.NewsComponent
+import maystruks08.gmail.com.romantic.core.di.profile.ProfileComponent
 import maystruks08.gmail.com.romantic.core.di.selectedhike.route.RouteComponent
 import maystruks08.gmail.com.romantic.core.di.selectedhike.SelectedHikeComponent
 import maystruks08.gmail.com.romantic.ui.main.RootActivity
@@ -31,5 +32,7 @@ interface AppComponent {
     fun chatComponent(): ChatComponent
 
     fun eventComponent(): EventComponent
+
+    fun profileComponent(): ProfileComponent
 
 }

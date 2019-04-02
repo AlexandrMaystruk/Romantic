@@ -65,6 +65,7 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
     private fun setToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+        toolbarIcon.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -83,6 +84,9 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
             }
             bottom_my_hikes -> {
                 router.newRootScreen(Screens.MyHikesScreen())
+            }
+            toolbarIcon -> {
+                router.navigateTo(Screens.ProfileScreen())
             }
         }
 
