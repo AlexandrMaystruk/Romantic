@@ -17,6 +17,13 @@ class HikeRepositoryImpl @Inject constructor(
     private val hikeMapper: HikeMapper
 ) : HikesRepository {
 
+    override fun createNewHike(hike: Hike): Completable {
+        return Completable.complete()
+
+//       return Completable.fromAction {
+//           hikeDAO.insertAll(hikeMapper.toHikeTable(hike))
+//       }
+    }
 
     override fun downloadHikeData(): Single<List<Hike>> {
         return Single.just(api.getAllHikes())

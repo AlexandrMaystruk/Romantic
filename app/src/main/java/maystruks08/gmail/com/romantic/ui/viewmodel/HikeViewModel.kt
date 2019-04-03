@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import maystruks08.gmail.com.domain.entity.Hike
 
-data class HikeViewModel(val id: Int,
+data class HikeViewModel(val id: Long,
                          val typeHike: Int,
                          val dateOfHike: String,
                          val hikeChief: String,
@@ -12,7 +12,7 @@ data class HikeViewModel(val id: Int,
                          val category: String) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-        parcel.readInt(),
+        parcel.readLong(),
         parcel.readInt(),
         parcel.readString()?:"",
         parcel.readString()?:"",
@@ -21,7 +21,7 @@ data class HikeViewModel(val id: Int,
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
+        parcel.writeLong(id)
         parcel.writeInt(typeHike)
         parcel.writeString(dateOfHike)
         parcel.writeString(hikeChief)

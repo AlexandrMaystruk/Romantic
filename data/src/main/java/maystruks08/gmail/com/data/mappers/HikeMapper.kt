@@ -14,7 +14,7 @@ class HikeMapper @Inject constructor() {
                 it.dateEnd.time,
                 it.hikeChief,
                 it.region,
-                it.category.value)
+                it.category.type)
         }
     }
 

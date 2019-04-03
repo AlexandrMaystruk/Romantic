@@ -8,22 +8,32 @@
     <CalendarView
             android:id="@+id/cvDateOfHike"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_xs"
+            android:layout_height="297dp"
+            android:selectedWeekBackgroundColor="#ff0000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_xs"
             app:layout_constraintTop_toTopOf="parent"/>
 
     <Spinner
-            android:id="@+id/spinnerCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/category_list"
+            android:id="@+id/spinnerType"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:entries="@array/type_hike_list"
             app:layout_constraintStart_toStartOf="@+id/cvDateOfHike"
             app:layout_constraintEnd_toEndOf="@+id/cvDateOfHike"
+            android:layout_marginTop="@dimen/margin_xs"
+            app:layout_constraintTop_toBottomOf="@+id/cvDateOfHike" />
+
+    <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:entries="@array/category_list"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/cvDateOfHike"/>
+            app:layout_constraintTop_toBottomOf="@+id/spinnerType"
+            app:layout_constraintEnd_toEndOf="@+id/spinnerType"
+            app:layout_constraintStart_toStartOf="@+id/spinnerType"/>
 
     <EditText
             android:id="@+id/etBossHike"
@@ -33,9 +43,10 @@
             android:inputType="datetime"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"/>
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
+            app:layout_constraintEnd_toEndOf="@+id/spinnerCategory"
+            app:layout_constraintStart_toStartOf="@+id/spinnerCategory"/>
 
     <EditText
             android:id="@+id/etHikeRegion"
@@ -51,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/etBossHike"/>
 
     <Button
-            android:id="@+id/btnRegister"
+            android:id="@+id/btnCreateHike"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:layout_alignParentEnd="true"

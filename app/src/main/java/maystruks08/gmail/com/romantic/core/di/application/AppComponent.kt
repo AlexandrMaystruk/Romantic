@@ -10,6 +10,7 @@ import maystruks08.gmail.com.romantic.core.di.news.NewsComponent
 import maystruks08.gmail.com.romantic.core.di.profile.ProfileComponent
 import maystruks08.gmail.com.romantic.core.di.selectedhike.route.RouteComponent
 import maystruks08.gmail.com.romantic.core.di.selectedhike.SelectedHikeComponent
+import maystruks08.gmail.com.romantic.core.di.selectedhike.participant.ParticipantComponent
 import maystruks08.gmail.com.romantic.ui.main.RootActivity
 import javax.inject.Singleton
 
@@ -34,5 +35,8 @@ interface AppComponent {
     fun eventComponent(): EventComponent
 
     fun profileComponent(): ProfileComponent
+
+    fun participantComponent(): ParticipantComponent
+
 
 }

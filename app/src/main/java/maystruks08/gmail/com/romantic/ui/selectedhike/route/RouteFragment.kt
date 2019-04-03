@@ -36,13 +36,12 @@ class RouteFragment : Fragment(), RouteContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         App.routeComponent?.inject(this)
         presenter.bindView(this)
-
-        return inflater.inflate(maystruks08.gmail.com.romantic.R.layout.fragment_route, container, false)
+        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
+        return inflater.inflate(R.layout.fragment_route, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
 
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.setBuiltInZoomControls(false)

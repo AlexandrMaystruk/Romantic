@@ -6,12 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.reactivex.Single
+import kotlinx.android.synthetic.main.fragment_create_new_hike.*
+import maystruks08.gmail.com.domain.entity.Category
 import maystruks08.gmail.com.domain.entity.Hike
+import maystruks08.gmail.com.domain.entity.TypeHike
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
 import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
+import java.util.*
 import javax.inject.Inject
 
 class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
@@ -26,11 +30,14 @@ class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         App.hikeComponent?.inject(this)
-        presenter.bindView(this)
-
         return inflater.inflate(R.layout.fragment_create_new_hike, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.bindView(this)
+        initViews()
     }
 
     override fun configToolbar() {
@@ -42,11 +49,23 @@ class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
             ),
             activity as ConfigToolbar
         )
-
     }
 
 
-    override fun initUI(hikeList: List<Hike>) {
+    private fun initViews() {
+        btnCreateHike.setOnClickListener {
+            val newHike = Hike(
+                Date().time,
+                TypeHike.fromValue(spinnerType.selectedItemPosition),
+                Date(cvDateOfHike.date),
+                Date(cvDateOfHike.date),
+                etBossHike.text.toString(),
+                etHikeRegion.text.toString(),
+                Category.fromValue(spinnerCategory.selectedItemPosition)
+            )
+
+            presenter.createHike(newHike)
+        }
     }
 
     override fun showLoading() {

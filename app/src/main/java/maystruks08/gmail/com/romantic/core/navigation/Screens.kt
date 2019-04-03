@@ -10,6 +10,7 @@ import maystruks08.gmail.com.romantic.ui.main.pager.RootTabFragment
 import maystruks08.gmail.com.romantic.ui.news.NewsFragment
 import maystruks08.gmail.com.romantic.ui.profile.ProfileFragment
 import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikeFragment
+import maystruks08.gmail.com.romantic.ui.selectedhike.participant.ParticipantFragment
 import maystruks08.gmail.com.romantic.ui.selectedhike.route.RouteFragment
 import maystruks08.gmail.com.romantic.ui.viewmodel.HikeViewModel
 
@@ -57,6 +58,10 @@ object Screens {
 
     class ProfileScreen : AppScreen() {
         override fun getFragment() = ProfileFragment.getInstance()
+    }
+
+    class PartisipantScreen : AppScreen() {
+        override fun getFragment() = ParticipantFragment.getInstance()
     }
 
 

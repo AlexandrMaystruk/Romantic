@@ -58,14 +58,14 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
     }
 
     private fun initViews(){
-        civParticipant.setOnClickListener {}
-        civGroupChat.setOnClickListener {}
-        civTrainingCalendar.setOnClickListener {}
+        civParticipant.setOnClickListener {presenter.onParticipantClick()}
+        civGroupChat.setOnClickListener {presenter.onGroupChatClick()}
+        civTrainingCalendar.setOnClickListener {presenter.onTrainingCalendarClick()}
         civRoute.setOnClickListener { presenter.onRouteClick() }
-        civMyPost.setOnClickListener {}
-        civTools.setOnClickListener {}
-        civMaterials.setOnClickListener {}
-        civHikeInformation.setOnClickListener {}
+        civMyPost.setOnClickListener {presenter.onMyPostClick()}
+        civTools.setOnClickListener {presenter.onToolsClick()}
+        civMaterials.setOnClickListener {presenter.onMaterialsClick()}
+        civHikeInformation.setOnClickListener {presenter.onHikeInformationClick()}
     }
 
     override fun onDestroyView() {

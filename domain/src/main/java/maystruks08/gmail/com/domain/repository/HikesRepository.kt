@@ -8,6 +8,8 @@ import maystruks08.gmail.com.domain.entity.User
 
 interface HikesRepository {
 
+    fun createNewHike(hike: Hike): Completable
+
     fun downloadHikeData(): Single<List<Hike>>
 
     fun saveHikesToDb(hikes: List<Hike>): Completable

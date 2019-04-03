@@ -13,6 +13,7 @@ import maystruks08.gmail.com.romantic.core.di.news.NewsComponent
 import maystruks08.gmail.com.romantic.core.di.profile.ProfileComponent
 import maystruks08.gmail.com.romantic.core.di.selectedhike.route.RouteComponent
 import maystruks08.gmail.com.romantic.core.di.selectedhike.SelectedHikeComponent
+import maystruks08.gmail.com.romantic.core.di.selectedhike.participant.ParticipantComponent
 
 
 class App : Application() {
@@ -82,6 +83,13 @@ class App : Application() {
             get () {
                 if (field == null)
                     field = appComponent.profileComponent()
+                return field
+            }
+
+        var participantComponent: ParticipantComponent? = null
+            get () {
+                if (field == null)
+                    field = appComponent.participantComponent()
                 return field
             }
 

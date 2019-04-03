@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "hikes")
 data class HikeTable(
     @PrimaryKey
-    var id: Int,
+    var id: Long,
     val type: Int,
     val dateStart: Long,
     val dateEnd: Long,

@@ -8,6 +8,7 @@ import javax.inject.Inject
 class SelectedHikePresenter @Inject constructor(val router: Router) :
     SelectedHikeContract.Presenter, BasePresenter<SelectedHikeContract.View>() {
     override fun onParticipantClick() {
+        router.navigateTo(Screens.PartisipantScreen())
     }
 
     override fun onGroupChatClick() {

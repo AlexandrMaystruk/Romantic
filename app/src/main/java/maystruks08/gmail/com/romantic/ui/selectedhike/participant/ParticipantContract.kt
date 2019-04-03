@@ -1,16 +1,14 @@
-package maystruks08.gmail.com.romantic.ui.createhike
+package maystruks08.gmail.com.romantic.ui.selectedhike.participant
 
-import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.romantic.core.base.IPresenter
 import maystruks08.gmail.com.romantic.core.base.IView
 
 
-interface CreateNewHikeContract {
+interface ParticipantContract {
 
     interface View : IView
 
     interface Presenter : IPresenter<View> {
 
-        fun createHike(hike: Hike)
     }
 }
