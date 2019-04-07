@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import maystruks08.gmail.com.domain.entity.User
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
 import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import javax.inject.Inject
-import maystruks08.gmail.com.romantic.R
 
 class ParticipantFragment : Fragment(), ParticipantContract.View {
+
 
     @Inject
     lateinit var presenter: ParticipantContract.Presenter
@@ -46,6 +47,10 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
     }
 
     private fun initViews() {
+        presenter.initUserList()
+    }
+
+    override fun showParticipant(participants: List<User>) {
 
     }
 

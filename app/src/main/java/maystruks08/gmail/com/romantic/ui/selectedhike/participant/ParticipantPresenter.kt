@@ -6,6 +6,9 @@ import javax.inject.Inject
 
 class ParticipantPresenter @Inject constructor()
     : ParticipantContract.Presenter, BasePresenter<ParticipantContract.View>() {
+    override fun initUserList() {
+
+    }
 
 
 }
