@@ -17,7 +17,13 @@ class AuthenticationInteractorImpl @Inject constructor(
     }
 
     override fun singUp(email: String, password: String, displayName: String): Completable {
-        return repository.signUp(email, password, displayName)
+        return repository.createFireBaseUser(email, password, displayName)
+            .flatMapCompletable { user ->
+                return@flatMapCompletable repository.addUserToDb(user)
+                    .subscribeOn(executor.mainExecutor)
+                    .observeOn(executor.postExecutor)
+                    .andThen(repository.addUserToFireStoreDb(user))
+            }
     }
 
     override fun login(email: String, password: String): Completable {
@@ -25,6 +31,5 @@ class AuthenticationInteractorImpl @Inject constructor(
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)
     }
-
 
 }

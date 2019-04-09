@@ -18,7 +18,7 @@ class HikeListPresenter @Inject constructor(
     override fun loadHikeData() {
         view?.showLoading()
         compositeDisposable.add(
-            hikeInteractor.downloadHikeData()
+            hikeInteractor.getHikesFromFireStore()
                 .subscribe(::onDownloadHikesSuccess, ::onDownloadHikesFailure)
         )
     }

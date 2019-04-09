@@ -4,11 +4,13 @@ import dagger.Module
 import dagger.Provides
 import maystruks08.gmail.com.data.mappers.UserMapper
 import maystruks08.gmail.com.data.repository.AuthenticationRepositoryImpl
+import maystruks08.gmail.com.data.repository.UserRepositoryImpl
 import maystruks08.gmail.com.data.room.AppDatabase
 import maystruks08.gmail.com.data.room.dao.UserDAO
 import maystruks08.gmail.com.domain.interactor.launcher.AuthenticationInteractor
 import maystruks08.gmail.com.domain.interactor.launcher.AuthenticationInteractorImpl
 import maystruks08.gmail.com.domain.repository.AuthenticationRepository
+import maystruks08.gmail.com.domain.repository.UserRepository
 import maystruks08.gmail.com.romantic.ui.launcher.AuthenticationContract
 import maystruks08.gmail.com.romantic.ui.launcher.AuthenticationPresenter
 import maystruks08.gmail.com.romantic.ui.launcher.SplashContract
@@ -21,6 +23,11 @@ class LauncherModule {
     @LauncherScope
     fun repository(authenticationRepository: AuthenticationRepositoryImpl): AuthenticationRepository =
         authenticationRepository
+
+    @Provides
+    @LauncherScope
+    fun userRepository(userRepository: UserRepositoryImpl): UserRepository =
+        userRepository
 
 
     @Provides

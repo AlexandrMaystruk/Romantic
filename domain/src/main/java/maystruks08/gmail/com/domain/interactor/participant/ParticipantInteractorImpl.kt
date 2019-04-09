@@ -10,8 +10,8 @@ class ParticipantInteractorImpl @Inject constructor(
     private val participantRepository: UserRepository,
     private val executor: ThreadExecutor) : ParticipantInteractor {
 
-    override fun getHikeParticipant(): Single<User> {
-        return participantRepository.getHikeParticipant()
+    override fun getHikeParticipant(hikeId: String): Single<List<User>> {
+        return participantRepository.getHikeParticipant(hikeId)
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)
 

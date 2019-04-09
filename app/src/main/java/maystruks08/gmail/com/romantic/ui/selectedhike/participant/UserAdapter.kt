@@ -4,36 +4,36 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.item_card_hike.view.*
-import maystruks08.gmail.com.domain.entity.Hike
+import kotlinx.android.synthetic.main.item_card_user.view.*
+import maystruks08.gmail.com.domain.entity.User
+import maystruks08.gmail.com.romantic.R
 import kotlin.properties.Delegates
 
 
-class UserAdapter(private val clickListener: (Hike) -> Unit) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(private val clickListener: (User) -> Unit, private val inviteClickListener: (User) -> Unit) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
-    var hikeList: List<Hike> by Delegates.observable(emptyList()) { _, _, _ ->
+    var userList: List<User> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card_hike, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card_user, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindHolder(hikeList[position], clickListener)
+        holder.bindHolder(userList[position], clickListener, inviteClickListener)
     }
 
-    override fun getItemCount(): Int = hikeList.size
+    override fun getItemCount(): Int = userList.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindHolder(hike: Hike, clickListener: (Hike) -> Unit) {
-            itemView.card_hike_chief.text = hike.hikeChief
-            itemView.card_hike_date.text = hike.dateEnd.toString()
-            itemView.card_hike_category.text = hike.category.toString()
-            itemView.card_hike_region.text = hike.region
-            itemView.setOnClickListener { clickListener(hike) }
+        fun bindHolder(user: User, clickListener: (User) -> Unit, inviteClickListener: (User) -> Unit) {
+//            itemView.iv_user_image.setImageBitmap()
+            itemView.tv_user_name.text = user.displayName
+            itemView.setOnClickListener { clickListener(user) }
+            itemView.btnInviteToHike.setOnClickListener { inviteClickListener(user) }
         }
     }
 }

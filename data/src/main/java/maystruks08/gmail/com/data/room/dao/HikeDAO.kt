@@ -21,10 +21,15 @@ interface HikeDAO {
     fun update(hike: HikeTable)
 
     @Query("SELECT * FROM hikes")
-    fun  getHikes(): Single<List<HikeTable>>
+    fun getHikes(): Single<List<HikeTable>>
 
     @Query("SELECT * FROM hikes WHERE type IS :type")
-    fun  getHikesByType(type: String): Single<List<HikeTable>>
+    fun getHikesByType(type: String): Single<List<HikeTable>>
+
+
+    //todo write query from diff table
+    @Query("SELECT * FROM hikes WHERE id is :userId")
+    fun getHikesByUserId(userId: String): Single<List<HikeTable>>
 
     @Query("SELECT * FROM hikes where id = :idHike ")
     fun getById(idHike: Int): Single<HikeTable>

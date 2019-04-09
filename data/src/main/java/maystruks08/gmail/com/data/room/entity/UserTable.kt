@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey
 data class UserTable(
     @PrimaryKey
     var id: String = "",
-    var displayName: String? = null,
-    var email: String? = null,
-    var userExperienceMountain: Int? = 0,
-    var userExperienceWalking: Int? = 0,
-    var userExperienceWater: Int? = 0,
-    var userExperienceSki: Int? = 0,
+    var displayName: String = "",
+    var email: String = "",
+    var userExperienceMountain: Int = 0,
+    var userExperienceWalking: Int = 0,
+    var userExperienceWater: Int = 0,
+    var userExperienceSki: Int = 0,
     var userPhotoUrl: String? = null
 )
 

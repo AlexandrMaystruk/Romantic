@@ -28,6 +28,7 @@ import ru.terrakok.cicerone.commands.Command
 import javax.inject.Inject
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
+import maystruks08.gmail.com.data.preferences.AuthPreferences
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.launcher.SplashActivity
 
@@ -41,6 +42,9 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
 
     @Inject
     lateinit var logoutPresenter: LogOutContract.Presenter
+
+    @Inject
+    lateinit var pref: AuthPreferences
 
     private var onBackHandler: Runnable? = null
 
@@ -86,7 +90,7 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
                 router.newRootScreen(Screens.MyHikesScreen())
             }
             toolbarIcon -> {
-                router.navigateTo(Screens.ProfileScreen())
+                router.navigateTo(Screens.ProfileScreen(pref.getCurrentUser()!!))
             }
         }
 

@@ -10,13 +10,15 @@ interface HikesRepository {
 
     fun createNewHike(hike: Hike): Completable
 
-    fun downloadHikeData(): Single<List<Hike>>
+    fun downloadHikeFromFireStore(): Single<List<Hike>>
+
+    fun saveHikeToDb(hike: Hike): Completable
 
     fun saveHikesToDb(hikes: List<Hike>): Completable
 
     fun provideHikes(typeHike: TypeHike?): Single<Pair<List<Hike>, Int>>
 
-    fun getCurrentUser(): Single<User>
+    fun getCurrentUser(): User
 
     fun provideUserHikes(currentUser: User): Single<List<Hike>>
 

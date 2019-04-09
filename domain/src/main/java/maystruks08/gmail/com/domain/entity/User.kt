@@ -4,9 +4,9 @@ data class User(
     val id: String,
     val displayName: String,
     val email: String,
-    val userExperienceMountain: Int,
-    val userExperienceWalking: Int,
-    val userExperienceWater: Int,
-    val userExperienceSki: Int,
-    val userPhotoUrl: String
+    val userExperienceMountain: Int = 0,
+    val userExperienceWalking: Int = 0,
+    val userExperienceWater: Int = 0,
+    val userExperienceSki: Int = 0,
+    val userPhotoUrl: String? = null
 )

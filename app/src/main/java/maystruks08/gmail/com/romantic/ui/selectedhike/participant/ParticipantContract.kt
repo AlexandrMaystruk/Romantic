@@ -17,5 +17,9 @@ interface ParticipantContract {
 
        fun initUserList()
 
+        fun onUserClicked(user: User)
+
+        fun onInviteUserClicked(user: User)
+
     }
 }

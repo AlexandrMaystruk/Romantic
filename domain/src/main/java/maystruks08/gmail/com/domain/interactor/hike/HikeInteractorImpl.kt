@@ -19,8 +19,8 @@ class HikeInteractorImpl @Inject constructor(private val executor: ThreadExecuto
     }
 
 
-    override fun downloadHikeData(): Completable {
-        return repository.downloadHikeData()
+    override fun getHikesFromFireStore(): Completable {
+        return repository.downloadHikeFromFireStore()
             .flatMapCompletable {
                 repository.saveHikesToDb(it)
             }
@@ -29,10 +29,7 @@ class HikeInteractorImpl @Inject constructor(private val executor: ThreadExecuto
     }
 
     override fun provideUserHikes(): Single<List<Hike>> {
-        return repository.getCurrentUser()
-            .flatMap {
-                repository.provideUserHikes(it)
-            }
+        return repository.provideUserHikes(repository.getCurrentUser())
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)
     }

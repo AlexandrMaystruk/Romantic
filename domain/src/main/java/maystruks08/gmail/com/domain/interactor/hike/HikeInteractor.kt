@@ -9,7 +9,7 @@ interface HikeInteractor{
 
     fun createNewHike(hike: Hike): Completable
 
-    fun downloadHikeData(): Completable
+    fun getHikesFromFireStore(): Completable
 
     fun provideHikes(typeHike: TypeHike? = null): Single<Pair<List<Hike>, Int>>
 

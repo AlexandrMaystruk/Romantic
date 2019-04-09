@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_participant.*
 import maystruks08.gmail.com.domain.entity.User
 import maystruks08.gmail.com.romantic.App
+import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
 import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
@@ -21,6 +24,8 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
     @Inject
     lateinit var controller: ToolBarController
 
+
+    private lateinit var adapter:  UserAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         App.participantComponent?.inject(this)
@@ -48,9 +53,21 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
 
     private fun initViews() {
         presenter.initUserList()
+        adapter = UserAdapter({ userItemClicked(it) },{ userInviteItemClicked(it) })
+        participantRecyclerView.layoutManager = LinearLayoutManager(context)
+        participantRecyclerView.adapter = adapter
+    }
+
+    private fun userItemClicked(user: User) {
+        presenter.onUserClicked(user)
+    }
+
+    private fun userInviteItemClicked(user: User) {
+        presenter.onInviteUserClicked(user)
     }
 
     override fun showParticipant(participants: List<User>) {
+        adapter.userList = participants
 
     }
 

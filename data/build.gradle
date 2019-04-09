@@ -38,6 +38,7 @@ dependencies {
     api dataDependencies.firebaseAuth
     api dataDependencies.firebaseStorage
     api dataDependencies.firebaseDatabase
+    api dataDependencies.firebaseFirestoreDatabase
     api dataDependencies.osm
 
 

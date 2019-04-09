@@ -18,6 +18,9 @@ interface UserDAO {
     @Query("SELECT * FROM users WHERE id LIKE :id ")
     fun getUserById(id: String): Single<UserTable>
 
+    @Query("SELECT * FROM users WHERE id LIKE :hikeId ")
+    fun getUsersByHikeId(hikeId: String): Single<List<UserTable>>
+
     @Insert
     fun insert(vararg users: UserTable): Completable
 

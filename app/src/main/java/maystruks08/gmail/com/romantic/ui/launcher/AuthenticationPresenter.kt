@@ -56,6 +56,7 @@ class AuthenticationPresenter @Inject constructor(private val authenticationInte
     }
 
     private fun onSignInFailure(t: Throwable) {
+        t.printStackTrace()
         view?.hideLoading()
         view?.blockUi(true)
         view?.showError(t)
@@ -68,6 +69,7 @@ class AuthenticationPresenter @Inject constructor(private val authenticationInte
     }
 
     private fun onSignUpFailure(t: Throwable) {
+        t.printStackTrace()
         view?.hideLoading()
         view?.blockUi(true)
         view?.showError(t)
