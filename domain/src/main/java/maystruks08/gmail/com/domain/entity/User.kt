@@ -9,4 +9,6 @@ data class User(
     val userExperienceWater: Int = 0,
     val userExperienceSki: Int = 0,
     val userPhotoUrl: String? = null
-)
+) {
+    constructor() : this("", "", "")
+}

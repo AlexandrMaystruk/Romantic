@@ -10,14 +10,16 @@ import io.reactivex.Single
 import maystruks08.gmail.com.data.mappers.UserMapper
 import maystruks08.gmail.com.data.preferences.AuthPreferences
 import maystruks08.gmail.com.domain.entity.User
-import maystruks08.gmail.com.domain.repository.UserRepository
 import com.google.firebase.auth.UserProfileChangeRequest
+import maystruks08.gmail.com.data.api.FireStoreApi
+import maystruks08.gmail.com.data.room.dao.UserDAO
 
 
 class AuthenticationRepositoryImpl @Inject constructor(
     private val fireBaseAuth: FirebaseAuth,
-    private val userRepository: UserRepository,
     private val userMapper: UserMapper,
+    private val api: FireStoreApi,
+    private val userDAO: UserDAO,
     private val pref: AuthPreferences
 
 ) :
@@ -43,11 +45,11 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
     override fun addUserToFireStoreDb(user: User): Completable {
-        return userRepository.addNewUserToFireStore(user)
+        return api.saveUserToFireStore(user)
     }
 
     override fun addUserToDb(user: User): Completable {
-        return userRepository.addNewUser(user).andThen(
+        return Completable.fromAction { userDAO.insert(userMapper.authToUserTable(user)) }.andThen(
             Completable.fromAction {
                 pref.saveCurrentUser(user)
             })

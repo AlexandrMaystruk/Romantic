@@ -90,7 +90,7 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
                 router.newRootScreen(Screens.MyHikesScreen())
             }
             toolbarIcon -> {
-                router.navigateTo(Screens.ProfileScreen(pref.getCurrentUser()!!))
+                router.navigateTo(Screens.ProfileSettingsScreen(pref.getCurrentUser()!!))
             }
         }
 

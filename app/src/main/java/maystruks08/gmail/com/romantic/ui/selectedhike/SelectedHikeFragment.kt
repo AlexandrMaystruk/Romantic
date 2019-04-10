@@ -50,22 +50,24 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(true, "Hike",
+            ToolbarDescriptor(
+                true, "Hike",
                 navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false),
+                bottomBarVisibility = false
+            ),
             activity as ConfigToolbar
         )
     }
 
-    private fun initViews(){
-        civParticipant.setOnClickListener {presenter.onParticipantClick()}
-        civGroupChat.setOnClickListener {presenter.onGroupChatClick()}
-        civTrainingCalendar.setOnClickListener {presenter.onTrainingCalendarClick()}
+    private fun initViews() {
+        civParticipant.setOnClickListener { presenter.onParticipantClick(hike?.id?.toString() ?: "") }
+        civGroupChat.setOnClickListener { presenter.onGroupChatClick() }
+        civTrainingCalendar.setOnClickListener { presenter.onTrainingCalendarClick() }
         civRoute.setOnClickListener { presenter.onRouteClick() }
-        civMyPost.setOnClickListener {presenter.onMyPostClick()}
-        civTools.setOnClickListener {presenter.onToolsClick()}
-        civMaterials.setOnClickListener {presenter.onMaterialsClick()}
-        civHikeInformation.setOnClickListener {presenter.onHikeInformationClick()}
+        civMyPost.setOnClickListener { presenter.onMyPostClick() }
+        civTools.setOnClickListener { presenter.onToolsClick() }
+        civMaterials.setOnClickListener { presenter.onMaterialsClick() }
+        civHikeInformation.setOnClickListener { presenter.onHikeInformationClick() }
     }
 
     override fun onDestroyView() {

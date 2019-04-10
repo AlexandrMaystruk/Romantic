@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.profile
+package maystruks08.gmail.com.romantic.ui.profilesettings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,10 +15,10 @@ import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import maystruks08.gmail.com.romantic.ui.viewmodel.UserViewModel
 import javax.inject.Inject
 
-class ProfileFragment : Fragment(), ProfileContract.View {
+class ProfileSettingsFragment : Fragment(), ProfileSettingsContract.View {
 
     @Inject
-    lateinit var presenter: ProfileContract.Presenter
+    lateinit var presenter: ProfileSettingsContract.Presenter
 
 
     @Inject
@@ -29,8 +29,8 @@ class ProfileFragment : Fragment(), ProfileContract.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         App.profileComponent?.inject(this)
+        user = arguments?.getParcelable(CURRENT_USER)
         presenter.bindView(this)
-        user = arguments?.getParcelable(SELECTED_USER)
 
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
@@ -44,7 +44,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         controller.configure(
             ToolbarDescriptor(
                 true,
-                "${user?.displayName} Profile",
+                "Profile settings",
                 navigationIcon = R.drawable.ic_arrow_back_white_24dp,
                 bottomBarVisibility = false
             ), activity as ConfigToolbar
@@ -67,12 +67,12 @@ class ProfileFragment : Fragment(), ProfileContract.View {
 
     companion object {
 
-        private const val SELECTED_USER = "SelectedUser"
+        private const val CURRENT_USER = "CurrentUser"
 
-        fun getInstance(user: UserViewModel): ProfileFragment = ProfileFragment()
+        fun getInstance(user: UserViewModel): ProfileSettingsFragment = ProfileSettingsFragment()
             .apply {
                 arguments = Bundle().apply {
-                    putParcelable(SELECTED_USER, user)
+                    putParcelable(CURRENT_USER, user)
                 }
             }
 

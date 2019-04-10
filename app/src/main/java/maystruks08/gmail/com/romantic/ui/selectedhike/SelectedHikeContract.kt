@@ -10,7 +10,7 @@ interface SelectedHikeContract {
 
     interface Presenter : IPresenter<View> {
 
-        fun onParticipantClick()
+        fun onParticipantClick(hikeId: String)
 
         fun onGroupChatClick()
 

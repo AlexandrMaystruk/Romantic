@@ -22,18 +22,16 @@ class FireStoreApi @Inject constructor(private val fireStore: FirebaseFirestore)
         return RxFirestore.getCollection(reference)
     }
 
+    fun getHikeGroupFromFireStore(hikeId: String): Maybe<QuerySnapshot>{
+        val reference = fireStore.collection(COLLECTION_HIKE).document(HIKE + hikeId).collection(COLLECTION_HIKE_GROUP)
+        return RxFirestore.getCollection(reference)
+    }
+
 
     fun getAllHikesFromFireStore():Maybe<QuerySnapshot> {
        val reference = fireStore.collection(COLLECTION_HIKE)
         return RxFirestore.getCollection(reference)
     }
-
-
-    fun getHikeGroup(hikeId: String):Maybe<QuerySnapshot> {
-        val reference = fireStore.collection(COLLECTION_HIKE).document(HIKE + hikeId).collection(COLLECTION_HIKE_GROUP)
-        return RxFirestore.getCollection(reference)
-    }
-
 
     fun saveHikeToFirestore(hike: Hike): Completable {
         val reference = fireStore.collection(COLLECTION_HIKE).document(HIKE + hike.id.toString())

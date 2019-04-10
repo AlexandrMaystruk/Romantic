@@ -15,7 +15,7 @@ interface ParticipantContract {
 
     interface Presenter : IPresenter<View> {
 
-       fun initUserList()
+       fun initUserList(hikeId: String)
 
         fun onUserClicked(user: User)
 
