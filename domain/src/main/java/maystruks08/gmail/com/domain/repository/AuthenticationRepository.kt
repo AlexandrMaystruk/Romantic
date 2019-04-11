@@ -7,7 +7,6 @@ import maystruks08.gmail.com.domain.entity.User
 
 interface AuthenticationRepository {
 
-
     fun login(email: String, password: String): Completable
 
     fun createFireBaseUser(email: String, password: String, displayName: String): Single<User>

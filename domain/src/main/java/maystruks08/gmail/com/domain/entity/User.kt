@@ -1,6 +1,6 @@
 package maystruks08.gmail.com.domain.entity
 
-data class User(
+open class User(
     val id: String,
     val displayName: String,
     val email: String,

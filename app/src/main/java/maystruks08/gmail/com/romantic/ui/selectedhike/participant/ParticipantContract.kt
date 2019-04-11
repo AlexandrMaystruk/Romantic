@@ -1,5 +1,6 @@
 package maystruks08.gmail.com.romantic.ui.selectedhike.participant
 
+import maystruks08.gmail.com.domain.entity.Participant
 import maystruks08.gmail.com.domain.entity.User
 import maystruks08.gmail.com.romantic.core.base.IPresenter
 import maystruks08.gmail.com.romantic.core.base.IView
@@ -7,19 +8,19 @@ import maystruks08.gmail.com.romantic.core.base.IView
 
 interface ParticipantContract {
 
-    interface View : IView{
+    interface View : IView {
 
-        fun showParticipant(participants: List<User>)
+        fun showParticipant(participants: List<Participant>)
 
     }
 
     interface Presenter : IPresenter<View> {
 
-       fun initUserList(hikeId: String)
+        fun initUserList(hikeId: String)
 
-        fun onUserClicked(user: User)
+        fun onUserClicked(participant: Participant)
 
-        fun onInviteUserClicked(user: User)
+        fun onInviteUserClicked(participant: Participant)
 
     }
 }

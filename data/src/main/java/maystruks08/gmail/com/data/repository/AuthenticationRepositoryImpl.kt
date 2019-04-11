@@ -59,7 +59,9 @@ class AuthenticationRepositoryImpl @Inject constructor(
         return RxFirebaseAuth.signInWithEmailAndPassword(fireBaseAuth, email, password)
             .flatMapCompletable {
                 return@flatMapCompletable if (it.user != null) {
-                    Completable.complete()
+                    Completable.fromAction {
+                        pref.saveCurrentUser(userMapper.fireBaseUserToUser(it.user))
+                    }
                 } else {
                     Completable.error(Throwable())
                 }

@@ -13,14 +13,8 @@ interface HikeToolsDAO {
     @Query("SELECT * FROM hike_tools where hike_id = :hikeId ")
     fun getByHikeId(hikeId: String): List<HikeToolsTable>
 
-
     @Query("SELECT * FROM hike_tools where hike_id = :hikeId ")
     fun isExistHikeTool(hikeId: String): Boolean
-
-
-    @Query("DELETE FROM hike_tools")
-    fun dropTable()
-
 
     @Insert
     fun insertAll(tools: List<HikeToolsTable>)
@@ -36,6 +30,9 @@ interface HikeToolsDAO {
 
     @Update
     fun update(tools: List<HikeToolsTable>)
+
+    @Query("DELETE FROM hike_tools")
+    fun dropTable()
 
 
 }

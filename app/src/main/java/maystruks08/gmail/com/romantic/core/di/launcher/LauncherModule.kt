@@ -2,7 +2,6 @@ package maystruks08.gmail.com.romantic.core.di.launcher
 
 import dagger.Module
 import dagger.Provides
-import maystruks08.gmail.com.data.mappers.UserMapper
 import maystruks08.gmail.com.data.repository.AuthenticationRepositoryImpl
 import maystruks08.gmail.com.domain.interactor.launcher.AuthenticationInteractor
 import maystruks08.gmail.com.domain.interactor.launcher.AuthenticationInteractorImpl

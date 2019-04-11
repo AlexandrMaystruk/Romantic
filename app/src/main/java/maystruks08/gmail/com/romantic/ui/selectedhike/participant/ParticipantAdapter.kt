@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_card_user.view.*
-import maystruks08.gmail.com.domain.entity.User
+import maystruks08.gmail.com.domain.entity.Participant
 import maystruks08.gmail.com.romantic.R
 import kotlin.properties.Delegates
 
 
-class UserAdapter(private val clickListener: (User) -> Unit, private val inviteClickListener: (User) -> Unit) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class ParticipantAdapter(private val clickListener: (Participant) -> Unit) : RecyclerView.Adapter<ParticipantAdapter.ViewHolder>() {
 
-    var userList: List<User> by Delegates.observable(emptyList()) { _, _, _ ->
+    var participantList: List<Participant> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
@@ -22,18 +22,17 @@ class UserAdapter(private val clickListener: (User) -> Unit, private val inviteC
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindHolder(userList[position], clickListener, inviteClickListener)
+        holder.bindHolder(participantList[position], clickListener)
     }
 
-    override fun getItemCount(): Int = userList.size
+    override fun getItemCount(): Int = participantList.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindHolder(user: User, clickListener: (User) -> Unit, inviteClickListener: (User) -> Unit) {
+        fun bindHolder(participant: Participant, clickListener: (Participant) -> Unit) {
 //            itemView.iv_user_image.setImageBitmap()
-            itemView.tv_user_name.text = user.displayName
-            itemView.setOnClickListener { clickListener(user) }
-            itemView.btnInviteToHike.setOnClickListener { inviteClickListener(user) }
+            itemView.tv_user_name.text = participant.displayName
+            itemView.setOnClickListener { clickListener(participant) }
         }
     }
 }

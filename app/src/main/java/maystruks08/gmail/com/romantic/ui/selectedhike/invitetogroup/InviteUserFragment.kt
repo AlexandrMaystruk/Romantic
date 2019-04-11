@@ -1,4 +1,4 @@
-package maystruks08.gmail.com.romantic.ui.selectedhike.participant
+package maystruks08.gmail.com.romantic.ui.selectedhike.invitetogroup
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,25 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_participant.*
-import maystruks08.gmail.com.domain.entity.Participant
+import kotlinx.android.synthetic.main.fragment_users.*
+import maystruks08.gmail.com.domain.entity.User
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
-import maystruks08.gmail.com.romantic.toast
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
 import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import javax.inject.Inject
 
-class ParticipantFragment : Fragment(), ParticipantContract.View {
+class InviteUserFragment : Fragment(),
+    InviteUserContract.View {
 
     @Inject
-    lateinit var presenter: ParticipantContract.Presenter
+    lateinit var presenter: InviteUserContract.Presenter
 
     @Inject
     lateinit var controller: ToolBarController
 
-    private lateinit var adapter:  ParticipantAdapter
+    private lateinit var adapter: UserAdapter
 
     private var hikeId: String? = null
 
@@ -32,9 +32,9 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         App.participantComponent?.inject(this)
         presenter.bindView(this)
-        hikeId = arguments?.getString(PARTICIPANT_HIKE_ID)
+        hikeId = arguments?.getString(USER_HIKE_ID)
 
-        return inflater.inflate(R.layout.fragment_participant, container, false)
+        return inflater.inflate(R.layout.fragment_users, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,20 +55,23 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
     }
 
     private fun initViews() {
-        if(hikeId == null) context?.toast("Hike id is null!!!") else{
-            presenter.initUserList(hikeId!!)
-        }
-        adapter = ParticipantAdapter { participantItemClicked(it) }
-        participantRecyclerView.layoutManager = LinearLayoutManager(context)
-        participantRecyclerView.adapter = adapter
+        presenter.initUserList()
+        adapter = UserAdapter({ userItemClicked(it) },
+            { userInviteItemClicked(it) })
+        usersRecyclerView.layoutManager = LinearLayoutManager(context)
+        usersRecyclerView.adapter = adapter
     }
 
-    private fun participantItemClicked(participant: Participant) {
-        presenter.onUserClicked(participant)
+    private fun userItemClicked(user: User) {
+        presenter.onUserClicked(user)
     }
 
-    override fun showParticipant(participants: List<Participant>) {
-        adapter.participantList = participants
+    private fun userInviteItemClicked(user: User) {
+        presenter.onInviteUserClicked(user)
+    }
+
+    override fun showUsers(users: List<User>) {
+        adapter.userList = users
     }
 
     override fun showLoading() {
@@ -83,12 +86,12 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
     companion object {
 
 
-        private const val PARTICIPANT_HIKE_ID = "participantHikeID"
+        private const val USER_HIKE_ID = "userHikeID"
 
-        fun getInstance(hikeId: String): ParticipantFragment =
-            ParticipantFragment() .apply {
+        fun getInstance(hikeId: String): InviteUserFragment =
+            InviteUserFragment().apply {
                 arguments = Bundle().apply {
-                    putString(PARTICIPANT_HIKE_ID, hikeId)
+                    putString(USER_HIKE_ID, hikeId)
                 }
             }
     }

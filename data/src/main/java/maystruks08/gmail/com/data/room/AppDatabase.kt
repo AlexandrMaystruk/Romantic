@@ -8,7 +8,7 @@ import maystruks08.gmail.com.data.room.entity.*
 
 @Database(
     entities = [HikeTable::class, UserTable::class,
-        HikesParticipantsTable::class, HikeToolsTable::class,
+        ParticipantTable::class, HikeToolsTable::class,
         ToolsTable::class, NewsTable::class], version = 1
 )
 @TypeConverters(Converters::class)
@@ -18,7 +18,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDAO
 
-    abstract fun hikesParticipantsDAO(): HikesParticipantsDAO
+    abstract fun participantsDAO(): ParticipantDAO
 
     abstract fun toolsDAO(): ToolsDAO
 

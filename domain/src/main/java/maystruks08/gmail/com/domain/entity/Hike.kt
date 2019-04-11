@@ -10,4 +10,6 @@ data class Hike(
     val hikeChief: String,
     val region: String,
     val category: Category
-)
+){
+    constructor() : this(0L, TypeHike.MOUNTAIN, Date(), Date(), "", "", Category.PVD)
+}

@@ -6,6 +6,7 @@ import maystruks08.gmail.com.data.api.FireStoreApi
 import maystruks08.gmail.com.data.mappers.HikeMapper
 import maystruks08.gmail.com.data.preferences.AuthPreferences
 import maystruks08.gmail.com.data.room.dao.HikeDAO
+import maystruks08.gmail.com.data.room.entity.ParticipantTable
 import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.domain.entity.TypeHike
 import maystruks08.gmail.com.domain.entity.User
@@ -21,9 +22,29 @@ class HikeRepositoryImpl @Inject constructor(
 ) : HikesRepository {
 
     override fun createNewHike(hike: Hike): Completable {
-        return Completable.fromAction { hikeDAO.insertAll(hikeMapper.toHikeTable(hike)) }
+        return Completable.fromAction {
+            val hikeTable = hikeMapper.toHikeTable(hike)
+            hikeDAO.insert(hikeTable)
+        }
+            .andThen(hikeDAO.addUserToHikeGroup(createParticipant(hike.id)))
             .andThen(api.saveHikeToFirestore(hike))
-            .andThen(api.setUserToHikeGroup(getCurrentUser(), hike.id.toString(), UserPost.BOSS.name))
+            .andThen(api.setUserToHikeGroup(getCurrentUser(), hike.id, UserPost.BOSS.name))
+    }
+
+    private fun createParticipant(hikeId: Long): ParticipantTable {
+        val currentUser = getCurrentUser()
+        return ParticipantTable(
+            userId = currentUser.id,
+            post = UserPost.BOSS.name,
+            hikeId = hikeId,
+            displayName = currentUser.displayName,
+            email = currentUser.email,
+            userExperienceMountain = currentUser.userExperienceMountain,
+            userExperienceWalking = currentUser.userExperienceWalking,
+            userExperienceSki = currentUser.userExperienceSki,
+            userExperienceWater = currentUser.userExperienceWater,
+            userPhotoUrl = currentUser.userPhotoUrl
+        )
     }
 
     override fun downloadHikeFromFireStore(): Single<List<Hike>> {
@@ -41,21 +62,21 @@ class HikeRepositoryImpl @Inject constructor(
     }
 
     override fun saveHikeToDb(hike: Hike): Completable {
-        return Completable.fromAction { hikeDAO.insertAll(hikeMapper.toHikeTable(hike)) }
+        return Completable.fromAction { hikeDAO.insert(hikeMapper.toHikeTable(hike)) }
     }
 
     override fun saveHikesToDb(hikes: List<Hike>): Completable {
-        return Completable.fromAction { hikeDAO.insertAll(hikeMapper.toHikeTableList(hikes)) }
+        return Completable.fromAction { hikeDAO.insert(hikeMapper.toHikeTableList(hikes)) }
     }
 
     override fun provideHikes(typeHike: TypeHike?): Single<Pair<List<Hike>, Int>> {
-        return if (typeHike == null) {
-            hikeDAO.getHikes().map { list ->
+        return if (typeHike == null) {//todo fix query
+            hikeDAO.getHikesByUserId(getCurrentUser().id).map { list ->
                 val result = list.map { hikeMapper.toHikeFromTable(it) }
                 Pair(result, 0)
             }
-        } else {
-            hikeDAO.getHikesByType(typeHike.type.toString()).map { list ->
+        } else {//todo fix query
+            hikeDAO.getHikesByType(getCurrentUser().id, typeHike.type.toString()).map { list ->
                 val result = list.map { hikeMapper.toHikeFromTable(it) }
                 Pair(result, typeHike.type)
             }
@@ -65,7 +86,7 @@ class HikeRepositoryImpl @Inject constructor(
     override fun getCurrentUser(): User {
         return pref.getCurrentUser()!!
     }
-
+//todo fix query
     override fun provideUserHikes(currentUser: User): Single<List<Hike>> {
         return hikeDAO.getHikesByUserId(currentUser.id).map { list ->
             list.map { hikeMapper.toHikeFromTable(it) }

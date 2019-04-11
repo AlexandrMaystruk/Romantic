@@ -1,6 +1,6 @@
 package maystruks08.gmail.com.romantic.ui.selectedhike.participant
 
-import maystruks08.gmail.com.domain.entity.User
+import maystruks08.gmail.com.domain.entity.Participant
 import maystruks08.gmail.com.domain.interactor.participant.ParticipantInteractor
 import maystruks08.gmail.com.romantic.core.base.BasePresenter
 import maystruks08.gmail.com.romantic.core.navigation.Screens
@@ -16,12 +16,12 @@ class ParticipantPresenter @Inject constructor(
 
     override fun initUserList(hikeId: String) {
         compositeDisposable.add(
-            interactor.getHikeParticipant(hikeId)
+            interactor.getHikeParticipants(hikeId)
                 .subscribe(::onGetParticipantSuccess,::onGetParticipantFailure )
         )
     }
 
-    private fun onGetParticipantSuccess(participants: List<User>) {
+    private fun onGetParticipantSuccess(participants: List<Participant>) {
         view?.showParticipant(participants)
     }
 
@@ -31,11 +31,11 @@ class ParticipantPresenter @Inject constructor(
 
 
 
-    override fun onUserClicked(user: User) {
-        router.navigateTo(Screens.ProfileScreen(user))
+    override fun onUserClicked(participant: Participant) {
+        router.navigateTo(Screens.ProfileScreen(participant))
     }
 
-    override fun onInviteUserClicked(user: User) {
+    override fun onInviteUserClicked(participant: Participant) {
 
     }
 

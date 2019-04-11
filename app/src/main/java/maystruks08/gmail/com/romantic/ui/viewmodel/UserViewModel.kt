@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import maystruks08.gmail.com.domain.entity.User
 
-data class UserViewModel(
+open class UserViewModel(
     val id: String,
     val displayName: String,
     val email: String,
