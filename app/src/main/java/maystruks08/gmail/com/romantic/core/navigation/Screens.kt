@@ -61,15 +61,11 @@ object Screens {
         override fun getFragment() = RouteFragment.getInstance()
     }
 
-    class ProfileScreen(private val participant: User) : AppScreen() {
-        override fun getFragment(): ProfileFragment{
-            return if(participant is Participant){
-                ProfileFragment.getInstance(ParticipantViewModel.fromParticipant(participant))
-            } else {
-                ProfileFragment.getInstance(UserViewModel.fromUser(participant))
-            }
-        }
+    class ProfileScreen(private val participant: Participant) : AppScreen() {
+        override fun getFragment(): ProfileFragment =
+            ProfileFragment.getInstance(ParticipantViewModel.fromParticipant(participant))
     }
+
 
     class ProfileSettingsScreen(private val user: User) : AppScreen() {
         override fun getFragment() = ProfileSettingsFragment.getInstance(UserViewModel.fromUser(user))
@@ -78,6 +74,5 @@ object Screens {
     class ParticipantScreen(private val hikeId: String) : AppScreen() {
         override fun getFragment() = ParticipantFragment.getInstance(hikeId)
     }
-
-
 }
+

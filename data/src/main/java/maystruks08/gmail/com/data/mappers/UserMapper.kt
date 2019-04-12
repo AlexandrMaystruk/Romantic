@@ -4,8 +4,9 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import maystruks08.gmail.com.data.room.entity.UserTable
 import maystruks08.gmail.com.domain.entity.User
+import javax.inject.Inject
 
-class UserMapper {
+class UserMapper @Inject constructor() {
 
     fun authInfoToUserTable(authResult: AuthResult): UserTable{
         return authResult.let {

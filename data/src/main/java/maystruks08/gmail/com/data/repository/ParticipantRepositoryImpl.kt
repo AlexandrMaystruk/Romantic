@@ -5,7 +5,6 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import maystruks08.gmail.com.data.api.FireStoreApi
 import maystruks08.gmail.com.data.mappers.ParticipantMapper
-import maystruks08.gmail.com.data.mappers.UserMapper
 import maystruks08.gmail.com.data.room.dao.ParticipantDAO
 import maystruks08.gmail.com.domain.entity.Participant
 import maystruks08.gmail.com.domain.entity.User
@@ -26,12 +25,12 @@ class ParticipantRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun setUserToHikeGroup(user: User, hikeId: Long, post: String): Completable {
-        return api.setUserToHikeGroup(user, hikeId, post)
+    override fun setUserToHikeGroup(user: User, hikeId: Long, post: UserPost): Completable {
+        return api.setParticipantToGroup(participantMapper.toFireStoreParticipant(user, hikeId, post))
     }
 
     override fun getAllParticipantsFromFireStoreByHikeId(hikeId: Long): Single<List<Participant>> {
-        return api.getHikeGroupFromFireStore(hikeId).flatMapSingle { snapshot ->
+        return api.getHikeGroup(hikeId).flatMapSingle { snapshot ->
             val result = mutableListOf<Participant>()
             snapshot.documents.map {
                 val participant = it.toObject(Participant::class.java)
@@ -45,7 +44,7 @@ class ParticipantRepositoryImpl @Inject constructor(
     }
 
     override fun getAllUserFromFireStore(): Single<List<User>> {
-        return api.getUsersFromFireStore().flatMapSingle { snapshot ->
+        return api.getUsers().flatMapSingle { snapshot ->
             val result = mutableListOf<User>()
             snapshot.documents.map {
                 val user = it.toObject(User::class.java)

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "participants")
 data class ParticipantTable(
-    @PrimaryKey(autoGenerate = true) val idParticipant: Int = 0,
+    @PrimaryKey(autoGenerate = true) val localId: Int = 0,
     var post: String,
     var hikeId: Long,
     var userId: String,
@@ -15,7 +15,9 @@ data class ParticipantTable(
     var userExperienceWalking: Int = 0,
     var userExperienceWater: Int = 0,
     var userExperienceSki: Int = 0,
-    var userPhotoUrl: String? = null
+    var userPhotoUrl: String? = null,
+    val upload: Long? = null,
+    val updated: Int? = null
    
 )
 

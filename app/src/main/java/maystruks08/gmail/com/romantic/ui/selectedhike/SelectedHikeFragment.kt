@@ -51,7 +51,7 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
     override fun configToolbar() {
         controller.configure(
             ToolbarDescriptor(
-                true, "Hike",
+                true, "FireBaseHike",
                 navigationIcon = R.drawable.ic_arrow_back_white_24dp,
                 bottomBarVisibility = false
             ),

@@ -12,24 +12,16 @@ class HikeInteractorImpl @Inject constructor(private val executor: ThreadExecuto
     HikeInteractor {
 
 
-    override fun createNewHike(hike: Hike): Completable {
-        return repository.createNewHike(hike)
-            .subscribeOn(executor.mainExecutor)
-            .observeOn(executor.postExecutor)
-    }
-
-
     override fun getHikesFromFireStore(): Completable {
         return repository.downloadHikeFromFireStore()
             .flatMapCompletable {
-                repository.saveHikesToDb(it)
+                repository.saveToLocalDB(it).subscribeOn(executor.mainExecutor)
             }
-            .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)
     }
 
     override fun provideUserHikes(): Single<List<Hike>> {
-        return repository.provideUserHikes(repository.getCurrentUser())
+        return repository.provideUserHikes(repository.getCurrentUserFromPref())
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)
     }

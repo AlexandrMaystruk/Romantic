@@ -1,6 +1,7 @@
 package maystruks08.gmail.com.romantic.ui
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.MenuRes
 
 interface ConfigToolbar {
 
@@ -23,6 +24,8 @@ interface ConfigToolbar {
     fun removeNavigationIcon()
 
     fun showOptionMenu(showMenu: Boolean)
+
+    fun setOptionMenu(@MenuRes menuRes: Int)
 
     fun setToolbarTitle(title: String)
 

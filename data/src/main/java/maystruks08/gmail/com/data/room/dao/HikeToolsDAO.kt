@@ -10,10 +10,10 @@ interface HikeToolsDAO {
     @get:Query("SELECT * FROM hike_tools")
     val all: List<HikeToolsTable>
 
-    @Query("SELECT * FROM hike_tools where hike_id = :hikeId ")
+    @Query("SELECT * FROM hike_tools where hikeId = :hikeId ")
     fun getByHikeId(hikeId: String): List<HikeToolsTable>
 
-    @Query("SELECT * FROM hike_tools where hike_id = :hikeId ")
+    @Query("SELECT * FROM hike_tools where hikeId = :hikeId ")
     fun isExistHikeTool(hikeId: String): Boolean
 
     @Insert

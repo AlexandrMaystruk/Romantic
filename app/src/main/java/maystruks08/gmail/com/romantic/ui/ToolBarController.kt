@@ -38,5 +38,9 @@ class ToolBarController {
         } else {
             configToolbar.disableBottomBar()
         }
+
+        if (toolbarDescriptor.menu != null) {
+            configToolbar.setOptionMenu(toolbarDescriptor.menu)
+        }
     }
 }

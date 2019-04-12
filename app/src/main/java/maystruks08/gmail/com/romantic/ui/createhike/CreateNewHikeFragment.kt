@@ -1,5 +1,6 @@
 package maystruks08.gmail.com.romantic.ui.createhike
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
 import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
+import maystruks08.gmail.com.romantic.ui.main.UploadListener
 import java.util.*
 import javax.inject.Inject
 
@@ -26,11 +28,13 @@ class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
     @Inject
     lateinit var controller: ToolBarController
 
+    private lateinit var uploadListener: UploadListener
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        App.hikeComponent?.inject(this)
+        App.createHikeComponent?.inject(this)
         return inflater.inflate(R.layout.fragment_create_new_hike, container, false)
     }
 
@@ -61,11 +65,17 @@ class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
                 Date(cvDateOfHike.date),
                 etBossHike.text.toString(),
                 etHikeRegion.text.toString(),
-                Category.fromValue(spinnerCategory.selectedItemPosition)
+                Category.fromValue(spinnerCategory.selectedItemPosition),
+                mutableListOf()
             )
 
             presenter.createHike(newHike)
         }
+    }
+
+    override fun createHikeSuccess() {
+        uploadListener.uploadHikes()
+        uploadListener.uploadParticipants()
     }
 
     override fun showLoading() {
@@ -76,6 +86,13 @@ class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
 
     override fun showError(t: Throwable) {
 
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (activity is UploadListener) {
+            uploadListener = activity as UploadListener
+        }
     }
 
 

@@ -6,5 +6,6 @@ data class ToolbarDescriptor(
     val logoIcon: Boolean = true,
     val navigationIcon: Int? = null,
     val collapse: Boolean = false,
-    val bottomBarVisibility: Boolean = true
+    val bottomBarVisibility: Boolean = true,
+    val menu: Int? = null
 )

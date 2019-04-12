@@ -25,7 +25,6 @@ class AuthenticationRepositoryImpl @Inject constructor(
 ) :
     AuthenticationRepository {
 
-
     override fun getCurrentUser(): Completable {
         return if (fireBaseAuth.currentUser != null) {
             Completable.complete()
@@ -45,26 +44,28 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
     override fun addUserToFireStoreDb(user: User): Completable {
-        return api.saveUserToFireStore(user)
+        return api.saveUser(user)
     }
 
     override fun addUserToDb(user: User): Completable {
-        return Completable.fromAction { userDAO.insert(userMapper.authToUserTable(user)) }.andThen(
-            Completable.fromAction {
-                pref.saveCurrentUser(user)
-            })
+        return Completable.fromAction { userDAO.insert(userMapper.authToUserTable(user)) }
     }
 
-    override fun login(email: String, password: String): Completable {
+
+    override fun login(email: String, password: String): Single<User> {
         return RxFirebaseAuth.signInWithEmailAndPassword(fireBaseAuth, email, password)
-            .flatMapCompletable {
-                return@flatMapCompletable if (it.user != null) {
-                    Completable.fromAction {
-                        pref.saveCurrentUser(userMapper.fireBaseUserToUser(it.user))
-                    }
+            .flatMapSingle {
+                return@flatMapSingle if (it.user != null) {
+                    Single.just(userMapper.fireBaseUserToUser(it.user))
                 } else {
-                    Completable.error(Throwable())
+                    Single.error(Throwable())
                 }
             }
     }
+
+
+    override fun saveUserToPref(user: User): Completable {
+        return Completable.fromAction { pref.saveCurrentUser(user) }
+    }
+
 }

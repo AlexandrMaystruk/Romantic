@@ -4,16 +4,18 @@ import android.app.Application
 import maystruks08.gmail.com.romantic.core.di.application.AndroidModule
 import maystruks08.gmail.com.romantic.core.di.application.AppComponent
 import maystruks08.gmail.com.romantic.core.di.application.DaggerAppComponent
-import maystruks08.gmail.com.romantic.core.di.chat.ChatComponent
-import maystruks08.gmail.com.romantic.core.di.event.EventComponent
-import maystruks08.gmail.com.romantic.core.di.hike.HikeComponent
-import maystruks08.gmail.com.romantic.core.di.launcher.LauncherComponent
-import maystruks08.gmail.com.romantic.core.di.myhike.MyHikesComponent
-import maystruks08.gmail.com.romantic.core.di.news.NewsComponent
-import maystruks08.gmail.com.romantic.core.di.profile.ProfileComponent
-import maystruks08.gmail.com.romantic.core.di.selectedhike.route.RouteComponent
-import maystruks08.gmail.com.romantic.core.di.selectedhike.SelectedHikeComponent
-import maystruks08.gmail.com.romantic.core.di.selectedhike.participant.ParticipantComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.chat.ChatComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.event.EventComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.hike.HikeComponent
+import maystruks08.gmail.com.romantic.core.di.application.launcher.LauncherComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.RootComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.hike.createhike.CreateHikeComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.hike.myhike.MyHikesComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.news.NewsComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.profile.ProfileComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.route.RouteComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.SelectedHikeComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.participant.ParticipantComponent
 
 
 class App : Application() {
@@ -29,31 +31,47 @@ class App : Application() {
                 return field
             }
 
+        var rootComponent: RootComponent? = null
+            get () {
+                if (field == null)
+                    field = appComponent.rootComponent()
+                return field
+            }
+
         var hikeComponent: HikeComponent? = null
             get () {
                 if (field == null)
-                    field = appComponent.hikeComponent()
+                    field = rootComponent?.hikeComponent()
                 return field
             }
+
+
+        var createHikeComponent: CreateHikeComponent? = null
+            get () {
+                if (field == null)
+                    field = hikeComponent?.createComponent()
+                return field
+            }
+
 
         var myHikeComponent: MyHikesComponent? = null
             get () {
                 if (field == null)
-                    field = appComponent.myHikesComponent()
+                    field = hikeComponent?.myHikesComponent()
                 return field
             }
 
         var eventComponent: EventComponent? = null
             get () {
                 if (field == null)
-                    field = appComponent.eventComponent()
+                    field = rootComponent?.eventComponent()
                 return field
             }
 
         var selectedHikeComponent: SelectedHikeComponent? = null
             get () {
                 if (field == null)
-                    field = appComponent.selectedHikeComponent()
+                    field = hikeComponent?.selectedHikeComponent()
                 return field
             }
 
@@ -68,28 +86,28 @@ class App : Application() {
         var newsComponent: NewsComponent? = null
             get () {
                 if (field == null)
-                    field = appComponent.newsComponent()
+                    field = rootComponent?.newsComponent()
                 return field
             }
 
         var chatComponent: ChatComponent? = null
             get () {
                 if (field == null)
-                    field = appComponent.chatComponent()
+                    field = rootComponent?.chatComponent()
                 return field
             }
 
         var profileComponent: ProfileComponent? = null
             get () {
                 if (field == null)
-                    field = appComponent.profileComponent()
+                    field = rootComponent?.profileComponent()
                 return field
             }
 
         var participantComponent: ParticipantComponent? = null
             get () {
                 if (field == null)
-                    field = appComponent.participantComponent()
+                    field = selectedHikeComponent?.participantComponent()
                 return field
             }
 
@@ -127,6 +145,7 @@ class App : Application() {
             .builder()
             .androidModule(AndroidModule(this))
             .build()
+
 
     }
 

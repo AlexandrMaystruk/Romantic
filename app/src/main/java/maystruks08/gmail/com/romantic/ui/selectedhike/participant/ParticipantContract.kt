@@ -16,11 +16,11 @@ interface ParticipantContract {
 
     interface Presenter : IPresenter<View> {
 
-        fun initUserList(hikeId: String)
+        fun initParticipantList(hikeId: String)
 
-        fun onUserClicked(participant: Participant)
+        fun onParticipantClicked(participant: Participant)
 
-        fun onInviteUserClicked(participant: Participant)
+        fun onParticipantRemoveClicked(position: Int, participant: Participant)
 
     }
 }

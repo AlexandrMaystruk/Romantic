@@ -12,7 +12,6 @@ import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
 import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
-import maystruks08.gmail.com.romantic.ui.main.ZoomOutPageTransformer
 import javax.inject.Inject
 
 class RootTabFragment : Fragment(), HikeListContract.View,
@@ -47,16 +46,17 @@ class RootTabFragment : Fragment(), HikeListContract.View,
     }
 
     private fun init() {
-        presenter.loadHikeData()
         fragmentAdapter = PagerAdapter(childFragmentManager, presenter)
         rootTabs.setupWithViewPager(rootViewPager)
         rootViewPager.setPageTransformer(true, ZoomOutPageTransformer())
         rootViewPager.adapter = fragmentAdapter
+        presenter.loadHikeData()
+
     }
 
 
     override fun showHikes(hikeList: List<Hike>, position: Int) {
-        fragmentAdapter.fragmentList[position].hikeAdapter.hikeList = hikeList
+        fragmentAdapter.fragmentList[position].hikeAdapter?.hikeList = hikeList
     }
 
     override fun onHikeClicked(hike: Hike) {

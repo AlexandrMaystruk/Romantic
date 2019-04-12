@@ -32,7 +32,8 @@ import maystruks08.gmail.com.data.preferences.AuthPreferences
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.launcher.SplashActivity
 
-class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.View, ConfigToolbar {
+class RootActivity : AppCompatActivity(), View.OnClickListener, RootContract.View, UploadListener, ConfigToolbar {
+
 
     @Inject
     lateinit var router: Router
@@ -41,7 +42,7 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
     lateinit var navigatorHolder: NavigatorHolder
 
     @Inject
-    lateinit var logoutPresenter: LogOutContract.Presenter
+    lateinit var presenter: RootContract.Presenter
 
     @Inject
     lateinit var pref: AuthPreferences
@@ -59,10 +60,11 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
         setContentView(R.layout.activity_root)
         setToolbar()
 
-        App.appComponent.inject(this)
+        App.rootComponent?.inject(this)
         bottomNavigationClickHandler()
-        logoutPresenter.bindView(this)
+        presenter.bindView(this)
         router.newRootScreen(Screens.RootTabScreen())
+        presenter.syncData()
     }
 
 
@@ -111,6 +113,23 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
         }
     }
 
+
+    override fun uploadHikes() {
+        presenter.onUploadHikes()
+    }
+
+    override fun updateHikes() {
+        presenter.onUpdateHikes()
+    }
+
+    override fun updateParticipants() {
+        presenter.onUpdateParticipants()
+    }
+
+    override fun uploadParticipants() {
+        presenter.onUploadParticipants()
+    }
+
     private fun bottomNavigationClickHandler() {
         bottomButtonMap[bottom_news] = tvBottomNews
         bottomButtonMap[bottom_message] = tvBottomMessage
@@ -156,7 +175,7 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.sing_out -> {
-                logoutPresenter.logout()
+                presenter.logout()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -246,6 +265,11 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, LogOutContract.V
     override fun showOptionMenu(showMenu: Boolean) {
         if (menu == null) return
 //        this.menu?.setGroupVisible(R.id.main_menu_group, showMenu)
+    }
+
+    override fun setOptionMenu(menuRes: Int) {
+        val inflater = menuInflater
+        inflater.inflate(menuRes, menu)
     }
 
     override fun showLoading() {

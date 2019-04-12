@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_participant.*
 import maystruks08.gmail.com.domain.entity.Participant
 import maystruks08.gmail.com.romantic.App
@@ -24,7 +27,7 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
     @Inject
     lateinit var controller: ToolBarController
 
-    private lateinit var adapter:  ParticipantAdapter
+    private lateinit var adapter: ParticipantAdapter
 
     private var hikeId: String? = null
 
@@ -40,6 +43,7 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        initCardSwipe()
     }
 
     override fun configToolbar() {
@@ -55,16 +59,32 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
     }
 
     private fun initViews() {
-        if(hikeId == null) context?.toast("Hike id is null!!!") else{
-            presenter.initUserList(hikeId!!)
+        if (hikeId == null) context?.toast("FireBaseHike id is null!!!") else {
+            presenter.initParticipantList(hikeId!!)
         }
         adapter = ParticipantAdapter { participantItemClicked(it) }
         participantRecyclerView.layoutManager = LinearLayoutManager(context)
         participantRecyclerView.adapter = adapter
+        participantRecyclerView.itemAnimator = DefaultItemAnimator()
+
+    }
+
+    private fun initCardSwipe() {
+        context?.let {
+            val swipeHelper = object : SwipeActionHelper(it) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.adapterPosition
+                    if (direction == ItemTouchHelper.LEFT) {
+                        presenter.onParticipantRemoveClicked(position, adapter.participantList[position])
+                    }
+                }
+            }
+            ItemTouchHelper(swipeHelper).attachToRecyclerView(participantRecyclerView)
+        }
     }
 
     private fun participantItemClicked(participant: Participant) {
-        presenter.onUserClicked(participant)
+        presenter.onParticipantClicked(participant)
     }
 
     override fun showParticipant(participants: List<Participant>) {
@@ -82,11 +102,10 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
 
     companion object {
 
-
         private const val PARTICIPANT_HIKE_ID = "participantHikeID"
 
         fun getInstance(hikeId: String): ParticipantFragment =
-            ParticipantFragment() .apply {
+            ParticipantFragment().apply {
                 arguments = Bundle().apply {
                     putString(PARTICIPANT_HIKE_ID, hikeId)
                 }

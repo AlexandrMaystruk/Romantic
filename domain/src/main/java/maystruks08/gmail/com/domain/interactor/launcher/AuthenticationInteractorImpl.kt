@@ -1,6 +1,7 @@
 package maystruks08.gmail.com.domain.interactor.launcher
 
 import io.reactivex.Completable
+import io.reactivex.Single
 import maystruks08.gmail.com.domain.executor.ThreadExecutor
 import maystruks08.gmail.com.domain.repository.AuthenticationRepository
 import javax.inject.Inject
@@ -23,11 +24,16 @@ class AuthenticationInteractorImpl @Inject constructor(
                     .subscribeOn(executor.mainExecutor)
                     .observeOn(executor.postExecutor)
                     .andThen(repository.addUserToFireStoreDb(user))
+                    .andThen(repository.saveUserToPref(user))
             }
     }
 
     override fun login(email: String, password: String): Completable {
         return repository.login(email, password)
+            .flatMapCompletable { user ->
+                return@flatMapCompletable repository.addUserToDb(user)
+                    .andThen(repository.saveUserToPref(user))
+            }
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)
     }

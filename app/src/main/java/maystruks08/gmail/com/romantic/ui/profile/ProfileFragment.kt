@@ -25,13 +25,10 @@ class ProfileFragment : Fragment(), ProfileContract.View {
 
     private var participant: ParticipantViewModel? = null
 
-    private var user: UserViewModel? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         App.profileComponent?.inject(this)
         presenter.bindView(this)
         participant = arguments?.getParcelable(SELECTED_PARTICIPANT)
-        user = arguments?.getParcelable(SELECTED_USER)
 
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
@@ -42,7 +39,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     }
 
     override fun configToolbar() {
-        val displayName = participant?.displayName?: user?.displayName
+        val displayName = participant?.userViewModel?.displayName
         controller.configure(
             ToolbarDescriptor(
                 true,
@@ -54,8 +51,8 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     }
 
 
-    private fun initViews(){
-        tvUserName?.text = participant?.displayName?: user?.displayName
+    private fun initViews() {
+        tvUserName?.text = participant?.userViewModel?.displayName
     }
 
     override fun showLoading() {
@@ -71,8 +68,6 @@ class ProfileFragment : Fragment(), ProfileContract.View {
 
         private const val SELECTED_PARTICIPANT = "SelectedParticipant"
 
-        private const val SELECTED_USER = "SelectedUser"
-
         fun getInstance(participant: ParticipantViewModel): ProfileFragment = ProfileFragment()
             .apply {
                 arguments = Bundle().apply {
@@ -84,7 +79,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         fun getInstance(user: UserViewModel): ProfileFragment = ProfileFragment()
             .apply {
                 arguments = Bundle().apply {
-                    putParcelable(SELECTED_USER, user)
+                    putParcelable(SELECTED_PARTICIPANT, user)
                 }
             }
 

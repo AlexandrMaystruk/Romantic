@@ -1,4 +1,6 @@
 package maystruks08.gmail.com.data.mappers
 
-class ToolsMapper {
+import javax.inject.Inject
+
+class ToolsMapper  @Inject constructor(){
 }

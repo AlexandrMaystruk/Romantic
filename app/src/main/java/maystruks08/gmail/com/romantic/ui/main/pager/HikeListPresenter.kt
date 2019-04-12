@@ -47,6 +47,7 @@ class HikeListPresenter @Inject constructor(
 
     private fun onDownloadHikesSuccess() {
         view?.hideLoading()
+        initFragment(TypeHike.MOUNTAIN, 0)
     }
 
     private fun onDownloadHikesFailure(t: Throwable) {

@@ -1,6 +1,8 @@
 package maystruks08.gmail.com.romantic.ui.selectedhike.invitetogroup
 
+import maystruks08.gmail.com.domain.entity.Participant
 import maystruks08.gmail.com.domain.entity.User
+import maystruks08.gmail.com.domain.entity.UserPost
 import maystruks08.gmail.com.domain.interactor.participant.ParticipantInteractor
 import maystruks08.gmail.com.romantic.core.base.BasePresenter
 import maystruks08.gmail.com.romantic.core.navigation.Screens
@@ -31,7 +33,7 @@ class UserPresenter @Inject constructor(
 
 
     override fun onUserClicked(user: User) {
-        router.navigateTo(Screens.ProfileScreen(user))
+        router.navigateTo(Screens.ProfileScreen(Participant(UserPost.BOSS, 0L, user)))
     }
 
     override fun onInviteUserClicked(user: User) {

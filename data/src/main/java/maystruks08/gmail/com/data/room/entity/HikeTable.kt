@@ -12,7 +12,11 @@ data class HikeTable(
     val dateEnd: Long,
     val hikeChief: String,
     val region: String,
-    val category: Int
+    val category: Int,
+    val group: String,
+    val upload: Long? = null,
+    val updated: Int? = null
+
 )
 
 

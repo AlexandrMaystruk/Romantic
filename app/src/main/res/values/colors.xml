@@ -13,5 +13,6 @@
     <color name="text_white_selected">#ffffff</color>
     <color name="color_white">#ffffff</color>
     <color name="color_black">#000000</color>
+    <color name="colorRed">#BD1515</color>
 
 </resources>

@@ -7,7 +7,7 @@ import maystruks08.gmail.com.domain.entity.User
 
 interface AuthenticationRepository {
 
-    fun login(email: String, password: String): Completable
+    fun login(email: String, password: String): Single<User>
 
     fun createFireBaseUser(email: String, password: String, displayName: String): Single<User>
 
@@ -16,4 +16,6 @@ interface AuthenticationRepository {
     fun addUserToDb(user: User): Completable
 
     fun addUserToFireStoreDb(user: User): Completable
+
+    fun saveUserToPref(user: User): Completable
 }

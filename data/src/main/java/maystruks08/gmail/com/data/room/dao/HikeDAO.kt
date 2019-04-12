@@ -9,10 +9,10 @@ import maystruks08.gmail.com.data.room.entity.ParticipantTable
 @Dao
 interface HikeDAO {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg hikes: HikeTable)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(hikes: List<HikeTable>)
 
     @Query("SELECT * FROM hikes")
@@ -27,7 +27,7 @@ interface HikeDAO {
     @Query("SELECT * FROM hikes where id = :idHike ")
     fun getById(idHike: Int): Single<HikeTable>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addUserToHikeGroup(vararg participant: ParticipantTable): Completable
 
     @Update
@@ -38,5 +38,33 @@ interface HikeDAO {
 
     @Query("DELETE FROM hikes")
     fun dropTable()
+
+
+
+
+    //need to upload if upload is null
+    @Query("SELECT * FROM hikes WHERE upload IS NULL")
+    fun getNotUploadHikes(): Single<List<HikeTable>>
+
+    @Query("SELECT COUNT(*) FROM hikes WHERE upload IS NULL")
+    fun getNotUploadHikesCount():  Single<Int>
+
+    @Query("UPDATE hikes SET upload = :date WHERE id= :hikeId")
+    fun setHikesUploaded(hikeId: Long, date: Long)
+
+
+    // already updated = 1 , need to update = 0
+    @Query("SELECT * FROM hikes WHERE updated IS 0")
+    fun getNotUpdateHikes(): Single<List<HikeTable>>
+
+    @Query("SELECT COUNT(*) FROM hikes WHERE updated IS 0")
+    fun getNotUpdatedHikesCount(): Single<Int>
+
+    @Query("UPDATE hikes SET updated = 0  WHERE id IS :hikeId")
+    fun setNeedToUpdate(hikeId: Long)
+
+    @Query("UPDATE hikes SET updated = 1  WHERE id IS :hikeId")
+    fun setAlreadyUpdated(hikeId: Long)
+
 
 }

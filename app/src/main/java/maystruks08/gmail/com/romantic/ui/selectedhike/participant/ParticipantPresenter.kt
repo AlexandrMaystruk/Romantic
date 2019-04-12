@@ -14,10 +14,10 @@ class ParticipantPresenter @Inject constructor(
 ) : ParticipantContract.Presenter, BasePresenter<ParticipantContract.View>() {
 
 
-    override fun initUserList(hikeId: String) {
+    override fun initParticipantList(hikeId: String) {
         compositeDisposable.add(
             interactor.getHikeParticipants(hikeId)
-                .subscribe(::onGetParticipantSuccess,::onGetParticipantFailure )
+                .subscribe(::onGetParticipantSuccess, ::onGetParticipantFailure)
         )
     }
 
@@ -25,19 +25,17 @@ class ParticipantPresenter @Inject constructor(
         view?.showParticipant(participants)
     }
 
-    private fun onGetParticipantFailure(t: Throwable){
+    private fun onGetParticipantFailure(t: Throwable) {
         t.printStackTrace()
     }
 
 
-
-    override fun onUserClicked(participant: Participant) {
+    override fun onParticipantClicked(participant: Participant) {
         router.navigateTo(Screens.ProfileScreen(participant))
     }
 
-    override fun onInviteUserClicked(participant: Participant) {
+    override fun onParticipantRemoveClicked(position: Int, participant: Participant) {
 
     }
-
 
 }

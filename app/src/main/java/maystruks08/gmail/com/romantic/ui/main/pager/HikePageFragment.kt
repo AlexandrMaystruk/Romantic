@@ -15,7 +15,7 @@ import maystruks08.gmail.com.romantic.ui.myhikes.HikeAdapter
 
 class HikePageFragment : Fragment() {
 
-    lateinit var hikeAdapter: HikeAdapter
+    var hikeAdapter: HikeAdapter? = null
 
     private var hikeListListener: HikeListListener? = null
 

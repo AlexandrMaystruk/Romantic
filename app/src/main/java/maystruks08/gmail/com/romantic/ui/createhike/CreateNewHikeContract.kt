@@ -7,7 +7,12 @@ import maystruks08.gmail.com.romantic.core.base.IView
 
 interface CreateNewHikeContract {
 
-    interface View : IView
+    interface View : IView {
+
+        fun createHikeSuccess()
+
+    }
+
 
     interface Presenter : IPresenter<View> {
 
