@@ -27,6 +27,8 @@ interface ConfigToolbar {
 
     fun setOptionMenu(@MenuRes menuRes: Int)
 
+    fun setOptionMenuClickListener(clickListener: (Int) -> Unit)
+
     fun setToolbarTitle(title: String)
 
     fun enableBottomBar()

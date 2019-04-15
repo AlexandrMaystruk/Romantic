@@ -19,5 +19,7 @@ interface InviteUserContract {
         fun onUserClicked(user: User)
 
         fun onInviteUserClicked(user: User)
+
+        fun onSaveClicked()
     }
 }

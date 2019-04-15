@@ -51,16 +51,26 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
     override fun configToolbar() {
         controller.configure(
             ToolbarDescriptor(
-                true, "FireBaseHike",
+                true, "Hike",
                 navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false
+                bottomBarVisibility = false,
+                menu = R.menu.menu_selected_hike
             ),
             activity as ConfigToolbar
         )
+        controller.addMenuClickListener(activity as ConfigToolbar, ::onMenuClick)
+
+    }
+
+    private fun onMenuClick(menuId: Int) {
+        when (menuId) {
+            R.id.action_change_hike -> presenter.onChangeHikeClicked(hike?.id ?: -1)
+            R.id.action_remove_hike -> presenter.onRemoveHikeClicked(hike?.id ?: -1)
+        }
     }
 
     private fun initViews() {
-        civParticipant.setOnClickListener { presenter.onParticipantClick(hike?.id?.toString() ?: "") }
+        civParticipant.setOnClickListener { presenter.onParticipantClick(hike?.id ?: -1) }
         civGroupChat.setOnClickListener { presenter.onGroupChatClick() }
         civTrainingCalendar.setOnClickListener { presenter.onTrainingCalendarClick() }
         civRoute.setOnClickListener { presenter.onRouteClick() }

@@ -10,7 +10,7 @@ import maystruks08.gmail.com.data.room.entity.UserTable
 interface ParticipantDAO {
 
     @Query("SELECT * FROM participants WHERE hikeId LIKE :hikeId ")
-    fun getParticipantsByHikeId(hikeId: String): Single<List<ParticipantTable>>
+    fun getParticipantsByHikeId(hikeId: Long): Single<List<ParticipantTable>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addUserToHikeGroup(vararg participant: ParticipantTable): Completable

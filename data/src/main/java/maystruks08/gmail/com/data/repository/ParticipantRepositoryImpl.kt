@@ -19,7 +19,7 @@ class ParticipantRepositoryImpl @Inject constructor(
 ) : ParticipantRepository {
 
 
-    override fun getHikeParticipant(hikeId: String): Single<List<Participant>> {
+    override fun getHikeParticipant(hikeId: Long): Single<List<Participant>> {
         return participantDAO.getParticipantsByHikeId(hikeId).map { list ->
             list.map { participantMapper.toParticipant(it) }
         }

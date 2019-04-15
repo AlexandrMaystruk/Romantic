@@ -18,7 +18,7 @@ class ParticipantInteractorImpl @Inject constructor(
             .observeOn(executor.postExecutor)
     }
 
-    override fun getHikeParticipants(hikeId: String): Single<List<Participant>> {
+    override fun getHikeParticipants(hikeId: Long): Single<List<Participant>> {
         return participantRepository.getHikeParticipant(hikeId)
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)

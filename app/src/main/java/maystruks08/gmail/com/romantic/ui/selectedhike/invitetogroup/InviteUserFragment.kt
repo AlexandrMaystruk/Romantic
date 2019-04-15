@@ -46,12 +46,21 @@ class InviteUserFragment : Fragment(),
         controller.configure(
             ToolbarDescriptor(
                 true,
-                "Participant",
+                "Invite to hike",
                 navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false
+                bottomBarVisibility = false,
+                menu = R.menu.menu_invite_user
             ),
             activity as ConfigToolbar
         )
+        controller.addMenuClickListener(activity as ConfigToolbar, ::onMenuClick)
+
+    }
+
+    private fun onMenuClick(menuId: Int) {
+        if(menuId == R.id.action_save_end_exit){
+            presenter.onSaveClicked()
+        }
     }
 
     private fun initViews() {
@@ -88,10 +97,10 @@ class InviteUserFragment : Fragment(),
 
         private const val USER_HIKE_ID = "userHikeID"
 
-        fun getInstance(hikeId: String): InviteUserFragment =
+        fun getInstance(hikeId: Long): InviteUserFragment =
             InviteUserFragment().apply {
                 arguments = Bundle().apply {
-                    putString(USER_HIKE_ID, hikeId)
+                    putLong(USER_HIKE_ID, hikeId)
                 }
             }
     }

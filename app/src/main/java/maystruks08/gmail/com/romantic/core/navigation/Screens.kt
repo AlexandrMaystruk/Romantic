@@ -13,6 +13,7 @@ import maystruks08.gmail.com.romantic.ui.news.NewsFragment
 import maystruks08.gmail.com.romantic.ui.profile.ProfileFragment
 import maystruks08.gmail.com.romantic.ui.profilesettings.ProfileSettingsFragment
 import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikeFragment
+import maystruks08.gmail.com.romantic.ui.selectedhike.invitetogroup.InviteUserFragment
 import maystruks08.gmail.com.romantic.ui.selectedhike.participant.ParticipantFragment
 import maystruks08.gmail.com.romantic.ui.selectedhike.route.RouteFragment
 import maystruks08.gmail.com.romantic.ui.viewmodel.HikeViewModel
@@ -71,8 +72,12 @@ object Screens {
         override fun getFragment() = ProfileSettingsFragment.getInstance(UserViewModel.fromUser(user))
     }
 
-    class ParticipantScreen(private val hikeId: String) : AppScreen() {
+    class ParticipantScreen(private val hikeId: Long) : AppScreen() {
         override fun getFragment() = ParticipantFragment.getInstance(hikeId)
+    }
+
+    class InviteeParticipantScreen(private val hikeId: Long) : AppScreen() {
+        override fun getFragment() = InviteUserFragment.getInstance(hikeId)
     }
 }
 

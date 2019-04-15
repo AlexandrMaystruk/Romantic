@@ -51,7 +51,9 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, RootContract.Vie
 
     private var lastBackPressTime = 0L
 
-    private var menu: Menu? = null
+    private var optionsMenu: Menu? = null
+
+    private lateinit var menuClickListener: (Int) -> Unit
 
     private val bottomButtonMap: MutableMap<CircleImageView, TextView> = mutableMapOf()
 
@@ -168,6 +170,7 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, RootContract.Vie
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
+        optionsMenu = menu
         return true
 
     }
@@ -178,7 +181,10 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, RootContract.Vie
                 presenter.logout()
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> {
+                menuClickListener(item.itemId)
+                super.onOptionsItemSelected(item)
+            }
         }
     }
 
@@ -263,13 +269,19 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, RootContract.Vie
     }
 
     override fun showOptionMenu(showMenu: Boolean) {
-        if (menu == null) return
-//        this.menu?.setGroupVisible(R.id.main_menu_group, showMenu)
+        if (optionsMenu == null) return
+//        this.optionsMenu?.setGroupVisible(R.id.main_menu_group, showMenu)
+    }
+
+    override fun setOptionMenuClickListener(clickListener: (Int) -> Unit) {
+        menuClickListener = clickListener
     }
 
     override fun setOptionMenu(menuRes: Int) {
-        val inflater = menuInflater
-        inflater.inflate(menuRes, menu)
+        optionsMenu?.let {
+            it.clear()
+            menuInflater.inflate(menuRes, it)
+        }
     }
 
     override fun showLoading() {

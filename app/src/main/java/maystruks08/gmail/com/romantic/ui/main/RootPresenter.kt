@@ -54,6 +54,7 @@ class RootPresenter @Inject constructor(private val rootInteractor: RootInteract
     }
 
     private fun onUploadHikesSuccess(countError: Int) {
+        println("Upload hike error count: $countError")
         view?.hideLoading()
     }
 
@@ -63,6 +64,7 @@ class RootPresenter @Inject constructor(private val rootInteractor: RootInteract
     }
 
     private fun onUpdateHikesSuccess(countError: Int) {
+        println("Update hike error count: $countError")
         view?.hideLoading()
     }
 
@@ -73,6 +75,7 @@ class RootPresenter @Inject constructor(private val rootInteractor: RootInteract
 
 
     private fun onUpdateParticipantsSuccess(countError: Int) {
+        println("Update participant error count: $countError")
         view?.hideLoading()
     }
 
@@ -83,6 +86,7 @@ class RootPresenter @Inject constructor(private val rootInteractor: RootInteract
 
 
     private fun onUploadParticipantsSuccess(countError: Int) {
+        println("Upload participant error count: $countError")
         view?.hideLoading()
     }
 

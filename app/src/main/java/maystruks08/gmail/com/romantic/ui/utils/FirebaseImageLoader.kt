@@ -42,7 +42,7 @@ class FirebaseImageLoader : ModelLoader<StorageReference, InputStream> {
         @NonNull options: Options
     ): ModelLoader.LoadData<InputStream>? {
         return ModelLoader.LoadData(
-            FirebaseStorageKey(reference),
+            FireBaseStorageKey(reference),
             FirebaseStorageFetcher(reference)
         )
     }
@@ -51,17 +51,17 @@ class FirebaseImageLoader : ModelLoader<StorageReference, InputStream> {
         return true
     }
 
-    private class FirebaseStorageKey(private val mRef: StorageReference) : Key {
+    private class FireBaseStorageKey(private val mRef: StorageReference) : Key {
 
         override fun updateDiskCacheKey(@NonNull digest: MessageDigest) {
             digest.update(mRef.path.toByteArray(Charset.defaultCharset()))
         }
 
-        override fun equals(o: Any?): Boolean {
-            if (this === o) return true
-            if (o == null || javaClass != o.javaClass) return false
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || javaClass != other.javaClass) return false
 
-            val key = o as FirebaseStorageKey?
+            val key = other as FireBaseStorageKey?
 
             return mRef == key!!.mRef
         }

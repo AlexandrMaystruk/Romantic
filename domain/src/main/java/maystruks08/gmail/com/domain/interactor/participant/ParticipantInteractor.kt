@@ -6,7 +6,7 @@ import maystruks08.gmail.com.domain.entity.User
 
 interface ParticipantInteractor {
 
-    fun getHikeParticipants(hikeId: String): Single<List<Participant>>
+    fun getHikeParticipants(hikeId: Long): Single<List<Participant>>
 
     fun getUsers(): Single<List<User>>
 }

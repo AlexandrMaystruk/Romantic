@@ -43,4 +43,8 @@ class ToolBarController {
             configToolbar.setOptionMenu(toolbarDescriptor.menu)
         }
     }
+
+    fun addMenuClickListener(configToolbar: ConfigToolbar, menuClickListener: (Int) -> Unit){
+        configToolbar.setOptionMenuClickListener(menuClickListener)
+    }
 }

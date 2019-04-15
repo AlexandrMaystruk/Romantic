@@ -40,4 +40,9 @@ class UserPresenter @Inject constructor(
 
     }
 
+    override fun onSaveClicked() {
+        //todo save change
+        router.exit()
+    }
+
 }

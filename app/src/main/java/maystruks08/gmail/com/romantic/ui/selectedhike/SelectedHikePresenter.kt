@@ -7,7 +7,8 @@ import javax.inject.Inject
 
 class SelectedHikePresenter @Inject constructor(val router: Router) :
     SelectedHikeContract.Presenter, BasePresenter<SelectedHikeContract.View>() {
-    override fun onParticipantClick(hikeId: String) {
+
+    override fun onParticipantClick(hikeId: Long) {
         router.navigateTo(Screens.ParticipantScreen(hikeId))
     }
 
@@ -31,6 +32,13 @@ class SelectedHikePresenter @Inject constructor(val router: Router) :
     }
 
     override fun onHikeInformationClick() {
+    }
+
+    override fun onChangeHikeClicked(hikeId: Long) {
+
+    }
+
+    override fun onRemoveHikeClicked(hikeId: Long) {
     }
 
 }

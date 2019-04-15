@@ -8,7 +8,7 @@ import maystruks08.gmail.com.domain.entity.UserPost
 
 interface ParticipantRepository {
 
-    fun getHikeParticipant(hikeId: String): Single<List<Participant>>
+    fun getHikeParticipant(hikeId: Long): Single<List<Participant>>
 
     fun getAllParticipantsFromFireStoreByHikeId(hikeId: Long): Single<List<Participant>>
 

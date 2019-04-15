@@ -29,13 +29,13 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
 
     private lateinit var adapter: ParticipantAdapter
 
-    private var hikeId: String? = null
+    private var hikeId: Long? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         App.participantComponent?.inject(this)
         presenter.bindView(this)
-        hikeId = arguments?.getString(PARTICIPANT_HIKE_ID)
+        hikeId = arguments?.getLong(PARTICIPANT_HIKE_ID)
 
         return inflater.inflate(R.layout.fragment_participant, container, false)
     }
@@ -52,10 +52,18 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
                 true,
                 "Participant",
                 navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false
+                bottomBarVisibility = false,
+                menu = R.menu.menu_add_participant
             ),
             activity as ConfigToolbar
         )
+        controller.addMenuClickListener(activity as ConfigToolbar, ::onMenuClick)
+    }
+
+    private fun onMenuClick(menuId: Int) {
+        if(menuId == R.id.action_add_participant){
+            presenter.onAddParticipantClicked(hikeId!!)
+        }
     }
 
     private fun initViews() {
@@ -104,10 +112,10 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
 
         private const val PARTICIPANT_HIKE_ID = "participantHikeID"
 
-        fun getInstance(hikeId: String): ParticipantFragment =
+        fun getInstance(hikeId: Long): ParticipantFragment =
             ParticipantFragment().apply {
                 arguments = Bundle().apply {
-                    putString(PARTICIPANT_HIKE_ID, hikeId)
+                    putLong(PARTICIPANT_HIKE_ID, hikeId)
                 }
             }
     }
