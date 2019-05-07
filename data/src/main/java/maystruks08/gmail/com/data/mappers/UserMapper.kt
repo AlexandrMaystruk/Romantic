@@ -34,6 +34,11 @@ class UserMapper @Inject constructor() {
         }
     }
 
+    fun userListToListUserTable(users: List<User>): List<UserTable>{
+        return users.map {
+            authToUserTable(it)
+        }
+    }
 
     fun userTableToUser(user: UserTable): User{
         return user.let {

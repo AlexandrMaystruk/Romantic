@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "participants")
 data class ParticipantTable(
-    @PrimaryKey(autoGenerate = true) val localId: Int = 0,
+    @PrimaryKey
+    val id: String,
+    val hikeId: Long,
     var post: String,
-    var hikeId: Long,
-    var userId: String,
     var displayName: String = "",
     var email: String = "",
     var userExperienceMountain: Int = 0,

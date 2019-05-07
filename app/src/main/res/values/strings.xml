@@ -79,4 +79,16 @@
         <item>Пеший</item>
         <item>Водный</item>
     </string-array>
+
+    <string-array name="user_post_list">
+        <item>Укажите должность:</item>
+        <item>Руководитель</item>
+        <item>Медик</item>
+        <item>Завхоз</item>
+        <item>Ремнаборщик</item>
+        <item>Политорг</item>
+        <item>Зам по снару</item>
+        <item>МПС</item>
+        <item>Фотограф</item>
+    </string-array>
 </resources>

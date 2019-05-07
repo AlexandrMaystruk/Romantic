@@ -48,7 +48,9 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
     override fun addUserToDb(user: User): Completable {
-        return Completable.fromAction { userDAO.insert(userMapper.authToUserTable(user)) }
+        return Completable.fromAction {
+            userDAO.insert(userMapper.authToUserTable(user))
+        }
     }
 
 

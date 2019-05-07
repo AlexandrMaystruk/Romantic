@@ -26,16 +26,17 @@ class AuthenticationInteractorImpl @Inject constructor(
                     .andThen(repository.addUserToFireStoreDb(user))
                     .andThen(repository.saveUserToPref(user))
             }
+
     }
 
     override fun login(email: String, password: String): Completable {
         return repository.login(email, password)
             .flatMapCompletable { user ->
                 return@flatMapCompletable repository.addUserToDb(user)
+                    .subscribeOn(executor.mainExecutor)
+                    .observeOn(executor.postExecutor)
                     .andThen(repository.saveUserToPref(user))
-            }
-            .subscribeOn(executor.mainExecutor)
-            .observeOn(executor.postExecutor)
-    }
 
+            }
+    }
 }

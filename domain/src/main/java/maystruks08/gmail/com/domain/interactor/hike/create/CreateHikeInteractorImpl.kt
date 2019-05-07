@@ -14,8 +14,7 @@ class CreateHikeInteractorImpl @Inject constructor(
 
 
     override fun createNewHike(hike: Hike): Completable {
-        return repository.saveToLocalDB(hike)
-            .andThen(repository.addBossToHike(hikeId = hike.id))
+        return repository.createNewHike(hike)
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)
     }

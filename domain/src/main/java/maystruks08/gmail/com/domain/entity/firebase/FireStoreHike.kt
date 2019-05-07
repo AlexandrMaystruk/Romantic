@@ -4,7 +4,7 @@ import maystruks08.gmail.com.domain.entity.Category
 import maystruks08.gmail.com.domain.entity.TypeHike
 import java.util.*
 
-data class FireBaseHike(
+data class FireStoreHike(
     val id: Long,
     val typeHike: TypeHike,
     val dateStart: Date,

@@ -3,17 +3,15 @@ package maystruks08.gmail.com.data.mappers
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import maystruks08.gmail.com.data.room.entity.HikeTable
-import maystruks08.gmail.com.domain.entity.Category
-import maystruks08.gmail.com.domain.entity.Hike
-import maystruks08.gmail.com.domain.entity.Participant
-import maystruks08.gmail.com.domain.entity.TypeHike
-import maystruks08.gmail.com.domain.entity.firebase.FireBaseHike
+import maystruks08.gmail.com.domain.entity.*
+import maystruks08.gmail.com.domain.entity.firebase.FireStoreHike
 import java.util.*
 import javax.inject.Inject
 
 class HikeMapper @Inject constructor() {
 
     fun toHikeTable(hike: Hike): HikeTable {
+        val gSon = Gson()
         return hike.let {
             HikeTable(
                 it.id,
@@ -23,13 +21,13 @@ class HikeMapper @Inject constructor() {
                 it.hikeChief,
                 it.region,
                 it.category.type,
-                Gson().toJson(it.group)
+                gSon.toJson(it.route)
             )
         }
     }
 
-    fun toHike(hikeFirestore: FireBaseHike): Hike {
-        return hikeFirestore.let {
+    fun toHike(hikeFireStore: FireStoreHike): Hike {
+        return hikeFireStore.let {
             Hike(
                 it.id,
                 it.typeHike,
@@ -38,14 +36,17 @@ class HikeMapper @Inject constructor() {
                 it.hikeChief,
                 it.region,
                 it.category,
+                Route(mutableListOf()),
+                mutableListOf(),
+                mutableListOf(),
                 mutableListOf()
             )
         }
     }
 
-    private fun toFireBaseHike(hike: Hike): FireBaseHike {
+    private fun toFireBaseHike(hike: Hike): FireStoreHike {
         return hike.let {
-            FireBaseHike(
+            FireStoreHike(
                 it.id,
                 it.typeHike,
                 it.dateStart,
@@ -57,8 +58,12 @@ class HikeMapper @Inject constructor() {
         }
     }
 
-    fun toFireBaseHike(hikeTable: HikeTable): FireBaseHike {
+    fun toFireBaseHike(hikeTable: HikeTable): FireStoreHike {
         return toFireBaseHike(toHikeFromTable(hikeTable))
+    }
+
+    fun toHikeTable(fireStoreHike: FireStoreHike): HikeTable {
+        return toHikeTable(toHike(fireStoreHike))
     }
 
     fun toHikeTableList(hikes: List<Hike>): List<HikeTable> {
@@ -66,6 +71,7 @@ class HikeMapper @Inject constructor() {
     }
 
     fun toHikeFromTable(hikeTable: HikeTable): Hike {
+        val gSon = Gson()
         return hikeTable.let {
             Hike(
                 it.id,
@@ -75,7 +81,7 @@ class HikeMapper @Inject constructor() {
                 it.hikeChief,
                 it.region,
                 Category.fromValue(it.category),
-                Gson().fromJson<MutableList<Participant>>(it.group)
+                gSon.fromJson<Route>(it.route)
             )
         }
     }

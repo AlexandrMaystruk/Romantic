@@ -1,16 +1,13 @@
 package maystruks08.gmail.com.data.api
 
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import android.util.Log
+import com.google.firebase.firestore.*
+import durdinapps.rxfirebase2.RxCompletableHandler
 import durdinapps.rxfirebase2.RxFirestore
 import io.reactivex.Completable
 import io.reactivex.Maybe
-import io.reactivex.Single
-import maystruks08.gmail.com.domain.entity.Hike
-import maystruks08.gmail.com.domain.entity.Participant
 import maystruks08.gmail.com.domain.entity.User
-import maystruks08.gmail.com.domain.entity.UserPost
-import maystruks08.gmail.com.domain.entity.firebase.FireBaseHike
+import maystruks08.gmail.com.domain.entity.firebase.FireStoreHike
 import maystruks08.gmail.com.domain.entity.firebase.FireStoreParticipant
 import javax.inject.Inject
 
@@ -26,9 +23,9 @@ class FireStoreApi @Inject constructor(private val fireStore: FirebaseFirestore)
         return RxFirestore.getCollection(reference)
     }
 
-    fun getHikeGroup(hikeId: Long): Maybe<QuerySnapshot> {
-        val reference = fireStore.collection(COLLECTION_HIKE).document(HIKE + hikeId).collection(COLLECTION_HIKE_GROUP)
-        return RxFirestore.getCollection(reference)
+    fun getHikeGroup(hikeId: Long): Maybe<DocumentSnapshot> {
+        val reference = fireStore.collection(COLLECTION_HIKE_GROUP).document(HIKE + hikeId)
+        return RxFirestore.getDocument(reference)
     }
 
 
@@ -37,25 +34,57 @@ class FireStoreApi @Inject constructor(private val fireStore: FirebaseFirestore)
         return RxFirestore.getCollection(reference)
     }
 
-    fun uploadHike(hike: FireBaseHike): Completable {
+    fun uploadHike(hike: FireStoreHike): Completable {
         val reference = fireStore.collection(COLLECTION_HIKE).document(HIKE + hike.id)
         return RxFirestore.setDocument(reference, hike)
     }
 
-    fun setParticipantToGroup(participant: FireStoreParticipant): Completable {
-        val reference = fireStore.collection(COLLECTION_HIKE).document(HIKE + participant.hikeId).collection(COLLECTION_HIKE_GROUP).document(participant.post.name)
-        return RxFirestore.setDocument(reference, participant)
+    fun setParticipantToGroup(hikeId: Long, participant: FireStoreParticipant): Completable {
+        val reference = fireStore.collection(COLLECTION_HIKE_GROUP).document(HIKE + hikeId)
+        return setDocument(reference, mapOf(participant.id to participant))
     }
 
+    fun removeParticipantFromGroup(hikeId: Long, participant: FireStoreParticipant): Completable {
+        val reference = fireStore.collection(COLLECTION_HIKE).document(HIKE + hikeId).collection(COLLECTION_HIKE_GROUP)
+            .document(participant.post.name)
+        return RxFirestore.deleteDocument(reference)
+    }
+
+    private fun setDocument(ref: DocumentReference, map: Map<String, Any>): Completable {
+        return Completable.create { emitter -> RxCompletableHandler.assignOnTask(emitter, ref.set(map)) }
+    }
+
+    fun setUpdateListener(hikes: (List<DocumentChange>) -> Unit, users: (List<DocumentChange>) -> Unit) {
+        fireStore.collection(COLLECTION_HIKE).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "listen:error", e)
+                return@addSnapshotListener
+            }
+
+            hikes(snapshot?.documentChanges!!)
+        }
+
+
+        fireStore.collection(COLLECTION_USER).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "listen:error", e)
+                return@addSnapshotListener
+            }
+
+            users(snapshot?.documentChanges!!)
+
+        }
+    }
 
 
     companion object {
         private const val COLLECTION_USER = "user"
-        private const val HIKE = "hike_"
         private const val COLLECTION_HIKE = "hike"
-        private const val COLLECTION_HIKE_GROUP = "hike_group"
+        private const val COLLECTION_HIKE_GROUP = "group"
+
         private const val DOCUMENT_TOOLS = "tools"
+        private const val HIKE = "hike_"
 
+        private const val TAG = "FireStoreApi"
     }
-
 }

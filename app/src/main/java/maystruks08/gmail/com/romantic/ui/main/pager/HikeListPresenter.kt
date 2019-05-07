@@ -15,18 +15,18 @@ class HikeListPresenter @Inject constructor(
 ) :
     HikeListContract.Presenter, BasePresenter<HikeListContract.View>() {
 
-    override fun loadHikeData() {
+    override fun downloadHikeData() {
         view?.showLoading()
         compositeDisposable.add(
-            hikeInteractor.getHikesFromFireStore()
+            hikeInteractor.downloadHikes()
                 .subscribe(::onDownloadHikesSuccess, ::onDownloadHikesFailure)
         )
     }
 
-    override fun initFragment(typeHike: TypeHike?, position: Int) {
+    override fun initFragment(typeHike: TypeHike, position: Int) {
         view?.showLoading()
         compositeDisposable.add(
-            hikeInteractor.provideHikes(typeHike)
+            hikeInteractor.provideHikesByType(typeHike)
                 .subscribe(::onProvideHikesSuccess, ::onProvideHikesFailure)
         )
     }

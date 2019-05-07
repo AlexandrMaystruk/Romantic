@@ -26,13 +26,13 @@ class InviteUserFragment : Fragment(),
 
     private lateinit var adapter: UserAdapter
 
-    private var hikeId: String? = null
+    private var hikeId: Long? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         App.participantComponent?.inject(this)
         presenter.bindView(this)
-        hikeId = arguments?.getString(USER_HIKE_ID)
+        hikeId = arguments?.getLong(USER_HIKE_ID)
 
         return inflater.inflate(R.layout.fragment_users, container, false)
     }
@@ -58,25 +58,27 @@ class InviteUserFragment : Fragment(),
     }
 
     private fun onMenuClick(menuId: Int) {
-        if(menuId == R.id.action_save_end_exit){
-            presenter.onSaveClicked()
+        if (menuId == R.id.action_save_end_exit) {
+            presenter.onSaveClicked(hikeId!!)
         }
     }
 
     private fun initViews() {
         presenter.initUserList()
-        adapter = UserAdapter({ userItemClicked(it) },
-            { userInviteItemClicked(it) })
+        adapter = UserAdapter({ userItemClicked(hikeId?:0L ,it) },
+            { user, postPosition -> userInviteItemClicked(user, postPosition) })
         usersRecyclerView.layoutManager = LinearLayoutManager(context)
         usersRecyclerView.adapter = adapter
     }
 
-    private fun userItemClicked(user: User) {
-        presenter.onUserClicked(user)
+    private fun userItemClicked(hikeId: Long, user: User) {
+        presenter.onUserClicked(hikeId, user)
     }
 
-    private fun userInviteItemClicked(user: User) {
-        presenter.onInviteUserClicked(user)
+    private fun userInviteItemClicked(user: User, postPosition: Int) {
+        hikeId?.let {
+            presenter.onInviteUserClicked(user, postPosition, it)
+        }
     }
 
     override fun showUsers(users: List<User>) {

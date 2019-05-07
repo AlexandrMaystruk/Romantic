@@ -9,20 +9,22 @@ import maystruks08.gmail.com.domain.entity.User
 
 interface HikesRepository {
 
+    fun createNewHike(hike: Hike): Completable
+
     fun downloadHikeFromFireStore(): Single<List<Hike>>
 
-    fun saveToLocalDB(hike: Hike): Completable
+    fun cashHike(hike: Hike): Completable
 
-    fun saveToLocalDB(hikes: List<Hike>): Completable
+    fun cashHikes(hikes: List<Hike>): Completable
 
-    fun addParticipant(participant: Participant): Completable
+    fun addParticipant(hikeId: Long, participant: Participant): Completable
 
-    fun addBossToHike(hikeId: Long): Completable
-
-    fun provideHikes(typeHike: TypeHike?): Single<Pair<List<Hike>, Int>>
+    fun provideHikes(typeHike: TypeHike): Single<Pair<List<Hike>, Int>>
 
     fun getCurrentUserFromPref(): User
 
-    fun provideUserHikes(currentUser: User): Single<List<Hike>>
+    fun provideUserHikes(): Single<List<Hike>>
+
+    fun downloadParticipantsFromFireStore(hikeId: Long): Single<List<Participant>>
 
 }

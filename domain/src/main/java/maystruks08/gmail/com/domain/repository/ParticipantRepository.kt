@@ -8,12 +8,13 @@ import maystruks08.gmail.com.domain.entity.UserPost
 
 interface ParticipantRepository {
 
+    fun getAllUsers(): Single<List<User>>
+
     fun getHikeParticipant(hikeId: Long): Single<List<Participant>>
 
-    fun getAllParticipantsFromFireStoreByHikeId(hikeId: Long): Single<List<Participant>>
+    fun setUserToHikeGroup(hikeId: Long,user: User, post: UserPost): Completable
 
+    fun setParticipantHikeGroup(hikeId: Long,participant: Participant): Completable
 
-    fun setUserToHikeGroup(user: User, hikeId: Long, post: UserPost): Completable
-
-    fun getAllUserFromFireStore(): Single<List<User>>
+    fun removeParticipant(hikeId: Long,participants: Participant): Completable
 }

@@ -36,7 +36,7 @@
     <dimen name="button_margin_bottom">130dp</dimen>
 
 
-    <!--FireBaseHike size-->
+    <!--FireStoreHike size-->
     <dimen name="image_button_width">70dp</dimen>
     <dimen name="image_button_height">70dp</dimen>
 

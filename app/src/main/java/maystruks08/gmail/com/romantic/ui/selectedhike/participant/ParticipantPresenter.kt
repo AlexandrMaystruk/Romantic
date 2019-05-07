@@ -1,5 +1,6 @@
 package maystruks08.gmail.com.romantic.ui.selectedhike.participant
 
+import android.util.Log
 import maystruks08.gmail.com.domain.entity.Participant
 import maystruks08.gmail.com.domain.interactor.participant.ParticipantInteractor
 import maystruks08.gmail.com.romantic.core.base.BasePresenter
@@ -34,12 +35,21 @@ class ParticipantPresenter @Inject constructor(
     }
 
 
-    override fun onParticipantClicked(participant: Participant) {
+    override fun onParticipantClicked(hikeId: Long, participant: Participant) {
         router.navigateTo(Screens.ProfileScreen(participant))
     }
 
-    override fun onParticipantRemoveClicked(position: Int, participant: Participant) {
+    override fun onParticipantRemoveClicked(position: Int, participant: Participant, hikeId: Long) {
+        view?.removeParticipant(position)
+        compositeDisposable.add(interactor.removeParticipant(hikeId, participant).subscribe(::onRemoveSuccess, ::onRemoveFailure))
+    }
 
+    private fun onRemoveSuccess() {
+       Log.d("Participant", "Remove success")
+    }
+
+    private fun onRemoveFailure(t: Throwable) {
+        t.printStackTrace()
     }
 
 }

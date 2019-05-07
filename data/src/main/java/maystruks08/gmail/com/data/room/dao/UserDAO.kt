@@ -10,10 +10,10 @@ import maystruks08.gmail.com.data.room.entity.UserTable
 interface UserDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg users: UserTable): Completable
+    fun insert(users: UserTable)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(listUsers: List<UserTable>): List<Long>
+    fun insert(listUsers: List<UserTable>)
 
     @Query("SELECT * FROM users")
     fun getUsers(): Single<List<UserTable>>

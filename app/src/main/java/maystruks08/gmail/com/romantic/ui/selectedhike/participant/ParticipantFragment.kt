@@ -61,13 +61,13 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
     }
 
     private fun onMenuClick(menuId: Int) {
-        if(menuId == R.id.action_add_participant){
+        if (menuId == R.id.action_add_participant) {
             presenter.onAddParticipantClicked(hikeId!!)
         }
     }
 
     private fun initViews() {
-        if (hikeId == null) context?.toast("FireBaseHike id is null!!!") else {
+        if (hikeId == null) context?.toast("FireStoreHike id is null!!!") else {
             presenter.initParticipantList(hikeId!!)
         }
         adapter = ParticipantAdapter { participantItemClicked(it) }
@@ -83,7 +83,7 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val position = viewHolder.adapterPosition
                     if (direction == ItemTouchHelper.LEFT) {
-                        presenter.onParticipantRemoveClicked(position, adapter.participantList[position])
+                        presenter.onParticipantRemoveClicked(position, adapter.participantList[position], hikeId ?: 0L)
                     }
                 }
             }
@@ -92,11 +92,15 @@ class ParticipantFragment : Fragment(), ParticipantContract.View {
     }
 
     private fun participantItemClicked(participant: Participant) {
-        presenter.onParticipantClicked(participant)
+        presenter.onParticipantClicked(hikeId ?: 0L, participant)
     }
 
     override fun showParticipant(participants: List<Participant>) {
         adapter.participantList = participants
+    }
+
+    override fun removeParticipant(position: Int) {
+        participantRecyclerView.adapter?.notifyItemRemoved(position)
     }
 
     override fun showLoading() {

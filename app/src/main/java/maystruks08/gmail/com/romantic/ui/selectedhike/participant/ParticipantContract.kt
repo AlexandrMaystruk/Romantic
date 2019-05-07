@@ -12,6 +12,7 @@ interface ParticipantContract {
 
         fun showParticipant(participants: List<Participant>)
 
+        fun removeParticipant(position: Int)
     }
 
     interface Presenter : IPresenter<View> {
@@ -20,9 +21,9 @@ interface ParticipantContract {
 
         fun onAddParticipantClicked(hikeId: Long)
 
-        fun onParticipantClicked(participant: Participant)
+        fun onParticipantClicked(hikeId: Long, participant: Participant)
 
-        fun onParticipantRemoveClicked(position: Int, participant: Participant)
+        fun onParticipantRemoveClicked(position: Int, participant: Participant, hikeId: Long)
 
     }
 }

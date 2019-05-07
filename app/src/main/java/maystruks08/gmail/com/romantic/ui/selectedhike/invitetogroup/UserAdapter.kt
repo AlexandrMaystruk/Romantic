@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_card_user.view.*
 import maystruks08.gmail.com.domain.entity.User
+import maystruks08.gmail.com.domain.entity.UserPost
 import maystruks08.gmail.com.romantic.R
 import kotlin.properties.Delegates
 
-class UserAdapter(private val clickListener: (User) -> Unit, private val inviteClickListener: (User) -> Unit) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(private val clickListener: (User) -> Unit, private val inviteClickListener: (User, Int) -> Unit) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     var userList: List<User> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
@@ -28,11 +29,11 @@ class UserAdapter(private val clickListener: (User) -> Unit, private val inviteC
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindHolder(user: User, clickListener: (User) -> Unit, inviteClickListener: (User) -> Unit) {
+        fun bindHolder(user: User, clickListener: (User) -> Unit, inviteClickListener: (User, Int) -> Unit) {
 //            itemView.iv_user_image.setImageBitmap()
             itemView.tv_user_name.text = user.displayName
             itemView.setOnClickListener { clickListener(user) }
-            itemView.btnInviteToHike.setOnClickListener { inviteClickListener(user) }
+            itemView.btnInviteToHike.setOnClickListener { inviteClickListener(user, itemView.spinnerPost.selectedItemPosition) }
         }
     }
 }

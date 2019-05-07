@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.reactivex.Single
 import kotlinx.android.synthetic.main.fragment_create_new_hike.*
 import maystruks08.gmail.com.domain.entity.Category
 import maystruks08.gmail.com.domain.entity.Hike
+import maystruks08.gmail.com.domain.entity.Route
 import maystruks08.gmail.com.domain.entity.TypeHike
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
@@ -66,7 +66,7 @@ class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
                 etBossHike.text.toString(),
                 etHikeRegion.text.toString(),
                 Category.fromValue(spinnerCategory.selectedItemPosition),
-                mutableListOf()
+                Route(mutableListOf())
             )
 
             presenter.createHike(newHike)

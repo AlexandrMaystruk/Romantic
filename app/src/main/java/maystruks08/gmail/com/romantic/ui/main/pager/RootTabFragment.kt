@@ -50,7 +50,7 @@ class RootTabFragment : Fragment(), HikeListContract.View,
         rootTabs.setupWithViewPager(rootViewPager)
         rootViewPager.setPageTransformer(true, ZoomOutPageTransformer())
         rootViewPager.adapter = fragmentAdapter
-        presenter.loadHikeData()
+        presenter.downloadHikeData()
 
     }
 

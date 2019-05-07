@@ -18,7 +18,8 @@ class UploadRepositoryImpl @Inject constructor(
     private val hikeDAO: HikeDAO,
     private val hikeMapper: HikeMapper,
     private val participantDAO: ParticipantDAO,
-    private val participantMapper: ParticipantMapper) : UploadRepository {
+    private val participantMapper: ParticipantMapper
+) : UploadRepository {
 
     override fun uploadNotUploadedHikes(): Single<Int> {
         return hikeDAO.getNotUploadHikes()
@@ -28,7 +29,7 @@ class UploadRepositoryImpl @Inject constructor(
             .flatMapCompletable { tableItem ->
                 val fireStoreHike = hikeMapper.toFireBaseHike(tableItem)
                 return@flatMapCompletable api.uploadHike(fireStoreHike)
-                    .andThen(Completable.fromAction { hikeDAO.setHikesUploaded(fireStoreHike.id, Date().time) })
+                    .andThen(Completable.fromAction { hikeDAO.setHikesUploaded(fireStoreHike.id) })
             }
             .andThen(Single.just(0))
             .onErrorResumeNext {
@@ -60,7 +61,7 @@ class UploadRepositoryImpl @Inject constructor(
             }
             .flatMapCompletable { tableItem ->
                 val fireStoreParticipant = participantMapper.toFireStoreParticipant(tableItem)
-                return@flatMapCompletable api.setParticipantToGroup(fireStoreParticipant)
+                return@flatMapCompletable api.setParticipantToGroup(tableItem.hikeId, fireStoreParticipant)
                     .andThen(
                         Completable.fromAction {
                             participantDAO.setParticipantUploaded(
@@ -82,7 +83,7 @@ class UploadRepositoryImpl @Inject constructor(
             }
             .flatMapCompletable { tableItem ->
                 val fireStoreParticipants = participantMapper.toFireStoreParticipant(tableItem)
-                return@flatMapCompletable api.setParticipantToGroup(fireStoreParticipants)
+                return@flatMapCompletable api.setParticipantToGroup(tableItem.hikeId, fireStoreParticipants)
                     .andThen(Completable.fromAction { participantDAO.setAlreadyUpdated(fireStoreParticipants.id) })
 
             }

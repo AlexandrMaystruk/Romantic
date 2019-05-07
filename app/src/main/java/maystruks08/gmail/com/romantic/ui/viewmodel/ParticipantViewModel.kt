@@ -4,17 +4,15 @@ import android.os.Parcel
 import android.os.Parcelable
 import maystruks08.gmail.com.domain.entity.Participant
 
-class ParticipantViewModel(val post: String? = null, val hikeId: Long, val userViewModel: UserViewModel) :
+class ParticipantViewModel(val post: String? = null, val userViewModel: UserViewModel) :
     Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
-        parcel.readLong(),
-        parcel.readParcelable(UserViewModel::class.java.classLoader)
+        parcel.readParcelable(UserViewModel::class.java.classLoader)!!
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(post)
-        parcel.writeLong(hikeId)
         parcel.writeParcelable(userViewModel, flags)
     }
 
@@ -35,7 +33,6 @@ class ParticipantViewModel(val post: String? = null, val hikeId: Long, val userV
             participant.let {
                 ParticipantViewModel(
                     it.post.name,
-                    it.hikeId,
                     UserViewModel.fromUser(it.user)
                 )
             }

@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "tools")
 data class ToolsTable(
-
-    @PrimaryKey var id: String,
+    @PrimaryKey
+    var id: Long,
     var description: String?,
     var count: String?,
     var pictureURL: String?

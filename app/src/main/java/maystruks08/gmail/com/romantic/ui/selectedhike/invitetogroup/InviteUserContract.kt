@@ -16,10 +16,10 @@ interface InviteUserContract {
 
         fun initUserList()
 
-        fun onUserClicked(user: User)
+        fun onUserClicked(hikeId: Long, user: User)
 
-        fun onInviteUserClicked(user: User)
+        fun onInviteUserClicked(user: User, postPosition: Int, hikeId: Long)
 
-        fun onSaveClicked()
+        fun onSaveClicked(hikeId: Long)
     }
 }

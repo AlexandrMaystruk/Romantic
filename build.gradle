@@ -153,7 +153,7 @@ ext {
             rxFirebase               : "com.github.FrangSierra:RxFirebase:$firebaseRxVersion",
             firebaseStorage          : "com.google.firebase:firebase-storage:$firebaseStorageVersion",
             firebaseDatabase         : "com.google.firebase:firebase-database:$firebaseStorageVersion",
-            firebaseFirestoreDatabase: "com.google.firebase:firebase-firestore:$firebaseFirestoreVersion",
+            firebaseFirestoreDatabase: "com.google.firebase:firebase-firestore-ktx:$firebaseFirestoreVersion",
             osm                      : "org.osmdroid:osmdroid-android:$osmVersion"
     ]
 

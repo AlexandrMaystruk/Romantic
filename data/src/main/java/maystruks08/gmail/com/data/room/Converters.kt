@@ -1,6 +1,7 @@
 package maystruks08.gmail.com.data.room
 
 import androidx.room.TypeConverter
+import maystruks08.gmail.com.data.room.entity.ParticipantTable
 import java.util.*
 
 object Converters {

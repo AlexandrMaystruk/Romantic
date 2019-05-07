@@ -12,9 +12,9 @@ class ParticipantMapper @Inject constructor() {
     fun toParticipantTable(participant: Participant): ParticipantTable {
         return participant.let {
             ParticipantTable(
+                id = it.user.id,
                 hikeId = it.hikeId,
                 post = it.post.name,
-                userId = it.user.id,
                 displayName = it.user.displayName,
                 email = it.user.email,
                 userExperienceMountain = it.user.userExperienceMountain,
@@ -22,7 +22,6 @@ class ParticipantMapper @Inject constructor() {
                 userExperienceSki = it.user.userExperienceSki,
                 userExperienceWater = it.user.userExperienceWater,
                 userPhotoUrl = it.user.userPhotoUrl
-
             )
         }
     }
@@ -33,7 +32,7 @@ class ParticipantMapper @Inject constructor() {
                 post = UserPost.valueOf(it.post),
                 hikeId = it.hikeId,
                 user = User(
-                    it.userId,
+                    it.id,
                     it.displayName,
                     it.email,
                     it.userExperienceMountain,
@@ -102,6 +101,10 @@ class ParticipantMapper @Inject constructor() {
             userExperienceWater = user.userExperienceWater,
             userPhotoUrl = user.userPhotoUrl
         )
+    }
 
+
+    fun toParticipantTableList(participants: List<Participant>): List<ParticipantTable> {
+        return participants.map { toParticipantTable(it) }
     }
 }

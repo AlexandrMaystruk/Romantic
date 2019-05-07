@@ -15,7 +15,10 @@ class UserPresenter @Inject constructor(
     private val interactor: ParticipantInteractor
 ) : InviteUserContract.Presenter, BasePresenter<InviteUserContract.View>() {
 
+    private val invitedUserList = mutableListOf<Participant>()
+
     override fun initUserList() {
+        view?.showLoading()
         compositeDisposable.add(
             interactor.getUsers()
                 .subscribe(::onGetUserSuccess,::onGetUserFailure )
@@ -23,26 +26,41 @@ class UserPresenter @Inject constructor(
     }
 
     private fun onGetUserSuccess(users: List<User>) {
+        view?.hideLoading()
         view?.showUsers(users)
     }
 
     private fun onGetUserFailure(t: Throwable){
+        view?.hideLoading()
         t.printStackTrace()
     }
 
 
 
-    override fun onUserClicked(user: User) {
-        router.navigateTo(Screens.ProfileScreen(Participant(UserPost.BOSS, 0L, user)))
+    override fun onUserClicked(hikeId: Long, user: User) {
+        router.navigateTo(Screens.ProfileScreen(Participant(UserPost.BOSS, hikeId, user)))
     }
 
-    override fun onInviteUserClicked(user: User) {
-
+    override fun onInviteUserClicked(user: User, postPosition: Int, hikeId: Long) {
+       invitedUserList.add(Participant(UserPost.fromIndex(postPosition),hikeId, user))
     }
 
-    override fun onSaveClicked() {
-        //todo save change
+    override fun onSaveClicked(hikeId: Long) {
+        view?.showLoading()
+        compositeDisposable.add(
+            interactor.addParticipantsToHikeGroup(hikeId, invitedUserList)
+                .subscribe(::onInviteUserSuccess,::onInviteUserFailure )
+        )
+    }
+
+    private fun onInviteUserSuccess() {
+        view?.hideLoading()
         router.exit()
+    }
+
+    private fun onInviteUserFailure(t: Throwable){
+        view?.hideLoading()
+        t.printStackTrace()
     }
 
 }

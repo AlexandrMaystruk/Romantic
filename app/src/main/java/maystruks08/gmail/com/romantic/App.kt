@@ -1,6 +1,8 @@
 package maystruks08.gmail.com.romantic
 
 import android.app.Application
+import io.reactivex.exceptions.UndeliverableException
+import io.reactivex.plugins.RxJavaPlugins
 import maystruks08.gmail.com.romantic.core.di.application.AndroidModule
 import maystruks08.gmail.com.romantic.core.di.application.AppComponent
 import maystruks08.gmail.com.romantic.core.di.application.DaggerAppComponent
@@ -145,6 +147,16 @@ class App : Application() {
             .builder()
             .androidModule(AndroidModule(this))
             .build()
+
+        RxJavaPlugins.setErrorHandler { e ->
+            if (e is UndeliverableException) {
+                System.err.println(e.message)
+            } else {
+                Thread.currentThread().also { thread ->
+                    thread.uncaughtExceptionHandler.uncaughtException(thread, e)
+                }
+            }
+        }
 
 
     }

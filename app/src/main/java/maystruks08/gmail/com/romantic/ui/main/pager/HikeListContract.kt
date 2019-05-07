@@ -15,9 +15,9 @@ interface HikeListContract {
 
     interface Presenter : IPresenter<View> {
 
-        fun loadHikeData()
+        fun downloadHikeData()
 
-        fun initFragment(typeHike: TypeHike? = null, position: Int)
+        fun initFragment(typeHike: TypeHike, position: Int)
 
         fun onHikeClicked(hike: Hike)
     }
