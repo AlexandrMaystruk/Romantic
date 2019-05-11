@@ -110,15 +110,15 @@ class HikeRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getUpdateCashUser(cashUsers: List<User>): Completable {
-        return getRemoteUsers().flatMapCompletable { remoteUsers ->
-            return@flatMapCompletable if (compareUserList(remoteUsers, cashUsers)) {
+    override fun updateCashedUsers(cashUsers: List<User>): Single<List<User>> {
+        return getRemoteUsers().flatMap { remoteUsers ->
+            if (compareUserList(remoteUsers, cashUsers)) {
                 Completable.fromAction { userDao.delete(cashUsers.map { userMapper.authToUserTable(it) }) }
                     .andThen(Completable.fromAction { userDao.insert(remoteUsers.map { userMapper.authToUserTable(it) }) })
-                    .andThen(Completable.fromAction { updateBus.postUpdateLocalUsers(remoteUsers) })
+                    .andThen(Single.just(remoteUsers))
                     .subscribeOn(Schedulers.io())
             } else {
-                Completable.complete()
+                Single.error(Throwable("All users is cashed"))
             }
         }
     }

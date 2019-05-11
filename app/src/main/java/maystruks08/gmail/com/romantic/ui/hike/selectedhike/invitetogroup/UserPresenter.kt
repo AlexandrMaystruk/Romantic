@@ -16,19 +16,12 @@ import javax.inject.Inject
 
 class UserPresenter @Inject constructor(
     private val router: Router,
-    private val interactor: ParticipantInteractor,
-    private val updateBus: UpdateBus
+    private val interactor: ParticipantInteractor
 ) : InviteUserContract.Presenter, BasePresenter<InviteUserContract.View>() {
 
     private val invitedUserList = mutableListOf<Participant>()
 
     override fun initUserList() {
-
-        compositeDisposable.add(
-            updateBus.updateLocalUserEvent()
-                .subscribe(::onGetUserUpdateSuccess, ::onGetUserUpdateFailure)
-        )
-
         view?.showLoading()
         compositeDisposable.add(
             interactor.getUsers()
@@ -42,25 +35,19 @@ class UserPresenter @Inject constructor(
         compositeDisposable.add(
             interactor.updateUserCash(users)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+                .subscribe(::onGetUserUpdateSuccess,::onGetUserFailure )
         )
+    }
+
+    private fun onGetUserUpdateSuccess(users: List<User>) {
+        view?.hideLoading()
+        view?.showUsers(users)
     }
 
     private fun onGetUserFailure(t: Throwable) {
         view?.hideLoading()
         t.printStackTrace()
     }
-
-    private fun onGetUserUpdateSuccess(event: UpdateUsersEvent) {
-        view?.hideLoading()
-        view?.showUsers(event.users)
-    }
-
-    private fun onGetUserUpdateFailure(t: Throwable) {
-        view?.hideLoading()
-        t.printStackTrace()
-    }
-
 
     override fun onUserClicked(hikeId: Long, user: User) {
         router.navigateTo(Screens.ProfileScreen(Participant(UserPost.BOSS, hikeId, user)))

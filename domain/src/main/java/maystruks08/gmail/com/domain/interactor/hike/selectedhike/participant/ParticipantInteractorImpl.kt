@@ -13,8 +13,8 @@ class ParticipantInteractorImpl @Inject constructor(
     private val executor: ThreadExecutor
 ) : ParticipantInteractor {
 
-    override fun updateUserCash(localCash: List<User>): Completable {
-        return participantRepository.getUpdateCashUser(localCash)
+    override fun updateUserCash(localCash: List<User>): Single<List<User>> {
+        return participantRepository.updateCashedUsers(localCash)
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)
 

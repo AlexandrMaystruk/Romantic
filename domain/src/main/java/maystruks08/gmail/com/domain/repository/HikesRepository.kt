@@ -40,7 +40,7 @@ interface HikesRepository {
 
     fun removeHike(hikeId: Long): Completable
 
-    fun getUpdateCashUser(cashUsers: List<User>): Completable
+    fun updateCashedUsers(cashUsers: List<User>) : Single<List<User>>
 
 
 }
