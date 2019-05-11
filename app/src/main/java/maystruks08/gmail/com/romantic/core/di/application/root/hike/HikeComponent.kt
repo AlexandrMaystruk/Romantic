@@ -4,7 +4,7 @@ import dagger.Subcomponent
 import maystruks08.gmail.com.romantic.core.di.application.root.hike.createhike.CreateHikeComponent
 import maystruks08.gmail.com.romantic.core.di.application.root.hike.myhike.MyHikesComponent
 import maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.SelectedHikeComponent
-import maystruks08.gmail.com.romantic.ui.createhike.CreateNewHikeFragment
+import maystruks08.gmail.com.romantic.ui.hike.createhike.CreateNewHikeFragment
 import maystruks08.gmail.com.romantic.ui.main.pager.RootTabFragment
 
 

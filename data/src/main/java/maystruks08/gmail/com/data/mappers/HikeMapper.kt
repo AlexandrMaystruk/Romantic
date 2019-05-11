@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import maystruks08.gmail.com.data.room.entity.HikeTable
 import maystruks08.gmail.com.domain.entity.*
-import maystruks08.gmail.com.domain.entity.firebase.FireStoreHike
+import maystruks08.gmail.com.domain.entity.firebase.POJOHike
 import java.util.*
 import javax.inject.Inject
 
@@ -26,16 +26,16 @@ class HikeMapper @Inject constructor() {
         }
     }
 
-    fun toHike(hikeFireStore: FireStoreHike): Hike {
-        return hikeFireStore.let {
+    fun toHike(hikePOJO: POJOHike): Hike {
+        return hikePOJO.let {
             Hike(
                 it.id,
-                it.typeHike,
-                it.dateStart,
-                it.dateEnd,
+                TypeHike.fromValue(it.typeHike),
+                Date(it.dateStart),
+                Date(it.dateEnd),
                 it.hikeChief,
                 it.region,
-                it.category,
+                Category.fromValue(it.category),
                 Route(mutableListOf()),
                 mutableListOf(),
                 mutableListOf(),
@@ -44,9 +44,9 @@ class HikeMapper @Inject constructor() {
         }
     }
 
-    private fun toFireBaseHike(hike: Hike): FireStoreHike {
+    private fun toFireBaseHike(hike: Hike): POJOHike {
         return hike.let {
-            FireStoreHike(
+            POJOHike(
                 it.id,
                 it.typeHike,
                 it.dateStart,
@@ -58,12 +58,12 @@ class HikeMapper @Inject constructor() {
         }
     }
 
-    fun toFireBaseHike(hikeTable: HikeTable): FireStoreHike {
+    fun toFireBaseHike(hikeTable: HikeTable): POJOHike {
         return toFireBaseHike(toHikeFromTable(hikeTable))
     }
 
-    fun toHikeTable(fireStoreHike: FireStoreHike): HikeTable {
-        return toHikeTable(toHike(fireStoreHike))
+    fun toHikeTable(POJOHike: POJOHike): HikeTable {
+        return toHikeTable(toHike(POJOHike))
     }
 
     fun toHikeTableList(hikes: List<Hike>): List<HikeTable> {

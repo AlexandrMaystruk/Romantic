@@ -16,4 +16,8 @@ interface HikeInteractor{
 
     fun provideHikeParticipants(hikeId: Long): Single<List<Participant>>
 
+    fun leaveFromHikeGroup(hike: Hike): Completable
+
+    fun deleteHike(hike: Hike): Completable
+
 }

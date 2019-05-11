@@ -35,10 +35,16 @@ abstract class HikeDAO {
         }
     }
 
+    @Transaction
+    open fun deleteHike(hikeId: Long) {
+        delete(hikeId)
+        deleteHikeParticipantJoin(hikeId)
+    }
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertParticipant(vararg participant: ParticipantTable)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertHikeParticipantJoin(hikeParticipantJoin: HikeParticipantJoin)
 
 
@@ -52,16 +58,10 @@ abstract class HikeDAO {
     abstract fun update(vararg hikes: HikeTable)
 
     @Query("SELECT * FROM hikes where id = :idHike ")
-    abstract fun getById(idHike: Int): Single<HikeTable>
+    abstract fun getById(idHike: Long): HikeTable
 
     @Update
     abstract fun update(hike: HikeTable)
-
-    @Delete
-    abstract fun delete(hike: HikeTable)
-
-    @Query("DELETE FROM hikes")
-    abstract fun dropTable()
 
 
     //need to upload if upload is null
@@ -102,5 +102,20 @@ abstract class HikeDAO {
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT * FROM hikes INNER JOIN hike_participant_join ON hikes.id = hike_participant_join.hikeId WHERE hike_participant_join.participantId = :participantId AND hikes.type = :type ")
     abstract fun getHikes(participantId: String, type: Int): Single<List<HikeTable>>
+
+
+    //delete
+    @Query("DELETE FROM hike_participant_join  WHERE hikeId = :hikeId ")
+    abstract fun deleteHikeParticipantJoin(hikeId: Long) : Int
+
+    @Delete
+    abstract fun delete(hike: HikeTable)
+
+    @Query("DELETE  FROM hikes where id = :idHike ")
+    abstract fun delete(idHike: Long): Int
+
+
+    @Query("DELETE FROM hikes")
+    abstract fun dropTable()
 
 }

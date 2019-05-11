@@ -8,8 +8,8 @@ import maystruks08.gmail.com.data.room.dao.HikeDAO
 import maystruks08.gmail.com.domain.interactor.hike.HikeInteractor
 import maystruks08.gmail.com.domain.interactor.hike.HikeInteractorImpl
 import maystruks08.gmail.com.domain.repository.HikesRepository
-import maystruks08.gmail.com.romantic.ui.myhikes.MyHikePresenter
-import maystruks08.gmail.com.romantic.ui.myhikes.MyHikesContract
+import maystruks08.gmail.com.romantic.ui.hike.myhikes.MyHikePresenter
+import maystruks08.gmail.com.romantic.ui.hike.myhikes.MyHikesContract
 
 @Module
 class MyHikesModule {

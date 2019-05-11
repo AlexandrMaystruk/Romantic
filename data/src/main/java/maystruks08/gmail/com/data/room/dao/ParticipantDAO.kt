@@ -4,6 +4,7 @@ import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Single
 import maystruks08.gmail.com.data.room.entity.HikeParticipantJoin
+import maystruks08.gmail.com.data.room.entity.HikeTable
 import maystruks08.gmail.com.data.room.entity.ParticipantTable
 import maystruks08.gmail.com.data.room.entity.UserTable
 
@@ -24,6 +25,27 @@ abstract class ParticipantDAO {
         }
     }
 
+    @Transaction
+    open fun deleteUserFromHikeGroup(participantId: String) {
+        deleteParticipant(participantId)
+        deleteHikeParticipantJoinByParticipantId(participantId)
+    }
+
+    @Transaction
+    open fun deleteUserFromHikeGroup(participant: ParticipantTable) {
+            delete(participant)
+            deleteHikeParticipantJoinByParticipantId(participant.id)
+    }
+
+    @Transaction
+    open fun deleteUsersFromHikeGroup(participant: List<ParticipantTable>) {
+        participant.forEach {
+            delete(it)
+            deleteHikeParticipantJoinByParticipantId(it.id)
+        }
+    }
+
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertHikeParticipantJoin(hikeParticipantJoin: HikeParticipantJoin)
 
@@ -32,6 +54,10 @@ abstract class ParticipantDAO {
     @Query("SELECT * FROM participants INNER JOIN hike_participant_join ON hike_participant_join.participantId = participants.id WHERE hike_participant_join.hikeId = :hikeId")
     abstract fun getParticipantsByHikeId(hikeId: Long): Single<List<ParticipantTable>>
 
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT COUNT(*) FROM participants INNER JOIN hike_participant_join ON hike_participant_join.participantId = participants.id WHERE hike_participant_join.hikeId = :hikeId")
+    abstract fun getGroupCountByHikeId(hikeId: Long): Single<Int>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun addParticipant(vararg participant: ParticipantTable)
 
@@ -39,7 +65,14 @@ abstract class ParticipantDAO {
     abstract fun addParticipants(participants: List<ParticipantTable>)
 
     @Query("DELETE FROM hike_participant_join  WHERE hikeId LIKE :hikeId")
-    abstract fun removeGroup(hikeId: Long)
+    abstract fun removeGroup(hikeId: Long): Int
+
+
+    @Query("DELETE FROM hike_participant_join  WHERE participantId = :participantId")
+    abstract fun deleteHikeParticipantJoinByParticipantId(participantId: String): Int
+
+    @Query("DELETE FROM participants  WHERE id = :participantId")
+    abstract fun deleteParticipant(participantId: String): Int
 
     @Delete
     abstract fun delete(participant: ParticipantTable)

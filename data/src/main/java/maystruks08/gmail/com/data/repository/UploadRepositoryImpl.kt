@@ -3,12 +3,15 @@ package maystruks08.gmail.com.data.repository
 
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import maystruks08.gmail.com.data.api.FireStoreApi
 import maystruks08.gmail.com.data.mappers.HikeMapper
 import maystruks08.gmail.com.data.mappers.ParticipantMapper
 import maystruks08.gmail.com.data.room.dao.HikeDAO
 import maystruks08.gmail.com.data.room.dao.ParticipantDAO
+import maystruks08.gmail.com.data.room.entity.ParticipantTable
 import maystruks08.gmail.com.domain.repository.UploadRepository
 import java.util.*
 import javax.inject.Inject
@@ -56,19 +59,25 @@ class UploadRepositoryImpl @Inject constructor(
 
     override fun uploadNotUploadedParticipants(): Single<Int> {
         return participantDAO.getNotUploadParticipants()
-            .flatMapObservable {
-                Observable.fromIterable(it)
-            }
-            .flatMapCompletable { tableItem ->
-                val fireStoreParticipant = participantMapper.toFireStoreParticipant(tableItem)
-                return@flatMapCompletable api.setParticipantToGroup(tableItem.hikeId, fireStoreParticipant)
-                    .andThen(
-                        Completable.fromAction {
-                            participantDAO.setParticipantUploaded(
-                                fireStoreParticipant.id,
-                                Date().time
-                            )
-                        })
+            .flatMapCompletable { tableItems ->
+                val participantGroups = tableItems.groupBy { it.hikeId }
+                return@flatMapCompletable Observable.fromIterable(participantGroups.keys)
+                    .concatMapCompletable { key ->
+                        participantGroups[key]?.let {
+                            val fireStoreParticipants = participantMapper.toParticipantPOJOList(it)
+                            api.setParticipantsToGroup(key, fireStoreParticipants)
+                                .andThen(
+                                    Completable.fromAction {
+                                        fireStoreParticipants.forEach { participant ->
+                                            participantDAO.setAlreadyUpdated(participant.id)
+                                        }
+                                    }.subscribeOn(
+                                        Schedulers.io()
+                                    )
+                                )
+                        }
+                    }
+
             }
             .andThen(Single.just(0))
             .onErrorResumeNext {
@@ -78,19 +87,25 @@ class UploadRepositoryImpl @Inject constructor(
 
     override fun updateParticipants(): Single<Int> {
         return participantDAO.getNotUpdateParticipants()
-            .flatMapObservable {
-                Observable.fromIterable(it)
-            }
-            .flatMapCompletable { tableItem ->
-                val fireStoreParticipants = participantMapper.toFireStoreParticipant(tableItem)
-                return@flatMapCompletable api.setParticipantToGroup(tableItem.hikeId, fireStoreParticipants)
-                    .andThen(Completable.fromAction { participantDAO.setAlreadyUpdated(fireStoreParticipants.id) })
+            .flatMapCompletable { tableItems ->
+                val participantGroups = tableItems.groupBy { it.hikeId }
+                return@flatMapCompletable Observable.fromIterable(participantGroups.keys)
+                    .concatMapCompletable { key ->
+                        participantGroups[key]?.let {
+                            val fireStoreParticipants = participantMapper.toParticipantPOJOList(it)
+                            api.setParticipantsToGroup(key, fireStoreParticipants)
+                                .andThen(Completable.fromAction {
+                                    fireStoreParticipants.forEach { participant ->
+                                        participantDAO.setAlreadyUpdated(participant.id)
+                                    }
+                                })
+                        }
+                    }
 
             }
             .andThen(Single.just(0))
             .onErrorResumeNext {
                 participantDAO.getNotUpdatedParticipantCount()
-
             }
     }
 

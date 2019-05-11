@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_hike_list.*
 import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.domain.entity.TypeHike
 import maystruks08.gmail.com.romantic.R
-import maystruks08.gmail.com.romantic.ui.myhikes.HikeAdapter
+import maystruks08.gmail.com.romantic.ui.hike.myhikes.HikeAdapter
 
 class HikePageFragment : Fragment() {
 

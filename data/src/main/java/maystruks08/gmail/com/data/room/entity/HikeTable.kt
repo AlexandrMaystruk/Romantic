@@ -15,7 +15,7 @@ data class HikeTable(
     val category: Int,
     val route: String,
     val upload: Boolean? = null,
-    val needToUpdate: Boolean? = false
+    val needToUpdate: Boolean = false
 
 )
 

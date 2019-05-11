@@ -4,7 +4,7 @@ import maystruks08.gmail.com.data.room.entity.ParticipantTable
 import maystruks08.gmail.com.domain.entity.Participant
 import maystruks08.gmail.com.domain.entity.User
 import maystruks08.gmail.com.domain.entity.UserPost
-import maystruks08.gmail.com.domain.entity.firebase.FireStoreParticipant
+import maystruks08.gmail.com.domain.entity.firebase.POJOParticipant
 import javax.inject.Inject
 
 class ParticipantMapper @Inject constructor() {
@@ -45,15 +45,15 @@ class ParticipantMapper @Inject constructor() {
         }
     }
 
-    fun toFireStoreParticipant(participant: ParticipantTable): FireStoreParticipant {
+    fun toFireStoreParticipant(participant: ParticipantTable): POJOParticipant {
         return toFireStoreParticipant(toParticipant(participant))
     }
 
 
-    fun toParticipant(participant: FireStoreParticipant): Participant {
+    fun toParticipant(participant: POJOParticipant): Participant {
         return participant.let {
             Participant(
-                post = it.post,
+                post = UserPost.fromIndex(it.post),
                 hikeId = it.hikeId,
                 user = User(
                     it.id,
@@ -70,10 +70,10 @@ class ParticipantMapper @Inject constructor() {
     }
 
 
-    fun toFireStoreParticipant(participant: Participant): FireStoreParticipant {
+    fun toFireStoreParticipant(participant: Participant): POJOParticipant {
         return participant.let {
-            FireStoreParticipant(
-                post = it.post,
+            POJOParticipant(
+                post = it.post.ordinal,
                 hikeId = it.hikeId,
                 id = it.user.id,
                 displayName = it.user.displayName,
@@ -82,15 +82,15 @@ class ParticipantMapper @Inject constructor() {
                 userExperienceWalking = it.user.userExperienceWalking,
                 userExperienceSki = it.user.userExperienceSki,
                 userExperienceWater = it.user.userExperienceWater,
-                userPhotoUrl = it.user.userPhotoUrl
+                userPhotoUrl = it.user.userPhotoUrl ?: ""
             )
         }
     }
 
 
-    fun toFireStoreParticipant(user: User, hikeId: Long, post: UserPost): FireStoreParticipant {
-        return FireStoreParticipant(
-            post = post,
+    fun toFireStoreParticipant(user: User, hikeId: Long, post: UserPost): POJOParticipant {
+        return POJOParticipant(
+            post = post.ordinal,
             hikeId = hikeId,
             id = user.id,
             displayName = user.displayName,
@@ -99,12 +99,17 @@ class ParticipantMapper @Inject constructor() {
             userExperienceWalking = user.userExperienceWalking,
             userExperienceSki = user.userExperienceSki,
             userExperienceWater = user.userExperienceWater,
-            userPhotoUrl = user.userPhotoUrl
+            userPhotoUrl = user.userPhotoUrl ?: ""
         )
     }
 
 
+
     fun toParticipantTableList(participants: List<Participant>): List<ParticipantTable> {
         return participants.map { toParticipantTable(it) }
+    }
+
+    fun toParticipantPOJOList(participants: List<ParticipantTable>): List<POJOParticipant> {
+        return participants.map { toFireStoreParticipant(it) }
     }
 }

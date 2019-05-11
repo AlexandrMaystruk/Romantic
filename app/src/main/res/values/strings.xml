@@ -63,6 +63,11 @@
 
 
 
+    <!--user-->
+    <string name="user_invite">Пригласить</string>
+    <string name="user_invited">Добавлен</string>
+
+
     <string-array name="category_list">
         <item>Поход выходного дня</item>
         <item>1 категория сложности</item>

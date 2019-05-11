@@ -3,8 +3,8 @@ package maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhik
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikeContract
-import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikePresenter
+import maystruks08.gmail.com.romantic.ui.hike.selectedhike.SelectedHikeContract
+import maystruks08.gmail.com.romantic.ui.hike.selectedhike.SelectedHikePresenter
 
 @Module
 abstract class SelectedHikeModule {

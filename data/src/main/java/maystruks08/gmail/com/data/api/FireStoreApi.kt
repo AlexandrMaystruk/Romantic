@@ -6,9 +6,10 @@ import durdinapps.rxfirebase2.RxCompletableHandler
 import durdinapps.rxfirebase2.RxFirestore
 import io.reactivex.Completable
 import io.reactivex.Maybe
+import io.reactivex.Single
 import maystruks08.gmail.com.domain.entity.User
-import maystruks08.gmail.com.domain.entity.firebase.FireStoreHike
-import maystruks08.gmail.com.domain.entity.firebase.FireStoreParticipant
+import maystruks08.gmail.com.domain.entity.firebase.POJOHike
+import maystruks08.gmail.com.domain.entity.firebase.POJOParticipant
 import javax.inject.Inject
 
 class FireStoreApi @Inject constructor(private val fireStore: FirebaseFirestore) {
@@ -34,20 +35,89 @@ class FireStoreApi @Inject constructor(private val fireStore: FirebaseFirestore)
         return RxFirestore.getCollection(reference)
     }
 
-    fun uploadHike(hike: FireStoreHike): Completable {
+    fun uploadHike(hike: POJOHike): Completable {
         val reference = fireStore.collection(COLLECTION_HIKE).document(HIKE + hike.id)
         return RxFirestore.setDocument(reference, hike)
     }
 
-    fun setParticipantToGroup(hikeId: Long, participant: FireStoreParticipant): Completable {
+    fun setParticipantToGroup(hikeId: Long, participant: POJOParticipant): Completable {
         val reference = fireStore.collection(COLLECTION_HIKE_GROUP).document(HIKE + hikeId)
-        return setDocument(reference, mapOf(participant.id to participant))
+        return RxFirestore.getDocument(reference).flatMapSingle { snapshot ->
+            val participants = mutableMapOf<String, POJOParticipant>()
+            snapshot.data?.values?.forEach { any ->
+                (any as?  Map<String, Any>)?.let {
+                    val part = POJOParticipant.fromHashMap(it)
+                    participants.put(part.id, POJOParticipant.fromHashMap(it))
+                }
+            }
+            participants[participant.id] = participant
+            return@flatMapSingle Single.just(participants)
+        }.flatMapCompletable {
+            setDocument(reference, it)
+        }.onErrorResumeNext {
+            setDocument(reference, mutableMapOf(participant.id to participant))
+        }
     }
 
-    fun removeParticipantFromGroup(hikeId: Long, participant: FireStoreParticipant): Completable {
-        val reference = fireStore.collection(COLLECTION_HIKE).document(HIKE + hikeId).collection(COLLECTION_HIKE_GROUP)
-            .document(participant.post.name)
-        return RxFirestore.deleteDocument(reference)
+    fun setParticipantsToGroup(hikeId: Long, participant: List<POJOParticipant>): Completable {
+        val reference = fireStore.collection(COLLECTION_HIKE_GROUP).document(HIKE + hikeId)
+        return RxFirestore.getDocument(reference).flatMapSingle { snapshot ->
+            val participants = mutableMapOf<String, POJOParticipant>()
+            snapshot.data?.values?.forEach { any ->
+                (any as?  Map<String, Any>)?.let {
+                    val part = POJOParticipant.fromHashMap(it)
+                    participants.put(part.id, POJOParticipant.fromHashMap(it))
+                }
+            }
+            participant.forEach {
+                participants[it.id] = it
+            }
+            return@flatMapSingle Single.just(participants)
+        }.flatMapCompletable {
+            setDocument(reference, it)
+        }.onErrorResumeNext {
+            setDocument(reference, mutableMapOf(participant.first().id to participant))
+        }
+    }
+
+    fun removeParticipantFromGroup(hikeId: Long, participant: POJOParticipant): Completable {
+        val reference = fireStore.collection(COLLECTION_HIKE_GROUP).document(HIKE + hikeId)
+        return RxFirestore.getDocument(reference).flatMapSingle { snapshot ->
+            val participants = mutableMapOf<String, POJOParticipant>()
+            snapshot.data?.values?.forEach { any ->
+                (any as?  Map<String, Any>)?.let {
+                    val part = POJOParticipant.fromHashMap(it)
+                    if(part.id != participant.id)
+                        participants[part.id] = POJOParticipant.fromHashMap(it)
+                }
+            }
+            return@flatMapSingle Single.just(participants)
+        }.flatMapCompletable {
+            setDocument(reference, it)
+        }
+    }
+
+    fun removeParticipantFromGroup(hikeId: Long, participantId: String): Completable {
+        val reference = fireStore.collection(COLLECTION_HIKE_GROUP).document(HIKE + hikeId)
+        return RxFirestore.getDocument(reference).flatMapSingle { snapshot ->
+            val participants = mutableMapOf<String, POJOParticipant>()
+            snapshot.data?.values?.forEach { any ->
+                (any as?  Map<String, Any>)?.let {
+                    val part = POJOParticipant.fromHashMap(it)
+                    if(part.id != participantId)
+                        participants[part.id] = POJOParticipant.fromHashMap(it)
+                }
+            }
+            return@flatMapSingle Single.just(participants)
+        }.flatMapCompletable {
+            setDocument(reference, it)
+        }
+    }
+
+    fun deleteHike(hikeId: Long): Completable {
+        val hike = fireStore.collection(COLLECTION_HIKE).document(HIKE + hikeId)
+        val group = fireStore.collection(COLLECTION_HIKE_GROUP).document(HIKE + hikeId)
+        return RxFirestore.deleteDocument(hike).andThen(RxFirestore.deleteDocument(group))
     }
 
     private fun setDocument(ref: DocumentReference, map: Map<String, Any>): Completable {

@@ -2,15 +2,12 @@ package maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhik
 
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import maystruks08.gmail.com.data.repository.RouteRepositoryImpl
-import maystruks08.gmail.com.data.room.AppDatabase
-import maystruks08.gmail.com.data.room.dao.NewsDAO
-import maystruks08.gmail.com.domain.interactor.route.RouteInteractor
-import maystruks08.gmail.com.domain.interactor.route.RouteInteractorImpl
+import maystruks08.gmail.com.domain.interactor.hike.selectedhike.route.RouteInteractor
+import maystruks08.gmail.com.domain.interactor.hike.selectedhike.route.RouteInteractorImpl
 import maystruks08.gmail.com.domain.repository.RouteRepository
-import maystruks08.gmail.com.romantic.ui.selectedhike.route.RouteContract
-import maystruks08.gmail.com.romantic.ui.selectedhike.route.RoutePresenter
+import maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.RouteContract
+import maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.RoutePresenter
 
 @Module
 abstract class RouteModule {

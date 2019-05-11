@@ -56,7 +56,7 @@ class RootTabFragment : Fragment(), HikeListContract.View,
 
 
     override fun showHikes(hikeList: List<Hike>, position: Int) {
-        fragmentAdapter.fragmentList[position].hikeAdapter?.hikeList = hikeList
+        fragmentAdapter.fragmentList[position].hikeAdapter?.hikeList = hikeList.toMutableList()
     }
 
     override fun onHikeClicked(hike: Hike) {

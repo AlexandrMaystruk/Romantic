@@ -3,6 +3,7 @@
     <color name="colorPrimary">#444869</color>
     <color name="colorPrimaryDark"> #141730</color>
     <color name="colorAccent">#FFD15C</color>
+    <color name="colorGreen">#00A018</color>
     <color name="background">#D9DDFF </color>
     <color name="background_header">#9ca1c9</color>
     <color name="bottom_navigation_view_color">#bf3d4269</color>
@@ -14,5 +15,6 @@
     <color name="color_white">#ffffff</color>
     <color name="color_black">#000000</color>
     <color name="colorRed">#BD1515</color>
+    <color name="colorOrange">#FF5722</color>
 
 </resources>

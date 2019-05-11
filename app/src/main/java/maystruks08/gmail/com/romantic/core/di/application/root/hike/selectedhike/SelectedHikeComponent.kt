@@ -3,7 +3,7 @@ package maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhik
 import dagger.Subcomponent
 import maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.participant.ParticipantComponent
 import maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.route.RouteComponent
-import maystruks08.gmail.com.romantic.ui.selectedhike.SelectedHikeFragment
+import maystruks08.gmail.com.romantic.ui.hike.selectedhike.SelectedHikeFragment
 
 
 @Subcomponent(modules = [SelectedHikeModule::class])
