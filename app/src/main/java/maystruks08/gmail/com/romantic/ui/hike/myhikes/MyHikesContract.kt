@@ -12,6 +12,8 @@ interface MyHikesContract {
         fun showHikes(hikeList: List<Hike>)
 
         fun showHikeRemoved(position: Int)
+
+        fun updateItem(position: Int)
     }
 
     interface Presenter : IPresenter<View> {

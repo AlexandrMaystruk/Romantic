@@ -8,7 +8,7 @@ data class ParticipantTable(
     @PrimaryKey
     val id: String,
     val hikeId: Long,
-    var post: String,
+    var post: Int,
     var displayName: String = "",
     var email: String = "",
     var userExperienceMountain: Int = 0,

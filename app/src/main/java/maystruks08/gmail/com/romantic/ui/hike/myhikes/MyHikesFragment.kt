@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.fragment_participant.*
 import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.toast
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
 import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
@@ -84,6 +85,10 @@ class MyHikesFragment : Fragment(), MyHikesContract.View {
         hikeAdapter.removeItem(position)
     }
 
+    override fun updateItem(position: Int) {
+        hikeAdapter.notifyItemChanged(position)
+    }
+
     private fun hikeItemClicked(hike: Hike) {
         presenter.onHikeClicked(hike)
     }
@@ -101,6 +106,7 @@ class MyHikesFragment : Fragment(), MyHikesContract.View {
     }
 
     override fun showError(t: Throwable) {
+        context?.toast(t.message?:t.localizedMessage)
     }
 
 

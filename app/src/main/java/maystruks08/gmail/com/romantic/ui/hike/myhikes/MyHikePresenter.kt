@@ -1,6 +1,8 @@
 package maystruks08.gmail.com.romantic.ui.hike.myhikes
 
+import android.util.Log
 import maystruks08.gmail.com.domain.entity.Hike
+import maystruks08.gmail.com.domain.exceptions.PermissionException
 import maystruks08.gmail.com.domain.interactor.hike.HikeInteractor
 import maystruks08.gmail.com.romantic.core.base.BasePresenter
 import maystruks08.gmail.com.romantic.core.navigation.Screens
@@ -59,10 +61,16 @@ class MyHikePresenter @Inject constructor(
     }
 
     override fun onDeleteHikeClicked(position: Int, hike: Hike) {
-        view?.showHikeRemoved(position)
         compositeDisposable.add(
             hikeInteractor.deleteHike(hike)
-                .subscribe(::onDeleteHikeSuccess, ::onDeleteHikeFailure)
+                .subscribe(
+                    { view?.showHikeRemoved(position)
+                        onDeleteHikeSuccess()
+                    }, {
+                        view?.updateItem(position)
+                        onDeleteHikeFailure(it)
+                    }
+                )
         )
     }
 
@@ -72,6 +80,16 @@ class MyHikePresenter @Inject constructor(
 
     private fun onDeleteHikeFailure(t: Throwable) {
         view?.hideLoading()
-        t.printStackTrace()
+        if (t is PermissionException) {
+            view?.showError(t)
+            Log.d(TAG, "You haven't permission to delete hike")
+        } else {
+            t.printStackTrace()
+        }
+    }
+
+    companion object {
+
+        const val TAG = "MyHike"
     }
 }

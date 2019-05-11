@@ -14,7 +14,7 @@ class ParticipantMapper @Inject constructor() {
             ParticipantTable(
                 id = it.user.id,
                 hikeId = it.hikeId,
-                post = it.post.name,
+                post = it.post.id,
                 displayName = it.user.displayName,
                 email = it.user.email,
                 userExperienceMountain = it.user.userExperienceMountain,
@@ -29,7 +29,7 @@ class ParticipantMapper @Inject constructor() {
     fun toParticipant(participant: ParticipantTable): Participant {
         return participant.let {
             Participant(
-                post = UserPost.valueOf(it.post),
+                post = UserPost.fromIndex(it.post),
                 hikeId = it.hikeId,
                 user = User(
                     it.id,
@@ -73,7 +73,7 @@ class ParticipantMapper @Inject constructor() {
     fun toFireStoreParticipant(participant: Participant): POJOParticipant {
         return participant.let {
             POJOParticipant(
-                post = it.post.ordinal,
+                post = it.post.id,
                 hikeId = it.hikeId,
                 id = it.user.id,
                 displayName = it.user.displayName,
@@ -90,7 +90,7 @@ class ParticipantMapper @Inject constructor() {
 
     fun toFireStoreParticipant(user: User, hikeId: Long, post: UserPost): POJOParticipant {
         return POJOParticipant(
-            post = post.ordinal,
+            post = post.id,
             hikeId = hikeId,
             id = user.id,
             displayName = user.displayName,

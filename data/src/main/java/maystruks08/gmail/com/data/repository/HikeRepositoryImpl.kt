@@ -16,6 +16,7 @@ import maystruks08.gmail.com.domain.entity.firebase.POJOHike
 import maystruks08.gmail.com.domain.entity.firebase.POJOParticipant
 import maystruks08.gmail.com.domain.event.UpdateBus
 import maystruks08.gmail.com.domain.exceptions.ParticipantDataSync
+import maystruks08.gmail.com.domain.exceptions.PermissionException
 import maystruks08.gmail.com.domain.exceptions.UserDataSync
 import maystruks08.gmail.com.domain.repository.HikesRepository
 import javax.inject.Inject
@@ -135,13 +136,14 @@ class HikeRepositoryImpl @Inject constructor(
     override fun updateCashedGroup(cashGroup: List<Participant>): Single<List<Participant>> {
         val hikeId = cashGroup.first().hikeId
         return downloadParticipantsFromFireStore(hikeId).flatMap { remoteUsers ->
-            if (compareParticipantList(remoteUsers, cashGroup)) {
+            if (compareParticipantList(remoteUsers, cashGroup) && remoteUsers.isNotEmpty()) {
                 Completable.fromAction {
-                    participantDAO.deleteUsersFromHikeGroup(cashGroup.map {
-                        participantMapper.toParticipantTable(
-                            it
-                        )
-                    })
+                    participantDAO.deleteUsersFromHikeGroup(
+                        cashGroup.map {
+                            participantMapper.toParticipantTable(
+                                it
+                            )
+                        })
                 }
                     .andThen(Completable.fromAction {
                         participantDAO.addUsersToHikeGroup(
@@ -208,16 +210,22 @@ class HikeRepositoryImpl @Inject constructor(
 
     override fun removeHike(hikeId: Long): Completable {
         return participantDAO.getParticipantsByHikeId(hikeId)
-            .flatMapCompletable {
-                return@flatMapCompletable Completable.fromAction {
-                    it.forEach {
-                        participantDAO.delete(it)
-                    }
-                }.andThen(
+            .flatMapCompletable { list ->
+                val currentUserId = getCurrentUserFromPref().id
+                val hikeBoss = list.find { it.id == currentUserId && it.post == UserPost.BOSS.id }
+                return@flatMapCompletable if (hikeBoss != null) {
                     Completable.fromAction {
-                        hikeDAO.deleteHike(hikeId)
-                    }
-                ).andThen(api.deleteHike(hikeId))
+                        list.forEach {
+                            participantDAO.delete(it)
+                        }
+                    }.andThen(
+                        Completable.fromAction {
+                            hikeDAO.deleteHike(hikeId)
+                        }
+                    ).andThen(api.deleteHike(hikeId))
+                } else {
+                    Completable.error(PermissionException())
+                }
             }
     }
 

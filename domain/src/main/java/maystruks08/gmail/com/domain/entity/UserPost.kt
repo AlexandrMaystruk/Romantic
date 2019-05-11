@@ -1,15 +1,15 @@
 package maystruks08.gmail.com.domain.entity
 
-enum class UserPost {
+enum class UserPost(val id: Int) {
 
-    BOSS,
-    MEDIC,
-    COOK,
-    REPAIR_KIT,
-    CLOWN,
-    TOOLS_CONTROLLER,
-    MPS,
-    PHOTOGRAPH;
+    BOSS(1),
+    MEDIC(2),
+    COOK(3),
+    REPAIR_KIT(4),
+    CLOWN(5),
+    TOOLS_CONTROLLER(6),
+    MPS(7),
+    PHOTOGRAPH(8);
 
     companion object {
         fun fromIndex(postIndex: Int): UserPost{
