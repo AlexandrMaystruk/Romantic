@@ -13,13 +13,6 @@ class ParticipantInteractorImpl @Inject constructor(
     private val executor: ThreadExecutor
 ) : ParticipantInteractor {
 
-    override fun updateUserCash(localCash: List<User>): Single<List<User>> {
-        return participantRepository.updateCashedUsers(localCash)
-            .subscribeOn(executor.mainExecutor)
-            .observeOn(executor.postExecutor)
-
-    }
-
     override fun getUsers(): Single<List<User>> {
         return participantRepository.getUsers()
             .subscribeOn(executor.mainExecutor)
@@ -43,5 +36,19 @@ class ParticipantInteractorImpl @Inject constructor(
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)
 
+    }
+
+    // data cash work
+    override fun updateUserCash(localCash: List<User>): Single<List<User>> {
+        return participantRepository.updateCashedUsers(localCash)
+            .subscribeOn(executor.mainExecutor)
+            .observeOn(executor.postExecutor)
+
+    }
+
+    override fun updateCashedGroup(cashGroup: List<Participant>): Single<List<Participant>> {
+        return participantRepository.updateCashedGroup(cashGroup)
+            .subscribeOn(executor.mainExecutor)
+            .observeOn(executor.postExecutor)
     }
 }

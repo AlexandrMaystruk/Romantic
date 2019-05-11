@@ -35,7 +35,7 @@ class UserPresenter @Inject constructor(
         compositeDisposable.add(
             interactor.updateUserCash(users)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(::onGetUserUpdateSuccess,::onGetUserFailure )
+                .subscribe(::onGetUserUpdateSuccess, ::onGetUserFailure)
         )
     }
 

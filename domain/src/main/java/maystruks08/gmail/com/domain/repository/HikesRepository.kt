@@ -28,9 +28,9 @@ interface HikesRepository {
 
     fun getHikeParticipants(hikeId: Long): Single<List<Participant>>
 
-    fun setUserToHikeGroup(hikeId: Long,user: User, post: UserPost): Completable
+    fun setUserToHikeGroup(hikeId: Long, user: User, post: UserPost): Completable
 
-    fun setParticipantHikeGroup(hikeId: Long,participant: Participant): Completable
+    fun setParticipantHikeGroup(hikeId: Long, participant: Participant): Completable
 
     fun setParticipantsToHikeGroup(hikeId: Long, participants: List<Participant>): Completable
 
@@ -40,7 +40,9 @@ interface HikesRepository {
 
     fun removeHike(hikeId: Long): Completable
 
-    fun updateCashedUsers(cashUsers: List<User>) : Single<List<User>>
+    fun updateCashedUsers(cashUsers: List<User>): Single<List<User>>
+
+    fun updateCashedGroup(cashGroup: List<Participant>): Single<List<Participant>>
 
 
 }

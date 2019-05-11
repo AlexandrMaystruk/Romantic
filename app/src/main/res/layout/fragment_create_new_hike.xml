@@ -30,7 +30,7 @@
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:entries="@array/category_list"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_xs"
             app:layout_constraintTop_toBottomOf="@+id/spinnerType"
             app:layout_constraintEnd_toEndOf="@+id/spinnerType"
             app:layout_constraintStart_toStartOf="@+id/spinnerType"/>
@@ -40,10 +40,10 @@
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:hint="@string/create_hike_boss"
-            android:inputType="datetime"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
-            android:layout_marginTop="8dp"
+            android:inputType="text"
+            android:layout_marginTop="@dimen/margin_xs"
             app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
             app:layout_constraintEnd_toEndOf="@+id/spinnerCategory"
             app:layout_constraintStart_toStartOf="@+id/spinnerCategory"/>
@@ -58,7 +58,7 @@
             android:textColorHint="@color/colorPrimary"
             app:layout_constraintStart_toEndOf="@+id/etBossHike"
             app:layout_constraintEnd_toStartOf="@+id/etBossHike"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_xs"
             app:layout_constraintTop_toBottomOf="@+id/etBossHike"/>
 
     <Button
@@ -68,10 +68,10 @@
             android:layout_alignParentEnd="true"
             android:background="@color/colorPrimary"
             android:text="@string/create_hike"
-            android:textColor="@color/text_white_selected"
+            android:textColor="@color/textWhiteSelected"
             app:layout_constraintStart_toEndOf="@+id/etHikeRegion"
             app:layout_constraintEnd_toStartOf="@+id/etHikeRegion"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_xs"
             app:layout_constraintTop_toBottomOf="@+id/etHikeRegion"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

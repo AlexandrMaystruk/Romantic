@@ -16,4 +16,7 @@ interface ParticipantInteractor {
     fun removeParticipant(hikeId: Long, participants: Participant): Completable
 
     fun updateUserCash(localCash: List<User>): Single<List<User>>
+
+    fun updateCashedGroup(cashGroup: List<Participant>): Single<List<Participant>>
+
 }

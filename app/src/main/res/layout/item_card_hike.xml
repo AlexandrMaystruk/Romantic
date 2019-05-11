@@ -35,7 +35,7 @@
                 android:layout_marginBottom="8dp"
                 android:textSize="@dimen/text_s"
                 android:text="Черногорский хребет, Карпаты"
-                android:textColor="@color/text_white_selected" />
+                android:textColor="@color/textWhiteSelected" />
 
 
 
@@ -48,7 +48,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_below="@+id/card_hike_region"
                 android:text="Юрьева Анастасия"
-                android:textColor="@color/text_white_selected" />
+                android:textColor="@color/textWhiteSelected" />
 
 
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
                 android:text="пвд"
-                android:textColor="@color/text_white_selected" />
+                android:textColor="@color/textWhiteSelected" />
 
 
             <TextView
@@ -71,7 +71,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="27.09.18-02.10.18"
-                android:textColor="@color/text_white_selected" />
+                android:textColor="@color/textWhiteSelected" />
 
         </RelativeLayout>
 

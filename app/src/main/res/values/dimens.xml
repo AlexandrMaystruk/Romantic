@@ -28,8 +28,6 @@
     <dimen name="size_bottom_navigation_icon_main">38sp</dimen>
     <dimen name="size_bottom_navigation">62sp</dimen>
 
-
-
     <!--Launcher size-->
     <dimen name="button_width">236dp</dimen>
     <dimen name="button_height">40dp</dimen>
@@ -41,11 +39,6 @@
     <dimen name="image_button_height">70dp</dimen>
 
     <!--Widget size-->
-    <dimen name="tabs_height">30dp</dimen>
-
-
-
-
-
+    <dimen name="tabs_height">26dp</dimen>
 
 </resources>

@@ -108,7 +108,7 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, RootContract.Vie
                 bottomButtonMap[it]?.setTextColor(
                     ContextCompat.getColor(
                         applicationContext,
-                        R.color.text_white_unselected
+                        R.color.textWhiteUnselected
                     )
                 )
             }

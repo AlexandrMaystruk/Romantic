@@ -15,6 +15,8 @@ import maystruks08.gmail.com.domain.entity.*
 import maystruks08.gmail.com.domain.entity.firebase.POJOHike
 import maystruks08.gmail.com.domain.entity.firebase.POJOParticipant
 import maystruks08.gmail.com.domain.event.UpdateBus
+import maystruks08.gmail.com.domain.exceptions.ParticipantDataSync
+import maystruks08.gmail.com.domain.exceptions.UserDataSync
 import maystruks08.gmail.com.domain.repository.HikesRepository
 import javax.inject.Inject
 
@@ -26,8 +28,7 @@ class HikeRepositoryImpl @Inject constructor(
     private val participantMapper: ParticipantMapper,
     private val userDao: UserDAO,
     private val userMapper: UserMapper,
-    private val pref: AuthPreferences,
-    private val updateBus: UpdateBus
+    private val pref: AuthPreferences
 
 ) : HikesRepository {
 
@@ -118,7 +119,7 @@ class HikeRepositoryImpl @Inject constructor(
                     .andThen(Single.just(remoteUsers))
                     .subscribeOn(Schedulers.io())
             } else {
-                Single.error(Throwable("All users is cashed"))
+                Single.error(UserDataSync())
             }
         }
     }
@@ -126,20 +127,33 @@ class HikeRepositoryImpl @Inject constructor(
 
     //participant
     override fun getHikeParticipants(hikeId: Long): Single<List<Participant>> {
-        return participantDAO.getParticipantsByHikeId(hikeId)
-            .doAfterSuccess { cashParticipant ->
-                downloadParticipantsFromFireStore(hikeId).flatMap { remoteParticipant ->
-                    val remoteParticipantTable = remoteParticipant.map { participantMapper.toParticipantTable(it) }
-                    if (compareList(remoteParticipantTable, cashParticipant)) {
-                        participantDAO.delete(cashParticipant)
-                        participantDAO.addUsersToHikeGroup(hikeId, remoteParticipantTable)
-                        updateBus.postUpdateParticipantEvent(remoteParticipant)
-                    }
-                    Single.just(remoteParticipant)
-                }
+        return participantDAO.getParticipantsByHikeId(hikeId).map { list ->
+            list.map { participantMapper.toParticipant(it) }
+        }
+    }
 
+    override fun updateCashedGroup(cashGroup: List<Participant>): Single<List<Participant>> {
+        val hikeId = cashGroup.first().hikeId
+        return downloadParticipantsFromFireStore(hikeId).flatMap { remoteUsers ->
+            if (compareParticipantList(remoteUsers, cashGroup)) {
+                Completable.fromAction {
+                    participantDAO.deleteUsersFromHikeGroup(cashGroup.map {
+                        participantMapper.toParticipantTable(
+                            it
+                        )
+                    })
+                }
+                    .andThen(Completable.fromAction {
+                        participantDAO.addUsersToHikeGroup(
+                            hikeId,
+                            remoteUsers.map { participantMapper.toParticipantTable(it) })
+                    })
+                    .andThen(Single.just(remoteUsers))
+                    .subscribeOn(Schedulers.io())
+            } else {
+                Single.error(ParticipantDataSync())
             }
-            .map { list -> list.map { participantMapper.toParticipant(it) } }
+        }
     }
 
     override fun setUserToHikeGroup(hikeId: Long, user: User, post: UserPost): Completable {
@@ -220,11 +234,13 @@ class HikeRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun compareList(source: List<ParticipantTable>, actual: List<ParticipantTable>): Boolean {
+    private fun compareParticipantList(source: List<Participant>, actual: List<Participant>): Boolean {
+        //todo implement normal list comparator
         return source.size != actual.size
     }
 
     private fun compareUserList(source: List<User>, actual: List<User>): Boolean {
+        //todo implement normal list comparator
         return source.size != actual.size
     }
 }

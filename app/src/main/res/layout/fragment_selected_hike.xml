@@ -58,7 +58,7 @@
                             android:layout_marginStart="@dimen/margin_s"
                             android:textSize="@dimen/text_m"
                             android:text="Черногорский хребет, Карпаты"
-                            android:textColor="@color/text_white_selected"
+                            android:textColor="@color/textWhiteSelected"
                             android:layout_alignParentStart="true"
                             android:layout_marginTop="11dp"
                             android:layout_alignParentTop="true"/>
@@ -71,7 +71,7 @@
                             android:layout_marginTop="@dimen/margin_xs"
                             android:layout_marginEnd="@dimen/margin_m"
                             android:text="пвд"
-                            android:textColor="@color/text_white_selected"/>
+                            android:textColor="@color/textWhiteSelected"/>
 
                     <TextView
                             android:id="@+id/tvHikeDate"
@@ -79,7 +79,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/tvRegion"
                             android:text="27.09.18-02.10.18"
-                            android:textColor="@color/text_white_selected"
+                            android:textColor="@color/textWhiteSelected"
                             android:layout_alignParentEnd="true"
                             android:layout_marginEnd="@dimen/margin_m"/>
 
@@ -138,7 +138,7 @@
             android:layout_height="@dimen/image_button_height"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
             android:id="@+id/civParticipant"
-            android:src="@color/bottom_navigation_view_color"
+            android:src="@color/bottomNavigationViewColor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/civGroupChat"
             app:layout_constraintBottom_toTopOf="@+id/civMyPost"/>
@@ -157,7 +157,7 @@
             android:layout_height="@dimen/image_button_height"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
             android:id="@+id/civGroupChat"
-            android:src="@color/bottom_navigation_view_color"
+            android:src="@color/bottomNavigationViewColor"
             app:layout_constraintStart_toEndOf="@+id/civParticipant"
             app:layout_constraintEnd_toStartOf="@+id/civTrainingCalendar"
             app:layout_constraintBottom_toTopOf="@+id/civTools"/>
@@ -177,7 +177,7 @@
             android:layout_height="@dimen/image_button_height"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
             android:id="@+id/civTrainingCalendar"
-            android:src="@color/bottom_navigation_view_color"
+            android:src="@color/bottomNavigationViewColor"
             app:layout_constraintStart_toEndOf="@+id/civGroupChat"
             app:layout_constraintEnd_toStartOf="@+id/civRoute"
             app:layout_constraintBottom_toTopOf="@+id/civMaterials"/>
@@ -197,7 +197,7 @@
             android:layout_height="@dimen/image_button_height"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
             android:id="@+id/civRoute"
-            android:src="@color/bottom_navigation_view_color"
+            android:src="@color/bottomNavigationViewColor"
             app:layout_constraintStart_toEndOf="@+id/civTrainingCalendar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/civHikeInformation"/>
@@ -217,7 +217,7 @@
             app:layout_constraintTop_toBottomOf="@+id/civParticipant"
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/civMyPost"
-            android:src="@color/bottom_navigation_view_color"
+            android:src="@color/bottomNavigationViewColor"
             app:layout_constraintEnd_toStartOf="@+id/civTools"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -236,7 +236,7 @@
             android:layout_height="@dimen/image_button_height"
             app:layout_constraintTop_toBottomOf="@+id/civGroupChat"
             android:id="@+id/civTools"
-            android:src="@color/bottom_navigation_view_color"
+            android:src="@color/bottomNavigationViewColor"
             app:layout_constraintStart_toEndOf="@+id/civMyPost"
             app:layout_constraintEnd_toStartOf="@+id/civMaterials"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -256,7 +256,7 @@
             android:layout_height="@dimen/image_button_height"
             app:layout_constraintTop_toBottomOf="@+id/civTrainingCalendar"
             android:id="@+id/civMaterials"
-            android:src="@color/bottom_navigation_view_color"
+            android:src="@color/bottomNavigationViewColor"
             app:layout_constraintStart_toEndOf="@+id/civTools"
             app:layout_constraintEnd_toStartOf="@+id/civHikeInformation"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -277,7 +277,7 @@
             app:layout_constraintTop_toBottomOf="@+id/civRoute"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/civHikeInformation"
-            android:src="@color/bottom_navigation_view_color"
+            android:src="@color/bottomNavigationViewColor"
             app:layout_constraintStart_toEndOf="@+id/civMaterials"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

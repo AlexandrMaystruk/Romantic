@@ -5,11 +5,11 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
-        android:background="@color/bottom_navigation_view_color"
+        android:background="@color/bottomNavigationViewColor"
         android:layout_height="@dimen/size_bottom_navigation">
 
     <de.hdodenhof.circleimageview.CircleImageView
-            app:civ_border_color="@color/color_white"
+            app:civ_border_color="@color/colorWhite"
             android:id="@+id/bottom_news"
             android:src="@drawable/button_news"
             android:layout_width="@dimen/size_bottom_navigation_icon"
@@ -23,7 +23,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/bottom_message"
-            app:civ_border_color="@color/color_white"
+            app:civ_border_color="@color/colorWhite"
             android:src="@drawable/button_message"
             android:layout_width="@dimen/size_bottom_navigation_icon"
             android:layout_height="@dimen/size_bottom_navigation_icon"
@@ -35,7 +35,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-            app:civ_border_color="@color/color_white"
+            app:civ_border_color="@color/colorWhite"
             app:civ_border_width="1dp"
             android:id="@+id/bottom_main"
             android:src="@drawable/button_main"
@@ -48,7 +48,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-            app:civ_border_color="@color/color_white"
+            app:civ_border_color="@color/colorWhite"
             android:id="@+id/bottom_events"
             android:src="@drawable/button_event"
             android:layout_width="@dimen/size_bottom_navigation_icon"
@@ -60,7 +60,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tvBottomEvents"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
-            app:civ_border_color="@color/color_white"
+            app:civ_border_color="@color/colorWhite"
             android:id="@+id/bottom_my_hikes"
             android:src="@drawable/button_my_hike"
             android:layout_width="@dimen/size_bottom_navigation_icon"
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/main"
-            android:textColor="@color/text_white_selected"
+            android:textColor="@color/textWhiteSelected"
             android:id="@+id/tvBottomMain"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bottom_main"

@@ -9,8 +9,8 @@
     <TableLayout
         android:id="@+id/top_news_tabs"
         android:layout_width="match_parent"
-        app:tabTextColor="@color/text_white_unselected"
-        app:tabSelectedTextColor="@color/text_white_selected"
+        app:tabTextColor="@color/textWhiteUnselected"
+        app:tabSelectedTextColor="@color/textWhiteSelected"
         android:layout_height="@dimen/tab_size"
         android:background="@color/colorPrimary" />
 
