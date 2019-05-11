@@ -1,5 +1,6 @@
 package maystruks08.gmail.com.data.repository
 
+import android.util.Log
 import io.reactivex.*
 import io.reactivex.schedulers.Schedulers
 import maystruks08.gmail.com.data.api.FireStoreApi
@@ -10,11 +11,9 @@ import maystruks08.gmail.com.data.preferences.AuthPreferences
 import maystruks08.gmail.com.data.room.dao.HikeDAO
 import maystruks08.gmail.com.data.room.dao.ParticipantDAO
 import maystruks08.gmail.com.data.room.dao.UserDAO
-import maystruks08.gmail.com.data.room.entity.ParticipantTable
 import maystruks08.gmail.com.domain.entity.*
 import maystruks08.gmail.com.domain.entity.firebase.POJOHike
 import maystruks08.gmail.com.domain.entity.firebase.POJOParticipant
-import maystruks08.gmail.com.domain.event.UpdateBus
 import maystruks08.gmail.com.domain.exceptions.ParticipantDataSync
 import maystruks08.gmail.com.domain.exceptions.PermissionException
 import maystruks08.gmail.com.domain.exceptions.UserDataSync
@@ -83,8 +82,9 @@ class HikeRepositoryImpl @Inject constructor(
         return api.getHikeGroup(hikeId).flatMapSingle { snapshot ->
             val participants = mutableListOf<Participant>()
             snapshot.data?.values?.forEach { any ->
-                (any as?  Map<String, Any>)?.let {
-                    val participant = POJOParticipant.fromHashMap(it)
+                Log.d("TAG", any.toString())
+                (any as?  Map<*, *>)?.let {
+                    val participant = POJOParticipant.fromMap(it)
                     participants.add(participantMapper.toParticipant(participant))
                 }
             }

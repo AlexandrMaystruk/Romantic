@@ -32,7 +32,7 @@ class POJOParticipant {
 
     companion object {
 
-        fun fromHashMap(map: Map<String, Any>): POJOParticipant {
+        fun fromMap(map: Map<*, *>): POJOParticipant {
             return map.let {
                 POJOParticipant(
                     it["post"].toString().toInt(),

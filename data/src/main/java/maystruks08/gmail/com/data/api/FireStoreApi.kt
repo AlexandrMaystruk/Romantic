@@ -45,9 +45,9 @@ class FireStoreApi @Inject constructor(private val fireStore: FirebaseFirestore)
         return RxFirestore.getDocument(reference).flatMapSingle { snapshot ->
             val participants = mutableMapOf<String, POJOParticipant>()
             snapshot.data?.values?.forEach { any ->
-                (any as?  Map<String, Any>)?.let {
-                    val part = POJOParticipant.fromHashMap(it)
-                    participants.put(part.id, POJOParticipant.fromHashMap(it))
+                (any as?  Map<*, *>)?.let {
+                    val part = POJOParticipant.fromMap(it)
+                    participants.put(part.id, POJOParticipant.fromMap(it))
                 }
             }
             participants[participant.id] = participant
@@ -59,24 +59,29 @@ class FireStoreApi @Inject constructor(private val fireStore: FirebaseFirestore)
         }
     }
 
-    fun setParticipantsToGroup(hikeId: Long, participant: List<POJOParticipant>): Completable {
+    fun setParticipantsToGroup(hikeId: Long, participants: List<POJOParticipant>): Completable {
         val reference = fireStore.collection(COLLECTION_HIKE_GROUP).document(HIKE + hikeId)
         return RxFirestore.getDocument(reference).flatMapSingle { snapshot ->
-            val participants = mutableMapOf<String, POJOParticipant>()
+            val participantsMap = mutableMapOf<String, POJOParticipant>()
             snapshot.data?.values?.forEach { any ->
-                (any as?  Map<String, Any>)?.let {
-                    val part = POJOParticipant.fromHashMap(it)
-                    participants.put(part.id, POJOParticipant.fromHashMap(it))
+                (any as?  Map<*, *>)?.let {
+                    val part = POJOParticipant.fromMap(it)
+                    participantsMap.put(part.id, POJOParticipant.fromMap(it))
                 }
             }
-            participant.forEach {
-                participants[it.id] = it
+            participants.forEach {
+                participantsMap[it.id] = it
             }
-            return@flatMapSingle Single.just(participants)
+            return@flatMapSingle Single.just(participantsMap)
         }.flatMapCompletable {
             setDocument(reference, it)
         }.onErrorResumeNext {
-            setDocument(reference, mutableMapOf(participant.first().id to participant))
+            val map = mutableMapOf<String, Any>().apply {
+                participants.forEach {
+                    put(it.id, it)
+                }
+            }
+            setDocument(reference, map)
         }
     }
 
@@ -85,10 +90,10 @@ class FireStoreApi @Inject constructor(private val fireStore: FirebaseFirestore)
         return RxFirestore.getDocument(reference).flatMapSingle { snapshot ->
             val participants = mutableMapOf<String, POJOParticipant>()
             snapshot.data?.values?.forEach { any ->
-                (any as?  Map<String, Any>)?.let {
-                    val part = POJOParticipant.fromHashMap(it)
-                    if(part.id != participant.id)
-                        participants[part.id] = POJOParticipant.fromHashMap(it)
+                (any as?  Map<*, *>)?.let {
+                    val part = POJOParticipant.fromMap(it)
+                    if (part.id != participant.id)
+                        participants[part.id] = POJOParticipant.fromMap(it)
                 }
             }
             return@flatMapSingle Single.just(participants)
@@ -102,10 +107,10 @@ class FireStoreApi @Inject constructor(private val fireStore: FirebaseFirestore)
         return RxFirestore.getDocument(reference).flatMapSingle { snapshot ->
             val participants = mutableMapOf<String, POJOParticipant>()
             snapshot.data?.values?.forEach { any ->
-                (any as?  Map<String, Any>)?.let {
-                    val part = POJOParticipant.fromHashMap(it)
-                    if(part.id != participantId)
-                        participants[part.id] = POJOParticipant.fromHashMap(it)
+                (any as?  Map<*, *>)?.let {
+                    val part = POJOParticipant.fromMap(it)
+                    if (part.id != participantId)
+                        participants[part.id] = POJOParticipant.fromMap(it)
                 }
             }
             return@flatMapSingle Single.just(participants)

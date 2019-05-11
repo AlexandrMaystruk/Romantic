@@ -2,6 +2,7 @@ package maystruks08.gmail.com.domain.entity
 
 enum class UserPost(val id: Int) {
 
+    NOT_CHOSEN(0),
     BOSS(1),
     MEDIC(2),
     COOK(3),
@@ -22,7 +23,7 @@ enum class UserPost(val id: Int) {
                 6 -> TOOLS_CONTROLLER
                 7 -> MPS
                 8 -> PHOTOGRAPH
-                else -> CLOWN
+                else -> NOT_CHOSEN
             }
         }
     }
