@@ -4,11 +4,9 @@ import io.reactivex.Single
 import maystruks08.gmail.com.domain.entity.GeoPoint
 import maystruks08.gmail.com.domain.entity.Route
 
-interface RouteInteractor {
+interface RouteBuilder {
 
-    fun getHikeRoutes(hikeId: Long): Single<List<Route>>
+    fun buildRout(listGeoPoint: List<GeoPoint>) : Route
 
-    fun buildRout()
-
-    fun addNewPoint(hikeId: Long, routeId: Long, geoPoint: GeoPoint): Single<Route>
+    fun addNewPoint(route: Route): Single<Route>
 }

@@ -10,7 +10,7 @@ data class Hike(
     var hikeChief: String,
     var region: String,
     var category: Category,
-    val route: Route,
+    val route: MutableList<Route> = mutableListOf(),
     val group: MutableList<Participant> = mutableListOf(),
     val tools: MutableList<Tool> = mutableListOf(),
     val materials: MutableList<Material> = mutableListOf(),
@@ -68,5 +68,27 @@ data class Hike(
         materials.add(material)
     }
 
+    //TODO Work with hike route
+    fun addRoute(hikeRoute: Route) {
+       val mainRoute =  route.firstOrNull { it.type == RouteType.MAIN }
+        if(mainRoute == null){
+            route.add(hikeRoute)
+        }
+    }
 
+    fun removeRoute(hikeRoute: Route) {
+        route.remove(hikeRoute)
+    }
+
+    fun addGeoPointInRoute(routeId: Long, point: GeoPoint ) {
+        route.firstOrNull { it.id == routeId }?.let {
+            it.geoPoints.add(point)
+        }
+    }
+
+    fun removeGeoPointInRoute(routeId: Long, point: GeoPoint ) {
+        route.firstOrNull { it.id == routeId }?.let {
+            it.geoPoints.remove(point)
+        }
+    }
 }

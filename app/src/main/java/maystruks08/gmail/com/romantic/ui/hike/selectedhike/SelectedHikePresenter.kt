@@ -18,8 +18,8 @@ class SelectedHikePresenter @Inject constructor(val router: Router) :
     override fun onTrainingCalendarClick() {
     }
 
-    override fun onRouteClick() {
-        router.navigateTo(Screens.RouteScreen())
+    override fun onRouteClick(hikeId: Long) {
+        router.navigateTo(Screens.RouteListScreen(hikeId))
     }
 
     override fun onMyPostClick() {

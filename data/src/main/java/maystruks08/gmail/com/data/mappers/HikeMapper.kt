@@ -36,7 +36,7 @@ class HikeMapper @Inject constructor() {
                 it.hikeChief,
                 it.region,
                 Category.fromValue(it.category),
-                Route(mutableListOf()),
+                mutableListOf(),
                 mutableListOf(),
                 mutableListOf(),
                 mutableListOf()
@@ -81,7 +81,7 @@ class HikeMapper @Inject constructor() {
                 it.hikeChief,
                 it.region,
                 Category.fromValue(it.category),
-                gSon.fromJson<Route>(it.route)
+                gSon.fromJson<MutableList<Route>>(it.route)
             )
         }
     }

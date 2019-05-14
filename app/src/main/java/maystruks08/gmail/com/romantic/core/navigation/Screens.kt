@@ -1,6 +1,7 @@
 package maystruks08.gmail.com.romantic.core.navigation
 
 import maystruks08.gmail.com.domain.entity.Participant
+import maystruks08.gmail.com.domain.entity.Route
 import maystruks08.gmail.com.domain.entity.User
 import maystruks08.gmail.com.romantic.ui.chat.ChatFragment
 import maystruks08.gmail.com.romantic.ui.hike.createhike.CreateNewHikeFragment
@@ -16,8 +17,10 @@ import maystruks08.gmail.com.romantic.ui.hike.selectedhike.SelectedHikeFragment
 import maystruks08.gmail.com.romantic.ui.hike.selectedhike.invitetogroup.InviteUserFragment
 import maystruks08.gmail.com.romantic.ui.hike.selectedhike.participant.ParticipantFragment
 import maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.RouteFragment
+import maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.routelist.RouteListFragment
 import maystruks08.gmail.com.romantic.ui.viewmodel.HikeViewModel
 import maystruks08.gmail.com.romantic.ui.viewmodel.ParticipantViewModel
+import maystruks08.gmail.com.romantic.ui.viewmodel.RouteViewModel
 import maystruks08.gmail.com.romantic.ui.viewmodel.UserViewModel
 
 object Screens {
@@ -58,8 +61,12 @@ object Screens {
         override fun getFragment() = CreateNewHikeFragment.getInstance()
     }
 
-    class RouteScreen : AppScreen() {
-        override fun getFragment() = RouteFragment.getInstance()
+    class RouteListScreen(private val hikeId: Long) : AppScreen() {
+        override fun getFragment() = RouteListFragment.getInstance(hikeId)
+    }
+
+    class RouteScreen(private val route: Route) : AppScreen() {
+        override fun getFragment() = RouteFragment.getInstance(RouteViewModel.toRouteViewModel(route))
     }
 
     class ProfileScreen(private val participant: Participant) : AppScreen() {

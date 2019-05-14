@@ -18,7 +18,9 @@ import org.osmdroid.views.overlay.infowindow.BasicInfoWindow
 import java.util.ArrayList
 import javax.inject.Inject
 import android.preference.PreferenceManager
+import maystruks08.gmail.com.domain.entity.Route
 import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.ui.viewmodel.RouteViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 
@@ -31,10 +33,14 @@ class RouteFragment : Fragment(), RouteContract.View {
     @Inject
     lateinit var controller: ToolBarController
 
+    private var routeViewModel: RouteViewModel? = null
+
+
     private var line: Polyline? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         App.routeComponent?.inject(this)
+        routeViewModel = arguments?.getParcelable(HIKE_ROUTE)
         presenter.bindView(this)
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
         return inflater.inflate(R.layout.fragment_route, container, false)
@@ -51,7 +57,12 @@ class RouteFragment : Fragment(), RouteContract.View {
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(true, "Route", navigationIcon = R.drawable.ic_arrow_back_white_24dp, bottomBarVisibility = false),
+            ToolbarDescriptor(
+                true,
+                "Route",
+                navigationIcon = R.drawable.ic_arrow_back_white_24dp,
+                bottomBarVisibility = false
+            ),
             activity as ConfigToolbar
         )
     }
@@ -119,7 +130,13 @@ class RouteFragment : Fragment(), RouteContract.View {
 
     companion object {
 
-        fun getInstance(): RouteFragment =
-            RouteFragment()
+        private const val HIKE_ROUTE = "hikeRoute"
+
+        fun getInstance(route: RouteViewModel): RouteFragment =
+            RouteFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(HIKE_ROUTE, route)
+                }
+            }
     }
 }

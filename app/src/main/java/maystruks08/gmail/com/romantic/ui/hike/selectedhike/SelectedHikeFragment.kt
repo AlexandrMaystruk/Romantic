@@ -73,7 +73,7 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
         civParticipant.setOnClickListener { presenter.onParticipantClick(hike?.id ?: -1) }
         civGroupChat.setOnClickListener { presenter.onGroupChatClick() }
         civTrainingCalendar.setOnClickListener { presenter.onTrainingCalendarClick() }
-        civRoute.setOnClickListener { presenter.onRouteClick() }
+        civRoute.setOnClickListener { presenter.onRouteClick(hike?.id?: -1) }
         civMyPost.setOnClickListener { presenter.onMyPostClick() }
         civTools.setOnClickListener { presenter.onToolsClick() }
         civMaterials.setOnClickListener { presenter.onMaterialsClick() }

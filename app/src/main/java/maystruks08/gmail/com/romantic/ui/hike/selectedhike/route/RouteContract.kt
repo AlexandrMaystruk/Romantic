@@ -22,6 +22,8 @@ interface RouteContract {
 
     interface Presenter : IPresenter<View> {
 
+        fun onNewPointAdded(hikeId: Long, routeId: Long, geoPoint: GeoPoint)
+
         fun buildPath(geoPointList: ArrayList<GeoPoint>)
     }
 }

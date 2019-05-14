@@ -66,7 +66,7 @@ class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
                 etBossHike.text.toString(),
                 etHikeRegion.text.toString(),
                 Category.fromValue(spinnerCategory.selectedItemPosition),
-                Route(mutableListOf())
+                mutableListOf()
             )
 
             presenter.createHike(newHike)

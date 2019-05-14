@@ -2,9 +2,9 @@
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view_participant"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/card_view_participant"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_marginBottom="5dp"
         card_view:cardCornerRadius="10dp"
@@ -24,46 +24,69 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/hike_walking_back"
                 card_view:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                card_view:layout_constraintTop_toTopOf="parent"
-        />
-
+                android:layout_marginStart="@dimen/margin_m"
+                android:layout_marginTop="@dimen/margin_m"
+                card_view:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-                android:id="@+id/tv_user_name"
+                android:id="@+id/tvParticipantName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorBlack"
-                android:text="Имя участника, тыры пыты"
+                android:text="Alexandr Maystruk"
                 android:textSize="@dimen/text_l"
                 card_view:layout_constraintStart_toEndOf="@+id/iv_user_image"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="@dimen/margin_m"
+                android:layout_marginTop="@dimen/margin_m"
                 card_view:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-                android:id="@+id/tv_user_name2"
-                android:layout_width="241dp"
-                android:layout_height="84dp"
+                android:id="@+id/tvParticipantPost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/colorBlack"
-                android:text="Опыт участника и т.д. Далi буде =)"
-                android:textSize="@dimen/text_l"
-                card_view:layout_constraintStart_toEndOf="@+id/iv_user_image"
-                android:layout_marginTop="108dp"
-                card_view:layout_constraintTop_toTopOf="parent"/>
+                android:text="Должность: Руководитель"
+                android:textSize="@dimen/text_m"
+                android:layout_marginTop="@dimen/margin_xs"
+                card_view:layout_constraintTop_toBottomOf="@+id/tvParticipantName"
+                card_view:layout_constraintStart_toStartOf="@+id/tvParticipantName"/>
+
+        <TextView
+                android:id="@+id/tvParticipantExp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorBlack"
+                android:text="Походный опыт: 100 у.е"
+                android:textSize="@dimen/text_m"
+                android:layout_marginTop="@dimen/margin_xs"
+                card_view:layout_constraintTop_toBottomOf="@+id/tvParticipantPost"
+                card_view:layout_constraintStart_toStartOf="@+id/tvParticipantName"/>
         <Button
                 style="@style/ButtonS"
                 android:text="Написать"
                 android:id="@+id/btnInviteToHike"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/margin_m"
                 card_view:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginEnd="8dp"
-                card_view:layout_constraintEnd_toEndOf="parent"/>
+                android:layout_marginEnd="@dimen/margin_xs"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/margin_m"
+                card_view:layout_constraintTop_toBottomOf="@+id/tvParticipantExp"/>
 
+
+        <Button
+                style="@style/ButtonS"
+                android:layout_width="wrap_content"
+                android:text="  Посмотреть должность  "
+                android:id="@+id/btnReadAboutPost"
+                android:layout_marginBottom="@dimen/margin_m"
+                android:layout_marginStart="@dimen/margin_m"
+                android:layout_marginTop="@dimen/margin_m"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/iv_user_image"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.cardview.widget.CardView>

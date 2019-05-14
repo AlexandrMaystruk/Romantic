@@ -36,7 +36,7 @@ class ParticipantAdapter(private val clickListener: (Participant) -> Unit) : Rec
 
         fun bindHolder(participant: Participant, clickListener: (Participant) -> Unit) {
 //            itemView.iv_user_image.setImageBitmap()
-            itemView.tv_user_name.text = participant.user.displayName
+            itemView.tvParticipantName.text = participant.user.displayName
             itemView.setOnClickListener { clickListener(participant) }
         }
     }

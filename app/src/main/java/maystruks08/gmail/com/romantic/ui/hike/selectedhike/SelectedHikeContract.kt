@@ -16,7 +16,7 @@ interface SelectedHikeContract {
 
         fun onTrainingCalendarClick()
 
-        fun onRouteClick()
+        fun onRouteClick(hikeId: Long)
 
         fun onMyPostClick()
 
