@@ -18,6 +18,7 @@ import maystruks08.gmail.com.romantic.core.di.application.root.profile.ProfileCo
 import maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.route.RouteComponent
 import maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.SelectedHikeComponent
 import maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.participant.ParticipantComponent
+import maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.route.build.BuildRouteComponent
 
 
 class App : Application() {
@@ -84,6 +85,13 @@ class App : Application() {
                 return field
             }
 
+        var buildRouteComponent: BuildRouteComponent? = null
+            get () {
+                if (field == null)
+                    field = routeComponent?.createRouteComponent()
+                return field
+            }
+
 
         var newsComponent: NewsComponent? = null
             get () {
@@ -136,6 +144,10 @@ class App : Application() {
 
         fun clearChatComponent() {
             chatComponent = null
+        }
+
+        fun clearCreateRouteComponent() {
+            buildRouteComponent = null
         }
 
     }

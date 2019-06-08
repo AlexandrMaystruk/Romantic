@@ -4,12 +4,11 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import maystruks08.gmail.com.domain.entity.GeoPoint
-import maystruks08.gmail.com.domain.entity.Hike
+import maystruks08.gmail.com.domain.entity.Point
 import maystruks08.gmail.com.domain.entity.Route
-import maystruks08.gmail.com.domain.entity.RouteType
+import org.osmdroid.util.GeoPoint
 
-data class RouteViewModel(val id: Long, val type: String, val geoPoints: MutableList<GeoPoint>) : Parcelable {
+data class RouteViewModel(val id: Long, val type: String, val geoPoints: MutableList<GeoPoint>?) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
@@ -44,7 +43,16 @@ data class RouteViewModel(val id: Long, val type: String, val geoPoints: Mutable
                 RouteViewModel(
                     it.id,
                     it.type.name,
-                    it.geoPoints
+                    it.completeRoutePath?.map { toGeoPoint(it) }?.toMutableList()
+                )
+            }
+        }
+
+        private fun toGeoPoint(point: Point): GeoPoint {
+            return point.let {
+                GeoPoint(
+                    it.lat,
+                    it.lon
                 )
             }
         }

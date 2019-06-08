@@ -1,11 +1,8 @@
 package maystruks08.gmail.com.data.room.dao
 
 import androidx.room.*
-import io.reactivex.Completable
 import io.reactivex.Single
-import maystruks08.gmail.com.data.room.entity.HikeParticipantJoin
-import maystruks08.gmail.com.data.room.entity.HikeTable
-import maystruks08.gmail.com.data.room.entity.ParticipantTable
+import maystruks08.gmail.com.data.room.entity.*
 
 @Dao
 abstract class HikeDAO {
@@ -36,11 +33,19 @@ abstract class HikeDAO {
     }
 
     @Transaction
+    open fun addRoteToHike(hikeId: Long, route: RouteTable) {
+        insert(route)
+        insertHikeRouteJoin(HikeRouteJoin(hikeId = hikeId, routeId = route.id))
+    }
+
+    @Transaction
     open fun deleteHike(hikeId: Long) {
         delete(hikeId)
         deleteHikeParticipantJoin(hikeId)
+        deleteHikeRouteJoin(hikeId)
     }
 
+    //participant
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertParticipant(vararg participant: ParticipantTable)
 
@@ -48,11 +53,22 @@ abstract class HikeDAO {
     abstract fun insertHikeParticipantJoin(hikeParticipantJoin: HikeParticipantJoin)
 
 
+    //hike
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(vararg hikes: HikeTable)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(hikes: List<HikeTable>)
+
+
+    //route
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insert(vararg route: RouteTable)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insertHikeRouteJoin(hikeRouteTable: HikeRouteJoin)
+
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     abstract fun update(vararg hikes: HikeTable)
@@ -103,10 +119,22 @@ abstract class HikeDAO {
     @Query("SELECT * FROM hikes INNER JOIN hike_participant_join ON hikes.id = hike_participant_join.hikeId WHERE hike_participant_join.participantId = :participantId AND hikes.type = :type ")
     abstract fun getHikes(participantId: String, type: Int): Single<List<HikeTable>>
 
+    // get route by id
+    @Query("SELECT * FROM route WHERE id = :routeId")
+    abstract fun getRouteById(routeId: Long): Single<RouteTable>
+
+    // get routes by hike id
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT * FROM route INNER JOIN hike_route_join ON route.id = hike_route_join.hikeId WHERE hike_route_join.routeId = :hikeId")
+    abstract fun getRoutesByHikeId(hikeId: Long): Single<List<RouteTable>>
+
 
     //delete
     @Query("DELETE FROM hike_participant_join  WHERE hikeId = :hikeId ")
-    abstract fun deleteHikeParticipantJoin(hikeId: Long) : Int
+    abstract fun deleteHikeParticipantJoin(hikeId: Long): Int
+
+    @Query("DELETE FROM hike_route_join  WHERE hikeId = :hikeId ")
+    abstract fun deleteHikeRouteJoin(hikeId: Long): Int
 
     @Delete
     abstract fun delete(hike: HikeTable)

@@ -1,6 +1,6 @@
 package maystruks08.gmail.com.domain.entity
 
-class GeoPoint {
+class Point {
     var lat: Double = 0.0
     var lon: Double = 0.0
 

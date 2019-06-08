@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_gravity="top"
+        android:background="@color/bottomNavigationViewColor"
+        android:layout_height="wrap_content">
+
+
+    <EditText
+            style="@style/TextBottomNavigation"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/news"
+            android:hint=""
+            android:layout_margin="@dimen/margin_m"
+            android:id="@+id/tvBottomNews"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewGeoPoint"/>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:src="@drawable/button_my_hike"
+            android:layout_width="@dimen/size_bottom_navigation_icon"
+            android:layout_height="@dimen/size_bottom_navigation_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="@dimen/margin_m"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/recyclerViewGeoPoint">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+    <Button
+            style="@style/ButtonS"
+            android:text="Постороить"
+            android:id="@+id/btnInviteToHike"
+            android:layout_margin="@dimen/margin_m"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewGeoPoint"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

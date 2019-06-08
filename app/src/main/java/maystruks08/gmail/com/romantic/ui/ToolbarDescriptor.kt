@@ -9,3 +9,6 @@ data class ToolbarDescriptor(
     val bottomBarVisibility: Boolean = true,
     val menu: Int? = null
 )
+
+
+

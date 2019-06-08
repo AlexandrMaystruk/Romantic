@@ -12,7 +12,7 @@ interface RouteContract {
 
     interface View : IView {
 
-        fun showRoute(geoPointList: ArrayList<GeoPoint>)
+        fun showRoute(geoPointList: List<GeoPoint>)
 
         fun showMarker(point: GeoPoint, drawable: Drawable)
 
@@ -22,8 +22,8 @@ interface RouteContract {
 
     interface Presenter : IPresenter<View> {
 
-        fun onNewPointAdded(hikeId: Long, routeId: Long, geoPoint: GeoPoint)
+        fun initView(hikeId: Long)
 
-        fun buildPath(geoPointList: ArrayList<GeoPoint>)
+        fun onCreateNewRouteClich(hikeId: Long)
     }
 }

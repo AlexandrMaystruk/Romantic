@@ -18,8 +18,8 @@ import org.osmdroid.views.overlay.infowindow.BasicInfoWindow
 import java.util.ArrayList
 import javax.inject.Inject
 import android.preference.PreferenceManager
-import maystruks08.gmail.com.domain.entity.Route
 import maystruks08.gmail.com.romantic.R
+
 import maystruks08.gmail.com.romantic.ui.viewmodel.RouteViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -48,11 +48,25 @@ class RouteFragment : Fragment(), RouteContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
+    }
 
+    private fun initViews() {
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.setBuiltInZoomControls(false)
         map.setMultiTouchControls(true)
 
+
+        routeViewModel?.geoPoints?.let {
+            showRoute(it)
+        }
+    }
+
+
+    private fun changeCameraFocus(geoPoint: GeoPoint, zoom: Double) {
+        val mapController = map.controller
+        mapController.setZoom(zoom)
+        mapController.setCenter(geoPoint)
     }
 
     override fun configToolbar() {
@@ -67,7 +81,7 @@ class RouteFragment : Fragment(), RouteContract.View {
         )
     }
 
-    override fun showRoute(geoPointList: ArrayList<GeoPoint>) {
+    override fun showRoute(geoPointList: List<GeoPoint>) {
         if (null != line) {
             map.overlayManager.remove(line)
         }
@@ -79,6 +93,7 @@ class RouteFragment : Fragment(), RouteContract.View {
         line?.infoWindow = BasicInfoWindow(R.layout.bonuspack_bubble, map)
         map.overlayManager.add(line)
         map.invalidate()
+        changeCameraFocus(geoPointList.last(), 9.5)
     }
 
     override fun showMarker(point: GeoPoint, drawable: Drawable) {

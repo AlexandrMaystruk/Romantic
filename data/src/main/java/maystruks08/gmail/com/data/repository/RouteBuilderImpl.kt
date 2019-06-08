@@ -3,10 +3,10 @@ package maystruks08.gmail.com.data.repository
 import android.content.ContentValues
 import android.util.Log
 import io.reactivex.Single
-import maystruks08.gmail.com.domain.entity.GeoPoint
+import maystruks08.gmail.com.domain.entity.Point
 import maystruks08.gmail.com.domain.entity.Route
 import maystruks08.gmail.com.domain.entity.RouteType
-import maystruks08.gmail.com.domain.interactor.hike.selectedhike.route.RouteBuilder
+import maystruks08.gmail.com.domain.repository.RouteBuilder
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -17,33 +17,41 @@ import java.net.URL
 import javax.inject.Inject
 
 class RouteBuilderImpl @Inject constructor() : RouteBuilder {
-    override fun buildRout(listGeoPoint: List<GeoPoint>): Route {
-        return Route(
-            345345,
-            RouteType.MAIN,
-            mutableListOf(GeoPoint(325.0, 233.0))
-        )
 
+    override fun buildRout(id: Long, type: RouteType, listPoint: List<Point>): Single<Route> {
+        return Single.create {
+            val route = Route(id, type, mutableListOf())
+            listPoint.forEachIndexed { index, geoPoint ->
+                listPoint.getOrNull(index + 1)?.let {
+                    route.addPath(getPathBetweenTwoPoints(geoPoint, it))
+                }
+            }
+        }
     }
 
-    override fun addNewPoint(route: Route): Single<Route> {
-        return Single.just(
-            Route(
-                345345,
-                RouteType.MAIN,
-                mutableListOf(GeoPoint(325.0, 233.0))
-            )
-        )
+    override fun addNewPoint(route: Route, point: Point): Single<Route> {
+        return Single.create {
+            route.addPath(getPathBetweenTwoPoints(route.points.last(), point))
+        }
     }
 
+    override fun removePoint(route: Route, point: Point): Single<Route> {
+        return Single.create<Route> {
+            route.removePoint(point)
+            route.deletePath()
+            route.points.forEachIndexed { index, geoPoint ->
+                route.points.getOrNull(index + 1)?.let {
+                    route.addPath(getPathBetweenTwoPoints(geoPoint, it))
+                }
+            }
 
-    private fun getPathBetweenTwoPoints(
-        start: org.osmdroid.util.GeoPoint,
-        finish: org.osmdroid.util.GeoPoint
-    ): Single<ArrayList<org.osmdroid.util.GeoPoint>> {
+            return@create
+        }
+    }
+
+    private fun getPathBetweenTwoPoints(start: Point, finish: Point): List<Point> {
         val serverURL =
-            "https://graphhopper.com/api/1/route?point=" + start.latitude + "," + start.longitude + "&point=" + finish.latitude + "," + finish.longitude + "&vehicle=foot&locale=de&key=" + API_KEY
-
+            "https://graphhopper.com/api/1/route?point=" + start.lat + "," + start.lon + "&point=" + finish.lat + "," + finish.lon + "&vehicle=foot&locale=de&key=" + API_KEY
         val url = URL(serverURL)
         val connection = url.openConnection() as HttpURLConnection
         connection.doOutput = true
@@ -57,29 +65,27 @@ class RouteBuilderImpl @Inject constructor() : RouteBuilder {
                 val paths = jsonResponse.getJSONArray("paths")
                 val path = paths.getJSONObject(0)
                 val points = path.get("points").toString()
-                Single.just(decode(points))
+                decode(points)
 
             } else {
                 Log.d(ContentValues.TAG, BufferedReader(InputStreamReader(connection.errorStream)).readLine())
-                Single.error(Throwable(BufferedReader(InputStreamReader(connection.errorStream)).readLine()))
+                throw Throwable(BufferedReader(InputStreamReader(connection.errorStream)).readLine())
             }
 
         } catch (e: JSONException) {
             e.printStackTrace()
-            return Single.error(Throwable(e.localizedMessage))
+            throw Throwable(e.localizedMessage)
         } catch (e: Exception) {
             e.printStackTrace()
-            return Single.error(Throwable(e.localizedMessage))
+            throw Throwable(e.localizedMessage)
         } finally {
             connection.disconnect()
         }
     }
 
-    private fun decode(encodedPath: String): ArrayList<org.osmdroid.util.GeoPoint> {
-
+    private fun decode(encodedPath: String): List<Point> {
         val len = encodedPath.length
-
-        val path = ArrayList<org.osmdroid.util.GeoPoint>(len / 2)
+        val path = mutableListOf<Point>()
         var index = 0
         var lat = 0
         var lng = 0
@@ -104,7 +110,7 @@ class RouteBuilderImpl @Inject constructor() : RouteBuilder {
             } while (b >= 0x1f)
             lng += if (result and 1 != 0) (result shr 1).inv() else result shr 1
 
-            path.add(org.osmdroid.util.GeoPoint(lat * 1e-5, lng * 1e-5))
+            path.add(Point(lat * 1e-5, lng * 1e-5))
         }
 
         return path

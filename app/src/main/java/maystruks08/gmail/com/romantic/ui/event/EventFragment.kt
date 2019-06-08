@@ -9,9 +9,7 @@ import io.reactivex.Single
 import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
-import maystruks08.gmail.com.romantic.ui.ConfigToolbar
-import maystruks08.gmail.com.romantic.ui.ToolBarController
-import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
+import maystruks08.gmail.com.romantic.ui.*
 import javax.inject.Inject
 
 class EventFragment : Fragment(), EventContract.View {

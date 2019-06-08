@@ -80,15 +80,15 @@ data class Hike(
         route.remove(hikeRoute)
     }
 
-    fun addGeoPointInRoute(routeId: Long, point: GeoPoint ) {
+    fun addGeoPointInRoute(routeId: Long, point: Point ) {
         route.firstOrNull { it.id == routeId }?.let {
-            it.geoPoints.add(point)
+            it.points.add(point)
         }
     }
 
-    fun removeGeoPointInRoute(routeId: Long, point: GeoPoint ) {
+    fun removeGeoPointInRoute(routeId: Long, point: Point ) {
         route.firstOrNull { it.id == routeId }?.let {
-            it.geoPoints.remove(point)
+            it.points.remove(point)
         }
     }
 }

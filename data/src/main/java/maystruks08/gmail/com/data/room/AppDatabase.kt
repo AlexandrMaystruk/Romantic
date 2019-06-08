@@ -13,7 +13,9 @@ import maystruks08.gmail.com.data.room.entity.*
         NewsTable::class,
         ToolsTable::class,
         HikeParticipantJoin::class,
-        HikeToolJoin::class
+        HikeToolJoin::class,
+        RouteTable::class,
+        HikeRouteJoin::class
     ], version = 1
 )
 @TypeConverters(Converters::class)

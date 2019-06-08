@@ -172,9 +172,12 @@ class FireStoreApi @Inject constructor(private val fireStore: FirebaseFirestore)
         private const val COLLECTION_HIKE = "hike"
         private const val COLLECTION_HIKE_GROUP = "group"
         private const val COLLECTION_HIKE_ROUTE = "route"
+        private const val COLLECTION_HIKE_TOOLS = "tools"
+        private const val COLLECTION_HIKE_MATERIALS = "materials"
 
 
-        private const val DOCUMENT_TOOLS = "tools"
+
+
         private const val HIKE = "hike_"
 
         private const val TAG = "FireStoreApi"

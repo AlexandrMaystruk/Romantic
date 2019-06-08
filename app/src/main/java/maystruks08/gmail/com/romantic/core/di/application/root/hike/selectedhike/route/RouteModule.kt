@@ -2,9 +2,7 @@ package maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhik
 
 import dagger.Binds
 import dagger.Module
-import maystruks08.gmail.com.data.repository.RouteBuilderImpl
 import maystruks08.gmail.com.data.repository.RouteRepositoryImpl
-import maystruks08.gmail.com.domain.interactor.hike.selectedhike.route.RouteBuilder
 import maystruks08.gmail.com.domain.interactor.hike.selectedhike.route.RouteInteractor
 import maystruks08.gmail.com.domain.interactor.hike.selectedhike.route.RouteInteractorImpl
 import maystruks08.gmail.com.domain.repository.RouteRepository
@@ -27,11 +25,6 @@ abstract class RouteModule {
     @Binds
     @RouteScope
     abstract fun presenter(routePresenter: RoutePresenter): RouteContract.Presenter
-
-    @Binds
-    @RouteScope
-    abstract fun routeBuilder(routeBuilderImpl: RouteBuilderImpl): RouteBuilder
-
 
     @Binds
     @RouteScope

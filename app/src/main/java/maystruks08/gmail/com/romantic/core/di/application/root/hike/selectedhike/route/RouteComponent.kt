@@ -1,6 +1,7 @@
 package maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.route
 
 import dagger.Subcomponent
+import maystruks08.gmail.com.romantic.core.di.application.root.hike.selectedhike.route.build.BuildRouteComponent
 import maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.RouteFragment
 import maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.routelist.RouteListFragment
 
@@ -13,5 +14,6 @@ interface RouteComponent {
 
     fun inject(routeListFragment: RouteListFragment)
 
+    fun createRouteComponent(): BuildRouteComponent
 
 }

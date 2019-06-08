@@ -53,5 +53,10 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+    <style name="HeaderTextFont.Bold" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/kon_kord_retro</item>
+        <item name="android:textSize">@dimen/text_xl</item>
+    </style>
+
 
 </resources>
