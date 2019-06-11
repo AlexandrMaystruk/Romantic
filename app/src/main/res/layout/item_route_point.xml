@@ -5,9 +5,10 @@
         android:id="@+id/card_view_participant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         card_view:cardBackgroundColor="@color/colorPrimary"
-        android:layout_marginBottom="5dp"
+        android:layout_marginStart="@dimen/margin_xs"
+        android:layout_marginEnd="@dimen/margin_xs"
+        android:layout_marginTop="@dimen/margin_xs"
         card_view:cardCornerRadius="@dimen/cardview_default_radius"
         card_view:cardElevation="3dp">
 

@@ -17,17 +17,37 @@ interface BuildRouteContract {
 
         fun showRoute(geoPointList: List<GeoPoint>)
 
+        fun showMarker(point: GeoPoint)
+
         fun showMarker(point: GeoPoint, drawable: Drawable)
 
         fun removeMarker(marker: Marker)
+
+        fun clearOverlays()
+
+        fun showPointInList(point: Point)
+
+        fun showPointMoved(fromPosition: Int, toPosition: Int)
+
+        fun showPointRemoved(position: Int)
 
     }
 
     interface Presenter : IPresenter<View> {
 
-        fun buildPath(id: Long, type: RouteType, listPoint: List<Point>)
+        fun buildPath(id: Long, type: RouteType)
+
+        fun onStartPointAdded(geoPoint: GeoPoint)
 
         fun onNewPointAdded(route: Route, geoPoint: Point)
+
+        fun onPointMoved(fromPosition: Int, toPosition: Int)
+
+        fun onPointRemoved(position: Int)
+
+        fun onMarkerMoveStart(geoPoint: GeoPoint)
+
+        fun onMarkerMoved(geoPoint: GeoPoint)
 
     }
 }

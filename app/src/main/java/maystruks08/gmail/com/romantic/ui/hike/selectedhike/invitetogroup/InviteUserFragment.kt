@@ -48,13 +48,13 @@ class InviteUserFragment : Fragment(),
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(
-                true,
-                "Invite to hike",
-                navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false,
-                menu = R.menu.menu_invite_user
-            ),
+            ToolbarDescriptor.Builder()
+                .visibility(true)
+                .title("Invite to hike")
+                .navigationIcon(R.drawable.ic_arrow_back_white_24dp)
+                .bottomBarVisibility(false)
+                .menu(R.menu.menu_invite_user)
+                .build(),
             activity as ConfigToolbar
         )
         controller.addMenuClickListener(activity as ConfigToolbar, ::onMenuClick)

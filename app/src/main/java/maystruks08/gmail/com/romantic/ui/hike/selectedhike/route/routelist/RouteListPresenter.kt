@@ -33,4 +33,8 @@ class RouteListPresenter @Inject constructor(private val router: Router,
     override fun onHikeRouteClick(route: Route) {
         router.navigateTo(Screens.RouteScreen(route))
     }
+
+    override fun onBuildRouteClicked(hikeId: Long) {
+        router.navigateTo(Screens.BuildRouteScreen(hikeId))
+    }
 }

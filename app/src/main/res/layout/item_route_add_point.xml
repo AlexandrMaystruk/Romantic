@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        card_view:cardBackgroundColor="@color/colorPrimary"
+        card_view:cardBackgroundColor="@color/colorGreen"
         android:layout_marginBottom="5dp"
         card_view:cardCornerRadius="@dimen/cardview_default_radius"
         card_view:cardElevation="3dp">

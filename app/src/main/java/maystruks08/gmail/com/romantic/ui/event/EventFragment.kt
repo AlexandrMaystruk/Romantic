@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.reactivex.Single
-import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.*
@@ -33,7 +31,13 @@ class EventFragment : Fragment(), EventContract.View {
     }
 
     override fun configToolbar() {
-        controller.configure(ToolbarDescriptor(true, "Events"), activity as ConfigToolbar)
+        controller.configure(
+            ToolbarDescriptor.Builder()
+                .visibility(true)
+                .title("Events")
+                .build(),
+            activity as ConfigToolbar
+        )
     }
 
     override fun showLoading() {

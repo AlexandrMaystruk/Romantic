@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.reactivex.Single
 import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
@@ -36,7 +35,10 @@ class ChatFragment : Fragment(), ChatContract.View {
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(true, "Message"),
+            ToolbarDescriptor.Builder()
+                .visibility(true)
+                .title("Message")
+                .build(),
             activity as ConfigToolbar
         )
     }

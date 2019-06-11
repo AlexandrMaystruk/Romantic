@@ -40,7 +40,11 @@ class RootTabFragment : Fragment(), HikeListContract.View,
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(visible = true, title = "All Hikes", menu = R.menu.main_menu),
+            ToolbarDescriptor.Builder()
+                .visibility(true)
+                .title("All Hikes")
+                .menu(R.menu.main_menu)
+                .build(),
             activity as ConfigToolbar
         )
     }

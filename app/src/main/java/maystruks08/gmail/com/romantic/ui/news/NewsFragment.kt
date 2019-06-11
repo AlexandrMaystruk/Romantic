@@ -33,7 +33,10 @@ class NewsFragment : Fragment(), NewsContract.View {
     }
 
     override fun configToolbar() {
-        controller.configure(ToolbarDescriptor(true, "News"), activity as ConfigToolbar)
+        controller.configure(ToolbarDescriptor.Builder()
+            .visibility(true)
+            .title("News")
+            .build(), activity as ConfigToolbar)
     }
 
     override fun showLoading() {

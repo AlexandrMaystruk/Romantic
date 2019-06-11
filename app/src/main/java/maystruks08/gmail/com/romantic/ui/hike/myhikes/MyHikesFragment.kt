@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_my_hikes.*
-import kotlinx.android.synthetic.main.fragment_participant.*
 import maystruks08.gmail.com.domain.entity.Hike
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
@@ -17,7 +16,6 @@ import maystruks08.gmail.com.romantic.toast
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
 import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
-import maystruks08.gmail.com.romantic.ui.hike.selectedhike.participant.SwipeActionHelper
 import javax.inject.Inject
 
 class MyHikesFragment : Fragment(), MyHikesContract.View {
@@ -43,7 +41,10 @@ class MyHikesFragment : Fragment(), MyHikesContract.View {
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(true, "My Hikes"),
+            ToolbarDescriptor.Builder()
+                .visibility(true)
+                .title("My Hikes")
+                .build(),
             activity as ConfigToolbar
         )
     }
@@ -106,7 +107,7 @@ class MyHikesFragment : Fragment(), MyHikesContract.View {
     }
 
     override fun showError(t: Throwable) {
-        context?.toast(t.message?:t.localizedMessage)
+        context?.toast(t.message ?: t.localizedMessage)
     }
 
 

@@ -12,8 +12,10 @@ data class Route(val id: Long, var type: RouteType, val points: MutableList<Poin
         points.remove(point)
     }
 
-
     fun addPath(builtPath: List<Point>){
+        if(completeRoutePath == null) {
+            completeRoutePath = mutableListOf()
+        }
         completeRoutePath?.addAll(builtPath)
     }
 

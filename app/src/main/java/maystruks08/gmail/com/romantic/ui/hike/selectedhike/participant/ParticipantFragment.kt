@@ -49,13 +49,12 @@ class ParticipantFragment : Fragment(),
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(
-                true,
-                "Participant",
-                navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false,
-                menu = R.menu.menu_add_participant
-            ),
+            ToolbarDescriptor.Builder()
+                .visibility(true)
+                .navigationIcon(R.drawable.ic_arrow_back_white_24dp)
+                .bottomBarVisibility(false)
+                .menu(R.menu.menu_add_participant)
+                .build(),
             activity as ConfigToolbar
         )
         controller.addMenuClickListener(activity as ConfigToolbar, ::onMenuClick)

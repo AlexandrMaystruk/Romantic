@@ -41,12 +41,13 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     override fun configToolbar() {
         val displayName = participant?.userViewModel?.displayName
         controller.configure(
-            ToolbarDescriptor(
-                true,
-                "$displayName Profile",
-                navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false
-            ), activity as ConfigToolbar
+            ToolbarDescriptor.Builder()
+                .visibility(false)
+                .title("$displayName Profile")
+                .navigationIcon(R.drawable.ic_arrow_back_white_24dp)
+                .bottomBarVisibility(false)
+                .build(),
+            activity as ConfigToolbar
         )
     }
 

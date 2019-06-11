@@ -12,9 +12,6 @@ import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.PRESS_TWICE_INTERVAL
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.core.navigation.AppNavigator
-import maystruks08.gmail.com.romantic.ui.ConfigToolbar
-import maystruks08.gmail.com.romantic.ui.ToolBarController
-import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import maystruks08.gmail.com.romantic.ui.main.RootActivity
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder

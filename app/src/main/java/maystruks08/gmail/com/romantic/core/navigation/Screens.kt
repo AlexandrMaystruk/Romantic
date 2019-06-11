@@ -17,6 +17,7 @@ import maystruks08.gmail.com.romantic.ui.hike.selectedhike.SelectedHikeFragment
 import maystruks08.gmail.com.romantic.ui.hike.selectedhike.invitetogroup.InviteUserFragment
 import maystruks08.gmail.com.romantic.ui.hike.selectedhike.participant.ParticipantFragment
 import maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.RouteFragment
+import maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.buildRoute.BuildRouteFragment
 import maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.routelist.RouteListFragment
 import maystruks08.gmail.com.romantic.ui.viewmodel.HikeViewModel
 import maystruks08.gmail.com.romantic.ui.viewmodel.ParticipantViewModel
@@ -67,6 +68,10 @@ object Screens {
 
     class RouteScreen(private val route: Route) : AppScreen() {
         override fun getFragment() = RouteFragment.getInstance(RouteViewModel.toRouteViewModel(route))
+    }
+
+    class BuildRouteScreen(private val hikeId: Long) : AppScreen() {
+        override fun getFragment() = BuildRouteFragment.getInstance(hikeId)
     }
 
     class ProfileScreen(private val participant: Participant) : AppScreen() {

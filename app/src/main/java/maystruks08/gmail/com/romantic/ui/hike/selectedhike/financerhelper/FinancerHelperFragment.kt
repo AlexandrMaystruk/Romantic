@@ -27,7 +27,11 @@ class FinancerHelperFragment : Fragment(),
     }
 
     override fun configToolbar() {
-        controller.configure(ToolbarDescriptor(false), activity as ConfigToolbar)
+        controller.configure(
+            ToolbarDescriptor.Builder()
+                .visibility(false)
+                .build(),
+            activity as ConfigToolbar)
     }
 
     override fun initUI() {

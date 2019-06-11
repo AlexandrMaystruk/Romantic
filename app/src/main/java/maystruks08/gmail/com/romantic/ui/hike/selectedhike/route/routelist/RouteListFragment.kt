@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
-import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import javax.inject.Inject
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_route_list.*
 import maystruks08.gmail.com.domain.entity.Route
 import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 
 
 class RouteListFragment : Fragment(), RouteListContract.View {
@@ -46,6 +46,10 @@ class RouteListFragment : Fragment(), RouteListContract.View {
         adapter = RouteAdapter { routeItemClicked(it) }
         routesRecyclerView.layoutManager = LinearLayoutManager(context)
         routesRecyclerView.adapter = adapter
+
+        fabBuildRoute.setOnClickListener {
+            presenter.onBuildRouteClicked(hikeId!!)
+        }
     }
 
 
@@ -55,12 +59,12 @@ class RouteListFragment : Fragment(), RouteListContract.View {
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(
-                true,
-                "Routes",
-                navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false
-            ),
+            ToolbarDescriptor.Builder()
+                .visibility(true)
+                .title("Routes")
+                .navigationIcon(R.drawable.ic_arrow_back_white_24dp)
+                .bottomBarVisibility(false)
+                .build(),
             activity as ConfigToolbar
         )
     }

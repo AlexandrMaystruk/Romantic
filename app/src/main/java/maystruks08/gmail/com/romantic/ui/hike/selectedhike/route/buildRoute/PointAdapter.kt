@@ -10,21 +10,37 @@ import maystruks08.gmail.com.romantic.R
 import kotlin.properties.Delegates
 
 
-class GeoPointAdapter(private val clickListener: (Point) -> Unit, private val clickButtonListener: () -> Unit) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PointAdapter(private val clickListener: (Point) -> Unit, private val clickButtonListener: () -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter {
 
-    var hikeList: MutableList<Point> by Delegates.observable(mutableListOf()) { _, _, _ ->
+    var pointList: MutableList<Point> by Delegates.observable(mutableListOf()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
-    fun removeItem(position: Int) {
-        hikeList.removeAt(position)
+    override fun addPoint(point: Point) {
+        pointList.add(point)
+        notifyDataSetChanged()
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int) {
+        val prev = pointList.removeAt(fromPosition)
+        pointList.add(
+            if (toPosition > fromPosition) {
+                toPosition - 1
+            } else {
+                toPosition
+            }, prev
+        )
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    override fun onItemRemove(position: Int) {
+        pointList.removeAt(position)
         notifyItemRemoved(position)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ViewHolder) {
-            holder.bindHolderGeoPoint(hikeList[position], clickListener)
+            holder.bindHolderGeoPoint(pointList[position], clickListener)
         } else if (holder is ViewHolderButton) {
             holder.bindHolderAddPoint(clickButtonListener)
         }
@@ -40,14 +56,14 @@ class GeoPointAdapter(private val clickListener: (Point) -> Unit, private val cl
 
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == hikeList.size) {
+        return if (position == pointList.size) {
             BUTTON
         } else {
             ITEM
         }
     }
 
-    override fun getItemCount(): Int = hikeList.size
+    override fun getItemCount(): Int = pointList.size + 1
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindHolderGeoPoint(point: Point, clickListener: (Point) -> Unit) {

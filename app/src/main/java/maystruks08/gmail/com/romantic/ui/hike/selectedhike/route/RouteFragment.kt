@@ -10,15 +10,14 @@ import kotlinx.android.synthetic.main.fragment_route.*
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
-import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow
-import java.util.ArrayList
 import javax.inject.Inject
 import android.preference.PreferenceManager
 import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 
 import maystruks08.gmail.com.romantic.ui.viewmodel.RouteViewModel
 import org.osmdroid.config.Configuration
@@ -71,12 +70,11 @@ class RouteFragment : Fragment(), RouteContract.View {
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(
-                true,
-                "Route",
-                navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false
-            ),
+            ToolbarDescriptor.Builder().visibility(true)
+                .title("Route")
+                .navigationIcon(R.drawable.ic_arrow_back_white_24dp)
+                .bottomBarVisibility(false)
+                .build(),
             activity as ConfigToolbar
         )
     }

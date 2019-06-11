@@ -50,12 +50,13 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(
-                true, "Hike",
-                navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false,
-                menu = R.menu.menu_selected_hike
-            ),
+            ToolbarDescriptor.Builder()
+                .visibility(true)
+                .title("Hike")
+                .navigationIcon(R.drawable.ic_arrow_back_white_24dp)
+                .bottomBarVisibility(false)
+                .menu(R.menu.menu_selected_hike)
+                .build(),
             activity as ConfigToolbar
         )
         controller.addMenuClickListener(activity as ConfigToolbar, ::onMenuClick)
@@ -73,7 +74,7 @@ class SelectedHikeFragment : Fragment(), SelectedHikeContract.View {
         civParticipant.setOnClickListener { presenter.onParticipantClick(hike?.id ?: -1) }
         civGroupChat.setOnClickListener { presenter.onGroupChatClick() }
         civTrainingCalendar.setOnClickListener { presenter.onTrainingCalendarClick() }
-        civRoute.setOnClickListener { presenter.onRouteClick(hike?.id?: -1) }
+        civRoute.setOnClickListener { presenter.onRouteClick(hike?.id ?: -1) }
         civMyPost.setOnClickListener { presenter.onMyPostClick() }
         civTools.setOnClickListener { presenter.onToolsClick() }
         civMaterials.setOnClickListener { presenter.onMaterialsClick() }

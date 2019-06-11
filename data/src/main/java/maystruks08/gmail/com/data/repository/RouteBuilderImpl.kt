@@ -1,7 +1,5 @@
 package maystruks08.gmail.com.data.repository
 
-import android.content.ContentValues
-import android.util.Log
 import io.reactivex.Single
 import maystruks08.gmail.com.domain.entity.Point
 import maystruks08.gmail.com.domain.entity.Route
@@ -9,10 +7,7 @@ import maystruks08.gmail.com.domain.entity.RouteType
 import maystruks08.gmail.com.domain.repository.RouteBuilder
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.lang.Exception
-import java.net.HttpURLConnection
 import java.net.URL
 import javax.inject.Inject
 
@@ -20,66 +15,65 @@ class RouteBuilderImpl @Inject constructor() : RouteBuilder {
 
     override fun buildRout(id: Long, type: RouteType, listPoint: List<Point>): Single<Route> {
         return Single.create {
-            val route = Route(id, type, mutableListOf())
-            listPoint.forEachIndexed { index, geoPoint ->
-                listPoint.getOrNull(index + 1)?.let {
-                    route.addPath(getPathBetweenTwoPoints(geoPoint, it))
+            try {
+                val route = Route(id, type, mutableListOf())
+                listPoint.forEachIndexed { index, geoPoint ->
+                    listPoint.getOrNull(index + 1)?.let {
+                        route.addPath(getPathBetweenTwoPoints(geoPoint, it))
+                    }
                 }
+                route.points.addAll(listPoint)
+                it.onSuccess(route)
+            } catch (e: Exception) {
+                it.onError(e)
             }
         }
     }
 
     override fun addNewPoint(route: Route, point: Point): Single<Route> {
-        return Single.create {
-            route.addPath(getPathBetweenTwoPoints(route.points.last(), point))
+        return Single.create { emitter ->
+            try {
+                route.addPath(getPathBetweenTwoPoints(route.points.last(), point))
+                route.addNewPoint(point)
+                emitter.onSuccess(route)
+            } catch (e: Exception) {
+                emitter.onError(e)
+            }
         }
     }
 
     override fun removePoint(route: Route, point: Point): Single<Route> {
         return Single.create<Route> {
-            route.removePoint(point)
-            route.deletePath()
-            route.points.forEachIndexed { index, geoPoint ->
-                route.points.getOrNull(index + 1)?.let {
-                    route.addPath(getPathBetweenTwoPoints(geoPoint, it))
+            try {
+                route.removePoint(point)
+                route.deletePath()
+                route.points.forEachIndexed { index, geoPoint ->
+                    route.points.getOrNull(index + 1)?.let {
+                        route.addPath(getPathBetweenTwoPoints(geoPoint, it))
+                    }
                 }
+                it.onSuccess(route)
+            } catch (e: Exception) {
+                it.onError(e)
             }
-
-            return@create
         }
     }
 
     private fun getPathBetweenTwoPoints(start: Point, finish: Point): List<Point> {
-        val serverURL =
-            "https://graphhopper.com/api/1/route?point=" + start.lat + "," + start.lon + "&point=" + finish.lat + "," + finish.lon + "&vehicle=foot&locale=de&key=" + API_KEY
-        val url = URL(serverURL)
-        val connection = url.openConnection() as HttpURLConnection
-        connection.doOutput = true
-        connection.requestMethod = "get"
-
         try {
-            return if (connection.responseCode == HttpURLConnection.HTTP_OK) {
-                val reader = BufferedReader(InputStreamReader(connection.inputStream))
-                val myResponse = reader.readLine()
-                val jsonResponse = JSONObject(myResponse)
-                val paths = jsonResponse.getJSONArray("paths")
-                val path = paths.getJSONObject(0)
-                val points = path.get("points").toString()
-                decode(points)
-
-            } else {
-                Log.d(ContentValues.TAG, BufferedReader(InputStreamReader(connection.errorStream)).readLine())
-                throw Throwable(BufferedReader(InputStreamReader(connection.errorStream)).readLine())
-            }
-
+            val serverURL = "https://graphhopper.com/api/1/route?point=" + start.lat + "," + start.lon + "&point=" + finish.lat + "," + finish.lon + "&vehicle=foot&index.max_region_search=8&locale=de&key=" + API_KEY + "&type=json"
+            val myResponse = URL(serverURL).readText()
+            val jsonResponse = JSONObject(myResponse)
+            val paths = jsonResponse.getJSONArray("paths")
+            val path = paths.getJSONObject(0)
+            val points = path.get("points").toString()
+            return decode(points)
         } catch (e: JSONException) {
             e.printStackTrace()
             throw Throwable(e.localizedMessage)
         } catch (e: Exception) {
             e.printStackTrace()
             throw Throwable(e.localizedMessage)
-        } finally {
-            connection.disconnect()
         }
     }
 
@@ -117,6 +111,6 @@ class RouteBuilderImpl @Inject constructor() : RouteBuilder {
     }
 
     companion object {
-        private const val API_KEY = "3cf98933-427c-458c-87c0-3009ac182044"
+        private const val API_KEY = "df5b853f-d498-457c-b2ab-7f157acecbea"
     }
 }

@@ -18,5 +18,7 @@ interface RouteListContract {
         fun getHikeRoutes(hikeId: Long)
 
         fun onHikeRouteClick(route: Route)
+
+        fun onBuildRouteClicked(hikeId: Long)
     }
 }

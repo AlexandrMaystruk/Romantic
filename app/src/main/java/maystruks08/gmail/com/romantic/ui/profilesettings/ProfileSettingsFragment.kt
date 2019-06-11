@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_profile.*
-import maystruks08.gmail.com.domain.entity.News
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
@@ -42,17 +41,18 @@ class ProfileSettingsFragment : Fragment(), ProfileSettingsContract.View {
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(
-                true,
-                "Profile settings",
-                navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false
-            ), activity as ConfigToolbar
+            ToolbarDescriptor.Builder()
+                .visibility(true)
+                .title("Profile settings")
+                .navigationIcon(R.drawable.ic_arrow_back_white_24dp)
+                .bottomBarVisibility(false)
+                .build()
+            , activity as ConfigToolbar
         )
     }
 
 
-    private fun initViews(){
+    private fun initViews() {
         tvUserName?.text = user?.email
     }
 

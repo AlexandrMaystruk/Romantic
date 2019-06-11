@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_create_new_hike.*
 import maystruks08.gmail.com.domain.entity.Category
 import maystruks08.gmail.com.domain.entity.Hike
-import maystruks08.gmail.com.domain.entity.Route
 import maystruks08.gmail.com.domain.entity.TypeHike
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.R
@@ -46,11 +45,12 @@ class CreateNewHikeFragment : Fragment(), CreateNewHikeContract.View {
 
     override fun configToolbar() {
         controller.configure(
-            ToolbarDescriptor(
-                true, "Create new hike",
-                navigationIcon = R.drawable.ic_arrow_back_white_24dp,
-                bottomBarVisibility = false
-            ),
+            ToolbarDescriptor.Builder()
+                .visibility(true)
+                .title("Create new hike")
+                .navigationIcon(R.drawable.ic_arrow_back_white_24dp)
+                .bottomBarVisibility(false)
+                .build(),
             activity as ConfigToolbar
         )
     }
