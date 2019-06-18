@@ -55,4 +55,25 @@ abstract class SwipeAndDragActionHelper(context: Context) :
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
+
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
+        val itemCount = (recyclerView.adapter?.itemCount ?: 0) - 1
+        if (itemCount == target.adapterPosition) {
+            return false
+        }
+        return true
+
+    }
+
+    override fun getSwipeDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+        if ((viewHolder as? PointAdapter.ViewHolderButton) is PointAdapter.ViewHolderButton) {
+            return 0
+        }
+        return super.getSwipeDirs(recyclerView, viewHolder)
+    }
+
 }

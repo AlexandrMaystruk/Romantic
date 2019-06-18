@@ -16,6 +16,13 @@ class RouteRepositoryImpl @Inject constructor(
     private val hikeDao: HikeDAO,
     private val api: FireStoreApi
 ) : RouteRepository {
+    override fun saveRote(route: Route): Completable {
+        return Completable.complete()
+    }
+
+    override fun saveRotes(routes: List<Route>): Completable {
+        return Completable.complete()
+    }
 
     override fun getRoute(routeId: Long): Single<Route> {
         return hikeDao.getRouteById(routeId).map {

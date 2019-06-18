@@ -66,6 +66,9 @@
     <!--user-->
     <string name="user_invite">Пригласить</string>
     <string name="user_invited">Добавлен</string>
+    <string name="build_route_long_tap_to_build">Жмякни по карте, добавь точку!</string>
+    <string name="build_route">Построить маршрут</string>
+
 
 
     <string-array name="category_list">

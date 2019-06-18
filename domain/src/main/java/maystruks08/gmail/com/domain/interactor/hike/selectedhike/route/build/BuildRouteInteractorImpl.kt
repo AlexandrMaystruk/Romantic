@@ -6,11 +6,13 @@ import maystruks08.gmail.com.domain.entity.Route
 import maystruks08.gmail.com.domain.entity.RouteType
 import maystruks08.gmail.com.domain.executor.ThreadExecutor
 import maystruks08.gmail.com.domain.repository.RouteBuilder
+import maystruks08.gmail.com.domain.repository.RouteRepository
 import javax.inject.Inject
 
 class BuildRouteInteractorImpl @Inject constructor(
     private val executor: ThreadExecutor,
-    private val routeBuilder: RouteBuilder
+    private val routeBuilder: RouteBuilder,
+    private val routeRepository: RouteRepository
 ) : BuildRouteInteractor {
 
     override fun buildRoute(id: Long, type: RouteType, listPoint: List<Point>): Single<Route> {

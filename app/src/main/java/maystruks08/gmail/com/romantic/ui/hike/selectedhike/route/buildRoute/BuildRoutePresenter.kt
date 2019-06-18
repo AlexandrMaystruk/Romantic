@@ -4,33 +4,26 @@ import maystruks08.gmail.com.domain.entity.Point
 import maystruks08.gmail.com.domain.entity.Route
 import maystruks08.gmail.com.domain.entity.RouteType
 import maystruks08.gmail.com.domain.interactor.hike.selectedhike.route.build.BuildRouteInteractor
+import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.core.base.BasePresenter
 import org.osmdroid.util.GeoPoint
-import ru.terrakok.cicerone.Router
+import java.util.*
 
 import javax.inject.Inject
 
 
 class BuildRoutePresenter @Inject constructor(
-    private val router: Router,
     private val routeInteractor: BuildRouteInteractor
 ) : BuildRouteContract.Presenter,
     BasePresenter<BuildRouteContract.View>() {
 
-    private val geoPointList = mutableListOf<Point>()
-    private var movedMarkerPoint: Point? = null
-
-    override fun onStartPointAdded(geoPoint: GeoPoint) {
-        geoPointList.add(Point(geoPoint.latitude, geoPoint.longitude))
-        view?.showPointInList(Point(geoPoint.longitude, geoPoint.latitude))
-        view?.showMarker(geoPoint)
-        view?.showRoute(geoPointList.map { GeoPoint(it.lat, it.lon) })
-    }
+    private val pointsOnMap = mutableListOf<Point>()
+    private var pointCount = 0
 
     override fun buildPath(id: Long, type: RouteType) {
         compositeDisposable.add(
-            routeInteractor.buildRoute(id, type, geoPointList)
-                .subscribe(::onBuildPathSuccess, ::onBuildPathFailure)
+            routeInteractor.buildRoute(id, type, pointsOnMap)
+                .subscribe(::renderRoutePath, ::onBuildPathFailure)
         )
     }
 
@@ -41,57 +34,97 @@ class BuildRoutePresenter @Inject constructor(
         )
     }
 
+    override fun onPointAdd(geoPoint: GeoPoint) {
+        val point = Point(UUID.randomUUID().toString(), ++pointCount, geoPoint.latitude, geoPoint.longitude)
+        pointsOnMap.add(point)
+        view?.showPoints(pointsOnMap)
+        renderRouteScheme()
+    }
+
     override fun onPointMoved(fromPosition: Int, toPosition: Int) {
-        val prev = geoPointList.removeAt(fromPosition)
-        geoPointList.add(
-            if (toPosition > fromPosition) {
-                toPosition - 1
-            } else {
-                toPosition
-            }, prev
-        )
-
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(pointsOnMap, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(pointsOnMap, i, i - 1)
+            }
+        }
+        renderRouteScheme()
         view?.showPointMoved(fromPosition, toPosition)
-        //todo rebuild path
     }
 
-    override fun onMarkerMoveStart(geoPoint: GeoPoint) {
-        movedMarkerPoint = Point(geoPoint.latitude, geoPoint.longitude)
-    }
-
-    override fun onMarkerMoved(geoPoint: GeoPoint) {
-
+    override fun onMarkerMoved(markerId: String, geoPoint: GeoPoint) {
+        pointsOnMap.firstOrNull { it.id == markerId }?.let {
+            pointsOnMap[pointsOnMap.indexOf(it)] = it.apply {
+                lat = geoPoint.latitude
+                lon = geoPoint.longitude
+            }
+            view?.removeAllPolyline()
+            view?.showRoute(pointsOnMap.map { toGeoPoint(it) })
+        }
     }
 
     override fun onPointRemoved(position: Int) {
-        geoPointList.removeAt(position)
+        pointCount--
+        pointsOnMap.removeAt(position)
         view?.showPointRemoved(position)
-        //todo rebuild path
+        renderRouteScheme()
     }
 
+    private fun renderRouteScheme() {
+        val geoPoints = pointsOnMap.map { toGeoPoint(it) }
+        view?.removeMarkers()
+        view?.removeAllPolyline()
+        view?.showRoute(geoPoints)
 
-    private fun onBuildPathSuccess(route: Route) {
-       //remove all overlays object
-        view?.clearOverlays()
-       //draw path
+        geoPoints.forEachIndexed { index, gp ->
+            pointsOnMap[index].number = index + 1
+            val p = pointsOnMap[index]
+            val markerRes = when (p.number) {
+                1 -> R.drawable.marker_flag_start
+                geoPoints.lastIndex + 1 -> R.drawable.marker_flag_finish
+                else -> R.drawable.marker_blue
+            }
+            view?.showMarker(p.id, gp, markerRes)
+        }
+    }
+
+    private fun renderRoutePath(route: Route) {
+        //remove all overlays object
+        view?.removeMarkers()
+        view?.removeAllPolyline()
+        //draw path
         route.completeRoutePath?.let { list ->
-            view?.showRoute(list.map { GeoPoint(it.lat, it.lon) })
+            view?.showRoute(list.map { toGeoPoint(it) })
         }
         //add markers
-        route.points.forEach {
-            view?.showMarker(GeoPoint(it.lat, it.lon))
+        pointsOnMap.clear()
+        pointsOnMap.addAll(route.points)
+        var markerRes: Int
+        route.points.forEachIndexed { index, point ->
+            markerRes = when (index) {
+                0 -> R.drawable.marker_flag_start
+                route.points.lastIndex -> R.drawable.marker_flag_finish
+                else -> R.drawable.marker_blue
+            }
+            view?.showMarker(point.id, toGeoPoint(point), markerRes)
         }
+    }
+
+    private fun onNewPointAddSuccess(route: Route) {
     }
 
     private fun onBuildPathFailure(t: Throwable) {
         t.printStackTrace()
     }
 
-    private fun onNewPointAddSuccess(route: Route) {
-        //todo show new route
-    }
-
     private fun onNewPointAddFailure(t: Throwable) {
         t.printStackTrace()
+    }
+
+    private fun toGeoPoint(point: Point): GeoPoint {
+        return point.let { GeoPoint(it.lat, it.lon) }
     }
 }

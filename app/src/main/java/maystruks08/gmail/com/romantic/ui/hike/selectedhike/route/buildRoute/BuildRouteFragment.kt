@@ -1,6 +1,5 @@
 package maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.buildRoute
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +9,10 @@ import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
 import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.Polyline
 import javax.inject.Inject
 import android.preference.PreferenceManager
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.layout_create_route_header.*
@@ -25,15 +24,15 @@ import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_build_route.*
 import kotlinx.android.synthetic.main.fragment_route.map
 import maystruks08.gmail.com.domain.entity.RouteType
-import maystruks08.gmail.com.romantic.getDisplayHeight
-import maystruks08.gmail.com.romantic.getDisplayWidth
-
+import maystruks08.gmail.com.romantic.DistanceUtil
+import org.osmdroid.events.MapEventsReceiver
+import org.osmdroid.views.overlay.*
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class BuildRouteFragment : Fragment(), BuildRouteContract.View {
-
 
     @Inject
     lateinit var presenter: BuildRouteContract.Presenter
@@ -71,10 +70,7 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
         recyclerViewGeoPoint.layoutManager = LinearLayoutManager(context)
         recyclerViewGeoPoint.adapter = adapter
         initCardSwipe()
-
-        fabBuildRoute.setOnClickListener {
-            presenter.buildPath(hikeId!!, RouteType.MAIN)
-        }
+        initMapEventListener()
     }
 
     private fun initCardSwipe() {
@@ -87,24 +83,38 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
                     }
                 }
 
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    presenter.onPointMoved(viewHolder.adapterPosition, target.adapterPosition)
-                    return true
+                override fun onMoved(
+                    recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                    fromPos: Int, target: RecyclerView.ViewHolder, toPos: Int, x: Int, y: Int
+                ) {
+                    presenter.onPointMoved(fromPos, toPos)
+                    super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
                 }
             }
             ItemTouchHelper(swipeHelper).attachToRecyclerView(recyclerViewGeoPoint)
         }
     }
 
+    private fun initMapEventListener() {
+        val overlayEvents = MapEventsOverlay(object : MapEventsReceiver {
+            override fun longPressHelper(p: GeoPoint): Boolean {
+                presenter.onPointAdd(p)
+                return false
+            }
 
-    override fun showPointInList(point: Point) {
-        adapter.addPoint(point)
-        recyclerViewGeoPoint.scrollToPosition(adapter.pointList.indexOf(point))
+            override fun singleTapConfirmedHelper(p: GeoPoint): Boolean {
+                return false
+            }
+        })
+        map.overlays.add(overlayEvents)
+        map.invalidate()
     }
+
+    override fun showPoints(points: List<Point>) {
+        adapter.pointList = points.toMutableList()
+        recyclerViewGeoPoint.scrollToPosition(adapter.pointList.lastIndex + 1)
+    }
+
 
     override fun showPointRemoved(position: Int) {
         adapter.onItemRemove(position)
@@ -118,10 +128,7 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
     }
 
     private fun itemButtonClicked() {
-        context?.let {
-            val centerGeoPoint = map.projection.fromPixels(it.getDisplayHeight() / 2, it.getDisplayWidth() / 2)
-            presenter.onStartPointAdded(GeoPoint(centerGeoPoint.latitude, centerGeoPoint.longitude))
-        }
+        presenter.buildPath(hikeId!!, RouteType.MAIN)
     }
 
     override fun configToolbar() {
@@ -137,79 +144,92 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
     }
 
     override fun showRoute(geoPointList: List<GeoPoint>) {
-        val line = Polyline(map)
-        line.subDescription = Polyline::class.java.canonicalName
-        line.width = 6f
-        line.points = geoPointList
-        line.isGeodesic = true
-        context?.let { line.color = ContextCompat.getColor(it, R.color.colorPrimaryDark) }
-        map.overlayManager.add(line)
+        Polyline(map).apply {
+            subDescription = Polyline::class.java.canonicalName
+            width = 6f
+            points = geoPointList
+            isGeodesic = true
+            context?.let {
+                this.color = ContextCompat.getColor(it, R.color.colorGrey)
+            }
+            map.overlayManager.add(this)
+        }
         map.invalidate()
     }
 
-    override fun showMarker(point: GeoPoint) {
-        val marker = Marker(map)
-        marker.position = point
-        context?.let { context ->
-            ContextCompat.getDrawable(context, R.drawable.marker_default)?.let { marker.setIcon(it) }
+    override fun showRoutePath(geoPointList: List<GeoPoint>, @ColorRes color: Int) {
+        Polyline(map).apply {
+            subDescription = Polyline::class.java.canonicalName
+            width = 6f
+            points = geoPointList
+            isGeodesic = true
+            context?.let {
+                this.color = ContextCompat.getColor(it, color)
+            }
+            map.overlayManager.add(this)
+            map.invalidate()
         }
-        marker.isDraggable = true
-        map.overlays.add(marker)
-        marker.setOnMarkerClickListener { _, _ ->
-            true
-        }
+    }
 
-        marker.setOnMarkerDragListener(object : Marker.OnMarkerDragListener {
-            override fun onMarkerDragEnd(marker: Marker?) {
-                marker?.position?.let {
-                    presenter.onMarkerMoved(it)
+    override fun showDefaultMarker(markerId: String, point: GeoPoint) {
+        Marker(map).apply {
+            id = markerId
+            position = point
+            context?.let { context ->
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.marker_default
+                )?.let { setIcon(it) }
+            }
+            isDraggable = true
+            map.overlays.add(this)
+            setOnMarkerDragListener(object : Marker.OnMarkerDragListener {
+                override fun onMarkerDragEnd(marker: Marker) {
+                    presenter.onMarkerMoved(marker.id, marker.position)
                 }
-            }
 
-            override fun onMarkerDragStart(marker: Marker?) {
-                marker?.position?.let {
-                    presenter.onMarkerMoved(it)
-                }
-            }
-
-            override fun onMarkerDrag(marker: Marker?) {
-            }
-        })
-        map.invalidate()
-
-    }
-
-    override fun showMarker(point: GeoPoint, drawable: Drawable) {
-        val marker = Marker(map)
-        marker.position = point
-        marker.setIcon(drawable)
-        marker.isDraggable = true
-        map.overlays.add(marker)
-        marker.setOnMarkerClickListener { _, _ ->
-            true
+                override fun onMarkerDragStart(marker: Marker) {}
+                override fun onMarkerDrag(marker: Marker) {}
+            })
+            map.invalidate()
         }
-
-        marker.setOnMarkerDragListener(object : Marker.OnMarkerDragListener {
-            override fun onMarkerDragEnd(marker: Marker?) {
-            }
-
-            override fun onMarkerDragStart(marker: Marker?) {
-            }
-
-            override fun onMarkerDrag(marker: Marker?) {
-            }
-        })
-        map.invalidate()
-
     }
 
-    override fun removeMarker(marker: Marker) {
-        map.overlayManager.remove(marker)
+
+    override fun showMarker(markerId: String, point: GeoPoint, @DrawableRes drawable: Int) {
+        Marker(map).apply {
+            id = markerId
+            position = point
+            isDraggable = true
+            setIcon(context?.getDrawable(drawable))
+            map.overlays.add(this)
+
+            setOnMarkerDragListener(object : Marker.OnMarkerDragListener {
+                override fun onMarkerDragEnd(marker: Marker) {
+                    presenter.onMarkerMoved(marker.id, marker.position)
+                }
+
+                override fun onMarkerDragStart(marker: Marker) {
+                }
+
+                override fun onMarkerDrag(marker: Marker) {}
+            })
+            map.invalidate()
+        }
+    }
+
+    override fun removeMarker(markerId: String) {
+        map.overlayManager.removeAll { it is Marker && it.id == markerId }
         map.invalidate()
     }
 
-    override fun clearOverlays() {
-        map.overlayManager.clear()
+    override fun removeMarkers() {
+        map.overlayManager.removeAll { it is Marker }
+        map.invalidate()
+    }
+
+    override fun removeAllPolyline() {
+        map.overlayManager.removeAll { it is Polyline }
         map.invalidate()
     }
 
@@ -223,6 +243,68 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
         map.onPause()
     }
 
+    private fun drawDashedPolyLine(listOfPoints: List<GeoPoint>, @ColorRes color: Int) {
+        if (listOfPoints.size < 2) return
+        var added = false
+        listOfPoints.forEachIndexed { i, _ ->
+            val distance = getConvertedDistance(listOfPoints[i], listOfPoints[i + 1])
+            if (distance < 0.002) {
+                added = if (!added) {
+                    Polyline(map).apply {
+                        subDescription = Polyline::class.java.canonicalName
+                        width = 6f
+                        points.add(listOfPoints[i])
+                        points.add(listOfPoints[i + 1])
+                        isGeodesic = true
+                        context?.let {
+                            this.color = ContextCompat.getColor(it, color)
+                        }
+                        map.overlayManager.add(this)
+                    }
+                    true
+                } else {
+                    false
+                }
+            } else {
+                val countOfDivisions = (distance / 0.002).toInt()
+                val latDiff = (listOfPoints[i + 1].latitude - listOfPoints[i].latitude) / countOfDivisions
+                val longGiff = (listOfPoints[i + 1].longitude - listOfPoints[i].longitude) / countOfDivisions
+                var lastKnowLatLng = GeoPoint(listOfPoints[i].latitude, listOfPoints[i].longitude)
+                for (j in 0 until countOfDivisions) {
+                    val nextLatLng = GeoPoint(lastKnowLatLng.latitude + latDiff, lastKnowLatLng.longitude + longGiff)
+                    added = if (!added) {
+                        Polyline(map).apply {
+                            width = 6f
+                            points.add(listOfPoints[i])
+                            points.add(listOfPoints[i + 1])
+                            isGeodesic = true
+                            context?.let {
+                                this.color = ContextCompat.getColor(it, android.R.color.transparent)
+                            }
+                            map.overlayManager.add(this)
+                        }
+                        true
+                    } else {
+                        false
+                    }
+                    lastKnowLatLng = nextLatLng
+                }
+            }
+
+        }
+        map.invalidate()
+    }
+
+    private fun getConvertedDistance(startPoint: GeoPoint, endPoint: GeoPoint): Double {
+        val distance = DistanceUtil.distance(
+            startPoint.latitude,
+            startPoint.longitude,
+            endPoint.latitude,
+            endPoint.longitude
+        )
+        return BigDecimal(distance).apply { setScale(3, RoundingMode.DOWN) }.toDouble()
+    }
+
     override fun showLoading() {
     }
 
@@ -230,6 +312,7 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
     }
 
     override fun showError(t: Throwable) {
+
     }
 
     override fun onDetach() {

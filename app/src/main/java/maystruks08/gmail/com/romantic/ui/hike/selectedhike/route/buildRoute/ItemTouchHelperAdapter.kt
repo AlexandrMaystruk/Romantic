@@ -1,13 +1,9 @@
 package maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.buildRoute
 
 import androidx.recyclerview.widget.RecyclerView
-import maystruks08.gmail.com.domain.entity.Point
 
 
 interface ItemTouchHelperAdapter {
-
-
-    fun addPoint(point: Point)
 
     /**
      * Called when an item has been dragged far enough to trigger a move. This is called every time
