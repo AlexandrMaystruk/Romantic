@@ -52,13 +52,18 @@ class MyHikesFragment : Fragment(), MyHikesContract.View {
     private fun init() {
         presenter.bindView(this)
         presenter.initFragmentByUser()
-        hikeAdapter = HikeAdapter { hikeItemClicked(it) }
-        hikesRecyclerView.layoutManager = LinearLayoutManager(context)
-        hikesRecyclerView.adapter = hikeAdapter
+        setAdapter()
 
         rootFab.setOnClickListener {
             presenter.onCreateHikeClicked()
         }
+    }
+
+
+    private fun setAdapter(){
+        hikeAdapter = HikeAdapter { hikeItemClicked(it) }
+        hikesRecyclerView.layoutManager = LinearLayoutManager(hikesRecyclerView.context)
+        hikesRecyclerView.adapter = hikeAdapter
     }
 
     private fun initCardSwipe() {

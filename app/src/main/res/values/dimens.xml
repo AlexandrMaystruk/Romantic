@@ -7,14 +7,15 @@
     <dimen name="text_xl">32sp</dimen>
     <dimen name="tab_size">32dp</dimen>
 
-    <dimen name="margin_xs">8sp</dimen>
-    <dimen name="margin_s">14sp</dimen>
-    <dimen name="margin_m">18sp</dimen>
-    <dimen name="margin_l">20sp</dimen>
-    <dimen name="margin_xl">32sp</dimen>
-    <dimen name="margin_xxl">44sp</dimen>
-    <dimen name="margin_xxxl">56sp</dimen>
-    <dimen name="margin_fab">82sp</dimen>
+    <dimen name="margin_min">4dp</dimen>
+    <dimen name="margin_xs">8dp</dimen>
+    <dimen name="margin_s">14dp</dimen>
+    <dimen name="margin_m">18dp</dimen>
+    <dimen name="margin_l">20dp</dimen>
+    <dimen name="margin_xl">32dp</dimen>
+    <dimen name="margin_xxl">44dp</dimen>
+    <dimen name="margin_xxxl">56dp</dimen>
+    <dimen name="margin_fab">82dp</dimen>
 
     <dimen name="size_xs">8sp</dimen>
     <dimen name="size_s">14sp</dimen>

@@ -31,5 +31,9 @@ interface RootContract {
 
         fun onUploadParticipants()
 
+        fun uploadRoutes()
+
+        fun updateRoutes()
+
     }
 }

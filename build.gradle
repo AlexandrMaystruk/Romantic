@@ -1,6 +1,6 @@
 buildscript {
 
-    ext.kotlin_version = '1.3.21'
+    ext.kotlin_version = '1.3.40'
     repositories {
         google()
         jcenter()
@@ -36,11 +36,13 @@ ext {
     androidTargetSdkVersion = 28
     androidCompileSdkVersion = 28
 
+    androidCoreKTXVersion = "1.0.1"
+
     //{ Libraries }
 
     //Android
-    constraintVersion = '1.1.3'
-    designVersion = '1.0.0-rc01'
+    constraintVersion = '2.0.0-beta2'
+    designVersion = '1.1.0-alpha07'
 
     //swipe refresh
     swipeRefreshVersion = '1.2.3@aar'
@@ -58,19 +60,19 @@ ext {
     ktxVersion = '0.3'
 
     //Dependency Injection
-    daggerVersion = '2.16'
+    daggerVersion = '2.23.2'
 
     //WorkManager
-    workManagerVersion = '1.0.0-alpha10'
+    workManagerVersion = '1.0.1'
 
-    glideVersion = '4.8.0'
+    glideVersion = '4.9.0'
     ciceroneVersion = '4.0.2'
 
-    roomVersion = '2.1.0-alpha01'
+    roomVersion = '2.1.0'
 
     //Testing
-    jUnitVersion = '4.12'
-    mockitoKotlinVersion = '2.0.0-RC1'
+    jUnitVersion = '4.13-beta-3'
+    mockitoKotlinVersion = '2.1.0'
     espressoVersion = '3.0.2'
     testingSupportLibVersion = '1.0.2'
 
@@ -80,15 +82,15 @@ ext {
     gsonVersion = '2.8.5'
 
     //FireBase
-    firebaseAuthVersion = '16.1.0'
-    firebaseCoreVersion = '16.0.6'
+    firebaseAuthVersion = '18.0.0'
+    firebaseCoreVersion = '17.0.0'
     firebaseRxVersion = '1.5.6'
-    firebaseStorageVersion = '16.0.1'
+    firebaseStorageVersion = '18.0.0'
     firebaseDatabaseVersion = '16.0.6'
-    firebaseFirestoreVersion = '18.2.0'
+    firebaseFirestoreVersion = '20.1.0'
 
     //osm
-    osmVersion = '6.0.0'
+    osmVersion = '6.1.0'
 
 
 
@@ -114,6 +116,7 @@ ext {
             cicerone        : "ru.terrakok.cicerone:cicerone:${ciceroneVersion}",
             swipe           : "com.github.orangegangsters:swipy:${swipeRefreshVersion}",
             circleImageView : "de.hdodenhof:circleimageview:${circleImageViewVersion}",
+            androidCoreKTX : "androidx.core:core-ktx:${androidCoreKTXVersion}",
     ]
 
     presentationTestDependencies = [

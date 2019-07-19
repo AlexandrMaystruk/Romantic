@@ -25,6 +25,10 @@ class ToolBarController {
             configToolbar.disableLogoIcon()
         }
 
+        if (toolbarDescriptor.color != null){
+            configToolbar.setBackgroundColor(toolbarDescriptor.color)
+        }
+
         if (toolbarDescriptor.navigationIcon != null) {
             configToolbar.setNavigationIcon(toolbarDescriptor.navigationIcon)
             configToolbar.disableLogoIcon()

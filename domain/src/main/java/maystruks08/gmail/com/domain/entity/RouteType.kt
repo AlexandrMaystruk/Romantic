@@ -6,7 +6,7 @@ enum class RouteType(val id: Int) {
     SPARE(1);
 
     companion object {
-        fun fromIndex(postIndex: Int): RouteType{
+        fun fromId(postIndex: Int): RouteType{
             return when(postIndex){
                 0 -> MAIN
                 1 -> SPARE

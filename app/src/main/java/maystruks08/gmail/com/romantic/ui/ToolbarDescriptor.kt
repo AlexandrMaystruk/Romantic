@@ -1,5 +1,7 @@
 package maystruks08.gmail.com.romantic.ui
 
+import maystruks08.gmail.com.romantic.R
+
 
 class ToolbarDescriptor private constructor(
     val visible: Boolean = false,
@@ -7,6 +9,7 @@ class ToolbarDescriptor private constructor(
     val logoIcon: Boolean = false,
     val navigationIcon: Int? = null,
     val collapse: Boolean = false,
+    val color: Int? = null,
     val bottomBarVisibility: Boolean = true,
     val menu: Int? = null
 ) {
@@ -18,6 +21,7 @@ class ToolbarDescriptor private constructor(
         private var navigationIcon: Int? = null,
         private var collapse: Boolean = false,
         private var bottomBarVisibility: Boolean = true,
+        private var color: Int = R.color.colorPrimary,
         private var menu: Int? = null
     ) {
 
@@ -45,12 +49,16 @@ class ToolbarDescriptor private constructor(
             this.bottomBarVisibility = bottomBarVisibility
         }
 
+        fun color(color: Int) = apply {
+            this.color = color
+        }
+
         fun menu(menu: Int?) = apply {
             this.menu = menu
         }
 
         fun build() =
-            ToolbarDescriptor(visible, title, logoIcon, navigationIcon, collapse, bottomBarVisibility, menu)
+            ToolbarDescriptor(visible, title, logoIcon, navigationIcon, collapse, color, bottomBarVisibility, menu)
     }
 
 }

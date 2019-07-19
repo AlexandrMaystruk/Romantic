@@ -4,18 +4,30 @@ import maystruks08.gmail.com.domain.entity.Point
 
 class POJORoute {
     var id: Long = -1
+    var name: String = ""
+    var hikeId: Long = -1
     var routeType: Int = -1
-    var route: List<Point> = listOf()
+    var points = listOf<Point>()
+    var completeRoutePath: List<Point>? = null
+    var image: String? = null
 
     constructor()
 
     constructor(
         id: Long,
+        name: String,
+        hikeId: Long,
         routeType: Int,
-        route: List<Point>
+        points: List<Point>,
+        completeRoutePath: List<Point>?,
+        image: String?
     ) {
         this.id = id
+        this.name = name
+        this.hikeId = hikeId
         this.routeType = routeType
-        this.route = route
+        this.points = points
+        this.completeRoutePath = completeRoutePath
+        this.image = image
     }
 }

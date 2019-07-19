@@ -2,6 +2,7 @@ package maystruks08.gmail.com.romantic.core.navigation
 
 import maystruks08.gmail.com.domain.entity.Participant
 import maystruks08.gmail.com.domain.entity.Route
+import maystruks08.gmail.com.domain.entity.RouteType
 import maystruks08.gmail.com.domain.entity.User
 import maystruks08.gmail.com.romantic.ui.chat.ChatFragment
 import maystruks08.gmail.com.romantic.ui.hike.createhike.CreateNewHikeFragment
@@ -25,6 +26,13 @@ import maystruks08.gmail.com.romantic.ui.viewmodel.RouteViewModel
 import maystruks08.gmail.com.romantic.ui.viewmodel.UserViewModel
 
 object Screens {
+
+    object Constants {
+
+        const val SELECTED_ROUTE_TYPE_DIALOG = "SelectRouteTypeDialog"
+
+
+    }
 
     class SignInScreen : AppScreen() {
         override fun getFragment() = SingInFragment.getInstance()
@@ -70,8 +78,14 @@ object Screens {
         override fun getFragment() = RouteFragment.getInstance(RouteViewModel.toRouteViewModel(route))
     }
 
-    class BuildRouteScreen(private val hikeId: Long) : AppScreen() {
-        override fun getFragment() = BuildRouteFragment.getInstance(hikeId)
+    class BuildRouteScreen(private val hikeId: Long, private val name: String, private val type: RouteType) :
+        AppScreen() {
+        override fun getFragment() = BuildRouteFragment.getInstance(hikeId, name, type)
+    }
+
+    class ChangeRouteScreen(private val route: Route) :
+        AppScreen() {
+        override fun getFragment() = BuildRouteFragment.getInstance(RouteViewModel.toRouteViewModel(route))
     }
 
     class ProfileScreen(private val participant: Participant) : AppScreen() {

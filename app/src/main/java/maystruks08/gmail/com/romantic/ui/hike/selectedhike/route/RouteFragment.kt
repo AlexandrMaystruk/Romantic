@@ -1,6 +1,5 @@
 package maystruks08.gmail.com.romantic.ui.hike.selectedhike.route
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +12,18 @@ import maystruks08.gmail.com.romantic.ui.ToolBarController
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polyline
-import org.osmdroid.views.overlay.infowindow.BasicInfoWindow
 import javax.inject.Inject
 import android.preference.PreferenceManager
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
 
 import maystruks08.gmail.com.romantic.ui.viewmodel.RouteViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
-
+import org.osmdroid.views.CustomZoomButtonsController
 
 class RouteFragment : Fragment(), RouteContract.View {
 
@@ -34,8 +35,6 @@ class RouteFragment : Fragment(), RouteContract.View {
 
     private var routeViewModel: RouteViewModel? = null
 
-
-    private var line: Polyline? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         App.routeComponent?.inject(this)
@@ -52,20 +51,18 @@ class RouteFragment : Fragment(), RouteContract.View {
 
     private fun initViews() {
         map.setTileSource(TileSourceFactory.MAPNIK)
-        map.setBuiltInZoomControls(false)
+        map.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
         map.setMultiTouchControls(true)
 
-
-        routeViewModel?.geoPoints?.let {
-            showRoute(it)
-        }
+        presenter.initRoutePath(routeViewModel)
     }
 
 
-    private fun changeCameraFocus(geoPoint: GeoPoint, zoom: Double) {
-        val mapController = map.controller
-        mapController.setZoom(zoom)
-        mapController.setCenter(geoPoint)
+    override fun changeCameraFocus(geoPoint: GeoPoint, zoom: Double) {
+        map.controller.apply {
+            setZoom(zoom)
+            setCenter(geoPoint)
+        }
     }
 
     override fun configToolbar() {
@@ -79,47 +76,28 @@ class RouteFragment : Fragment(), RouteContract.View {
         )
     }
 
-    override fun showRoute(geoPointList: List<GeoPoint>) {
-        if (null != line) {
-            map.overlayManager.remove(line)
+    override fun showRoutePath(geoPointList: List<GeoPoint>, @ColorRes color: Int) {
+        Polyline(map).apply {
+            subDescription = Polyline::class.java.canonicalName
+            width = 6f
+            setPoints(geoPointList)
+            isGeodesic = true
+            context?.let {
+                this.color = ContextCompat.getColor(it, color)
+            }
+            map.overlayManager.add(this)
+            map.invalidate()
         }
-        line = Polyline(map)
-        line?.subDescription = Polyline::class.java.canonicalName
-        line?.width = 10f
-        line?.points = geoPointList
-        line?.isGeodesic = true
-        line?.infoWindow = BasicInfoWindow(R.layout.bonuspack_bubble, map)
-        map.overlayManager.add(line)
-        map.invalidate()
-        changeCameraFocus(geoPointList.last(), 9.5)
     }
 
-    override fun showMarker(point: GeoPoint, drawable: Drawable) {
-        val marker = Marker(map)
-        marker.position = point
-        marker.setIcon(drawable)
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-        marker.isDraggable = true
-        map.overlays.add(marker)
-        marker.setOnMarkerClickListener { _, _ ->
-            true
+    override fun showMarker(markerId: String, point: GeoPoint, @DrawableRes drawable: Int) {
+        Marker(map).apply {
+            id = markerId
+            position = point
+            isDraggable = true
+            icon = context?.getDrawable(drawable)
+            map.overlays.add(this)
         }
-
-        marker.setOnMarkerDragListener(object : Marker.OnMarkerDragListener {
-            override fun onMarkerDragEnd(marker: Marker?) {
-            }
-
-            override fun onMarkerDragStart(marker: Marker?) {
-            }
-
-            override fun onMarkerDrag(marker: Marker?) {
-            }
-        })
-    }
-
-    override fun removeMarker(marker: Marker) {
-        map.overlayManager.remove(marker)
-        map.invalidate()
     }
 
     override fun onResume() {

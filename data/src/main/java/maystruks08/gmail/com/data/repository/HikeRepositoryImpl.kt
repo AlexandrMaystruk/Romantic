@@ -9,7 +9,6 @@ import maystruks08.gmail.com.data.mappers.ParticipantMapper
 import maystruks08.gmail.com.data.mappers.UserMapper
 import maystruks08.gmail.com.data.preferences.AuthPreferences
 import maystruks08.gmail.com.data.room.dao.HikeDAO
-import maystruks08.gmail.com.data.room.dao.ParticipantDAO
 import maystruks08.gmail.com.data.room.dao.UserDAO
 import maystruks08.gmail.com.domain.entity.*
 import maystruks08.gmail.com.domain.entity.firebase.POJOHike
@@ -24,7 +23,6 @@ class HikeRepositoryImpl @Inject constructor(
     private val api: FireStoreApi,
     private val hikeDAO: HikeDAO,
     private val hikeMapper: HikeMapper,
-    private val participantDAO: ParticipantDAO,
     private val participantMapper: ParticipantMapper,
     private val userDao: UserDAO,
     private val userMapper: UserMapper,
@@ -128,7 +126,7 @@ class HikeRepositoryImpl @Inject constructor(
 
     //participant
     override fun getHikeParticipants(hikeId: Long): Single<List<Participant>> {
-        return participantDAO.getParticipantsByHikeId(hikeId).map { list ->
+        return hikeDAO.getParticipantsByHikeId(hikeId).map { list ->
             list.map { participantMapper.toParticipant(it) }
         }
     }
@@ -138,7 +136,7 @@ class HikeRepositoryImpl @Inject constructor(
         return downloadParticipantsFromFireStore(hikeId).flatMap { remoteUsers ->
             if (compareParticipantList(remoteUsers, cashGroup) && remoteUsers.isNotEmpty()) {
                 Completable.fromAction {
-                    participantDAO.deleteUsersFromHikeGroup(
+                    hikeDAO.deleteUsersFromHikeGroup(
                         cashGroup.map {
                             participantMapper.toParticipantTable(
                                 it
@@ -146,7 +144,7 @@ class HikeRepositoryImpl @Inject constructor(
                         })
                 }
                     .andThen(Completable.fromAction {
-                        participantDAO.addUsersToHikeGroup(
+                        hikeDAO.addUsersToHikeGroup(
                             hikeId,
                             remoteUsers.map { participantMapper.toParticipantTable(it) })
                     })
@@ -161,26 +159,26 @@ class HikeRepositoryImpl @Inject constructor(
     override fun setUserToHikeGroup(hikeId: Long, user: User, post: UserPost): Completable {
         return Completable.fromAction {
             val participant = participantMapper.toParticipantTable(Participant(post, hikeId, user))
-            participantDAO.addUserToHikeGroup(hikeId, participant)
+            hikeDAO.addUserToHikeGroup(hikeId, participant)
         }
     }
 
     override fun setParticipantHikeGroup(hikeId: Long, participant: Participant): Completable {
         return Completable.fromAction {
-            participantDAO.addUserToHikeGroup(hikeId, participantMapper.toParticipantTable(participant))
+            hikeDAO.addUserToHikeGroup(hikeId, participantMapper.toParticipantTable(participant))
         }
     }
 
     override fun setParticipantsToHikeGroup(hikeId: Long, participants: List<Participant>): Completable {
         return Completable.fromAction {
-            participantDAO.addUsersToHikeGroup(hikeId, participantMapper.toParticipantTableList(participants))
+            hikeDAO.addUsersToHikeGroup(hikeId, participantMapper.toParticipantTableList(participants))
         }
     }
 
     override fun removeParticipantFromHikeGroup(hikeId: Long, participant: Participant): Completable {
         return Completable.fromAction {
-            participantDAO.deleteUserFromHikeGroup(participantMapper.toParticipantTable(participant))
-        }.andThen(participantDAO.getGroupCountByHikeId(hikeId))
+            hikeDAO.deleteUserFromHikeGroup(participantMapper.toParticipantTable(participant))
+        }.andThen(hikeDAO.getGroupCountByHikeId(hikeId))
             .flatMapCompletable {
                 if (it == 0) {
                     Completable.fromAction {
@@ -195,8 +193,8 @@ class HikeRepositoryImpl @Inject constructor(
     override fun leaveFromHikeGroup(hikeId: Long): Completable {
         val currentUser = getCurrentUserFromPref()
         return Completable.fromAction {
-            participantDAO.deleteUserFromHikeGroup(currentUser.id)
-        }.andThen(participantDAO.getGroupCountByHikeId(hikeId))
+            hikeDAO.deleteUserFromHikeGroup(currentUser.id)
+        }.andThen(hikeDAO.getGroupCountByHikeId(hikeId))
             .flatMapCompletable {
                 if (it == 0) {
                     Completable.fromAction {
@@ -209,14 +207,14 @@ class HikeRepositoryImpl @Inject constructor(
     }
 
     override fun removeHike(hikeId: Long): Completable {
-        return participantDAO.getParticipantsByHikeId(hikeId)
+        return hikeDAO.getParticipantsByHikeId(hikeId)
             .flatMapCompletable { list ->
                 val currentUserId = getCurrentUserFromPref().id
                 val hikeBoss = list.find { it.id == currentUserId && it.post == UserPost.BOSS.id }
                 return@flatMapCompletable if (hikeBoss != null) {
                     Completable.fromAction {
                         list.forEach {
-                            participantDAO.delete(it)
+                            hikeDAO.delete(it)
                         }
                     }.andThen(
                         Completable.fromAction {

@@ -11,9 +11,9 @@ interface RouteRepository {
 
     fun getRoute(routeId: Long): Single<Route>
 
-    fun saveRote(route: Route): Completable
+    fun saveRote(hikeId: Long, route: Route): Single<Route>
 
-    fun saveRotes(routes: List<Route>): Completable
+    fun saveRotes(hikeId: Long, routes: List<Route>): Single<List<Route>>
 
     fun removeRoute(hikeId: Long, routeId: Long): Completable
 

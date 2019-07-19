@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#444869</color>
     <color name="colorPrimaryDark">#141730</color>
+    <color name="colorHint">#92141730</color>
     <color name="colorAccent">#FFD15C</color>
     <color name="colorGreen">#00A018</color>
     <color name="colorWhite">#ffffff</color>
@@ -17,4 +18,7 @@
     <color name="hintColor">#77FFFFFF</color>
     <color name="textWhiteUnselected">#A3FFFFFF</color>
     <color name="textWhiteSelected">#ffffff</color>
+
+    <color name="colorMainRoute">#D27787E7</color>
+    <color name="colorSpareRoute">#B92196F3</color>
 </resources>

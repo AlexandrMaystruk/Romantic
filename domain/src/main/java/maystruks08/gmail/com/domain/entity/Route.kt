@@ -1,12 +1,17 @@
 package maystruks08.gmail.com.domain.entity
 
-data class Route(val id: Long, var type: RouteType, val points: MutableList<Point>, var completeRoutePath: MutableList<Point>? = null){
+data class Route(val id: Long,
+                 val name: String,
+                 val hikeId: Long,
+                 var type: RouteType,
+                 val points: MutableList<Point>,
+                 var completeRoutePath: MutableList<Point>? = null,
+                 val image: String? = null){
 
 
     fun addNewPoint(point: Point){
         points.add(point)
     }
-
 
     fun removePoint(point: Point){
         points.remove(point)

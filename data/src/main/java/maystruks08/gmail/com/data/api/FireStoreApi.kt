@@ -133,6 +133,11 @@ class FireStoreApi @Inject constructor(private val fireStore: FirebaseFirestore)
         return RxFirestore.getDocument(routeReference)
     }
 
+    fun uploadRoute(hikeId: Long, route: POJORoute): Completable{
+        val routeReference = fireStore.collection(COLLECTION_HIKE_ROUTE).document(HIKE + hikeId)
+        return RxFirestore.setDocument(routeReference, route)
+    }
+
     fun updateHikeRoute(hikeId: Long, route: POJORoute): Completable{
         val routeReference = fireStore.collection(COLLECTION_HIKE_ROUTE).document(HIKE + hikeId)
         return RxFirestore.setDocument(routeReference, route)

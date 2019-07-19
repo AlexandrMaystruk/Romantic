@@ -1,5 +1,6 @@
 package maystruks08.gmail.com.romantic.ui
 
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.MenuRes
 
@@ -16,6 +17,8 @@ interface ConfigToolbar {
     fun enableLogoIcon()
 
     fun disableLogoIcon()
+
+    fun setBackgroundColor(@ColorRes color: Int)
 
     fun setBackground(icon: Int)
 

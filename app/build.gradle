@@ -61,6 +61,7 @@ dependencies {
     implementation presentationDependencies.recyclerView
     implementation presentationDependencies.swipe
     implementation presentationDependencies.circleImageView
+    implementation presentationDependencies.androidCoreKTX
 
 
     implementation presentationDependencies.rxJava

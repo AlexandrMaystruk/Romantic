@@ -5,18 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import maystruks08.gmail.com.romantic.App
 import maystruks08.gmail.com.romantic.ui.ConfigToolbar
 import maystruks08.gmail.com.romantic.ui.ToolBarController
 import javax.inject.Inject
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_route_list.*
 import maystruks08.gmail.com.domain.entity.Route
+import maystruks08.gmail.com.domain.entity.RouteType
 import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.core.navigation.Screens
 import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
+import maystruks08.gmail.com.romantic.ui.hike.myhikes.SwipeActionHikeHelper
 
-
-class RouteListFragment : Fragment(), RouteListContract.View {
+class RouteListFragment : Fragment(), RouteListContract.View, SelectRouteTypeListener {
 
     @Inject
     lateinit var presenter: RouteListContract.Presenter
@@ -39,6 +43,7 @@ class RouteListFragment : Fragment(), RouteListContract.View {
         super.onViewCreated(view, savedInstanceState)
         hikeId = arguments?.getLong(ROUTE_HIKE_ID)
         initViews()
+        initCardSwipe()
     }
 
     private fun initViews() {
@@ -48,10 +53,34 @@ class RouteListFragment : Fragment(), RouteListContract.View {
         routesRecyclerView.adapter = adapter
 
         fabBuildRoute.setOnClickListener {
-            presenter.onBuildRouteClicked(hikeId!!)
+            presenter.onCreateRouteClicked()
+        }
+    }
+    private fun initCardSwipe() {
+        context?.let {
+            val swipeHelper = object : SwipeActionHikeHelper(it) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.adapterPosition
+                    if (direction == ItemTouchHelper.LEFT) {
+                        presenter.onDeleteRoute(position, adapter.routeList[position])
+                    }
+                    if (direction == ItemTouchHelper.RIGHT) {
+                        presenter.onChangeRoute(position, adapter.routeList[position])
+                    }
+                }
+            }
+            ItemTouchHelper(swipeHelper).attachToRecyclerView(routesRecyclerView)
         }
     }
 
+    override fun showSelectRoteTypeDialog() {
+        SelectRouteTypeDialog.getInstance(hikeId!!)
+            .show(childFragmentManager, Screens.Constants.SELECTED_ROUTE_TYPE_DIALOG)
+    }
+
+    override fun onTypeSelected(hikeId: Long, name: String, routeType: RouteType) {
+        presenter.onRouteTypeSelected(hikeId, name, routeType)
+    }
 
     private fun routeItemClicked(route: Route) {
         presenter.onHikeRouteClick(route)
@@ -71,6 +100,10 @@ class RouteListFragment : Fragment(), RouteListContract.View {
 
     override fun showRoutes(routes: List<Route>) {
         adapter.routeList = routes
+    }
+
+    override fun showRouteRemoved(position: Int) {
+        adapter.notifyItemRemoved(position)
     }
 
     override fun showLoading() {

@@ -1,13 +1,14 @@
 package maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.routelist
 
-
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_card_route.view.*
 import maystruks08.gmail.com.domain.entity.Route
+import maystruks08.gmail.com.domain.entity.RouteType
 import maystruks08.gmail.com.romantic.R
+import maystruks08.gmail.com.romantic.loadFromUrl
 import kotlin.properties.Delegates
 
 class RouteAdapter(private val clickListener: (Route) -> Unit) : RecyclerView.Adapter<RouteAdapter.ViewHolder>() {
@@ -30,8 +31,23 @@ class RouteAdapter(private val clickListener: (Route) -> Unit) : RecyclerView.Ad
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindHolder(route: Route, clickListener: (Route) -> Unit) {
-            itemView.tvRouteName.text = route.type.name
+            decorateViewByType(itemView, route)
+            itemView.tvRouteName.text = route.name
             itemView.setOnClickListener { clickListener(route) }
+        }
+
+        private fun decorateViewByType(view: View, route: Route) {
+            route.image?.let {
+                view.cardViewRoute.constraint_build_route.loadFromUrl(it)
+            }
+            when (route.type) {
+                RouteType.MAIN -> {
+                    itemView.tvRouteType.text = "Основной маршрут"
+                }
+                RouteType.SPARE -> {
+                    itemView.tvRouteType.text = "Запасной маршрут"
+                }
+            }
         }
     }
 }

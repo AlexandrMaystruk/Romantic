@@ -132,6 +132,14 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, RootContract.Vie
         presenter.onUploadParticipants()
     }
 
+    override fun uploadRoutes() {
+        presenter.uploadRoutes()
+    }
+
+    override fun updateRoutes() {
+        presenter.updateRoutes()
+    }
+
     private fun bottomNavigationClickHandler() {
         bottomButtonMap[bottom_news] = tvBottomNews
         bottomButtonMap[bottom_message] = tvBottomMessage
@@ -223,6 +231,12 @@ class RootActivity : AppCompatActivity(), View.OnClickListener, RootContract.Vie
 
     override fun disableToolbar() {
         supportActionBar?.hide()
+    }
+
+    override fun setBackgroundColor(color: Int) {
+        ContextCompat.getColor(this, color).let{
+            toolbar.setBackgroundColor(it)
+        }
     }
 
     override fun enableLogoIcon() {

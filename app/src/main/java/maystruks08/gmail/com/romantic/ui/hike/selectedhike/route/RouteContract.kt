@@ -1,29 +1,28 @@
 package maystruks08.gmail.com.romantic.ui.hike.selectedhike.route
 
-import android.graphics.drawable.Drawable
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import maystruks08.gmail.com.romantic.core.base.IPresenter
 import maystruks08.gmail.com.romantic.core.base.IView
+import maystruks08.gmail.com.romantic.ui.viewmodel.RouteViewModel
 import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.overlay.Marker
-import java.util.ArrayList
 
 
 interface RouteContract {
 
     interface View : IView {
 
-        fun showRoute(geoPointList: List<GeoPoint>)
+        fun showRoutePath(geoPointList: List<GeoPoint>, @ColorRes color: Int)
 
-        fun showMarker(point: GeoPoint, drawable: Drawable)
+        fun showMarker(markerId: String, point: GeoPoint, @DrawableRes drawable: Int)
 
-        fun removeMarker(marker: Marker)
+        fun changeCameraFocus(geoPoint: GeoPoint, zoom: Double)
 
     }
 
     interface Presenter : IPresenter<View> {
 
-        fun initView(hikeId: Long)
+        fun initRoutePath(routeViewModel: RouteViewModel?)
 
-        fun onCreateNewRouteClich(hikeId: Long)
     }
 }

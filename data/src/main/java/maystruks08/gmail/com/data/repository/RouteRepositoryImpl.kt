@@ -16,12 +16,20 @@ class RouteRepositoryImpl @Inject constructor(
     private val hikeDao: HikeDAO,
     private val api: FireStoreApi
 ) : RouteRepository {
-    override fun saveRote(route: Route): Completable {
-        return Completable.complete()
+
+
+    override fun saveRote(hikeId: Long, route: Route): Single<Route> {
+        return Completable.fromAction {
+            hikeDao.addRoteToHike(hikeId, routeMapper.toRouteTable(route))
+        }.toSingle { route }
     }
 
-    override fun saveRotes(routes: List<Route>): Completable {
-        return Completable.complete()
+    override fun saveRotes(hikeId: Long, routes: List<Route>): Single<List<Route>> {
+        return Completable.fromAction {
+            routes.forEach {
+                return@fromAction hikeDao.addRoteToHike(hikeId, routeMapper.toRouteTable(it))
+            }
+        }.toSingle { routes }
     }
 
     override fun getRoute(routeId: Long): Single<Route> {
@@ -31,26 +39,9 @@ class RouteRepositoryImpl @Inject constructor(
     }
 
     override fun getRoutes(hikeId: Long): Single<List<Route>> {
-//        return hikeDao.getRoutesByHikeId(hikeId).map { list ->
-//            list.map { routeMapper.toRoute(it) }
-//        }
-        //todo remove stubs
-        return Single.just(
-            listOf(
-                Route(
-                    345345,
-                    RouteType.MAIN,
-                    mutableListOf(Point(325.0, 233.0)),
-                    mutableListOf(Point(10.0, 30.0), Point(13.5, 32.5), Point(11.0, 33.0), Point(9.7, 22.0))
-                ),
-                Route(
-                    345345,
-                    RouteType.SPARE,
-                    mutableListOf(Point(30.0, 42.0)),
-                    mutableListOf(Point(49.0, 32.0), Point(49.1, 32.1), Point(49.5, 32.6), Point(49.1, 33.0))
-                )
-            )
-        )
+        return hikeDao.getRoutesByHikeId(hikeId).map { list ->
+            list.map { routeMapper.toRoute(it) }
+        }
     }
 
     override fun removeRoute(hikeId: Long, routeId: Long): Completable {

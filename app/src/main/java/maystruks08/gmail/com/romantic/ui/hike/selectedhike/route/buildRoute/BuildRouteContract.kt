@@ -7,12 +7,14 @@ import maystruks08.gmail.com.domain.entity.Route
 import maystruks08.gmail.com.domain.entity.RouteType
 import maystruks08.gmail.com.romantic.core.base.IPresenter
 import maystruks08.gmail.com.romantic.core.base.IView
+import maystruks08.gmail.com.romantic.ui.viewmodel.RouteViewModel
 import org.osmdroid.util.GeoPoint
 
 interface BuildRouteContract {
 
     interface View : IView {
 
+        fun showHeader()
 
         fun showRoute(geoPointList: List<GeoPoint>)
 
@@ -34,11 +36,19 @@ interface BuildRouteContract {
 
         fun showPoints(points: List<Point>)
 
+        fun buildRouteSuccess()
+
+        fun enableInputButton(enable: Boolean)
+
+        fun changeCameraFocus(geoPoint: GeoPoint, zoom: Double)
+
     }
 
     interface Presenter : IPresenter<View> {
 
-        fun buildPath(id: Long, type: RouteType)
+        fun onShowHeaderClicked()
+
+        fun buildPath(hikeId: Long, name: String, type: RouteType)
 
         fun onPointAdd(geoPoint: GeoPoint)
 
@@ -49,6 +59,10 @@ interface BuildRouteContract {
         fun onPointRemoved(position: Int)
 
         fun onMarkerMoved(markerId: String, geoPoint: GeoPoint)
+
+        //change route
+        fun onRouteNeedToChange(route: RouteViewModel)
+
 
     }
 }

@@ -37,8 +37,6 @@
                 android:text="Черногорский хребет, Карпаты"
                 android:textColor="@color/textWhiteSelected" />
 
-
-
             <TextView
                 android:id="@+id/card_hike_chief"
                 android:layout_width="wrap_content"

@@ -37,6 +37,18 @@ class RootInteractorImpl @Inject constructor(
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)
     }
+    override fun updateRoutes(): Single<Int> {
+        return uploadRepository.uploadNotUploadedParticipants()
+            .subscribeOn(executor.mainExecutor)
+            .observeOn(executor.postExecutor)
+
+    }
+
+    override fun uploadRoutes(): Single<Int> {
+        return uploadRepository.uploadNotUploadedParticipants()
+            .subscribeOn(executor.mainExecutor)
+            .observeOn(executor.postExecutor)
+    }
 
     override fun logout(): Completable {
         return repository.logout()

@@ -9,23 +9,24 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.lang.Exception
 import java.net.URL
+import java.util.*
 import javax.inject.Inject
 
 class RouteBuilderImpl @Inject constructor() : RouteBuilder {
 
-    override fun buildRout(id: Long, type: RouteType, listPoint: List<Point>): Single<Route> {
-        return Single.create {
+    override fun buildRout(hikeId: Long, name: String, type: RouteType, listPoint: List<Point>): Single<Route> {
+        return Single.create { emitter ->
             try {
-                val route = Route(id, type, mutableListOf())
+                val route = Route(UUID.randomUUID().mostSignificantBits, name, hikeId, type, mutableListOf())
                 listPoint.forEachIndexed { index, geoPoint ->
                     listPoint.getOrNull(index + 1)?.let {
                         route.addPath(getPathBetweenTwoPoints(geoPoint, it))
                     }
                 }
                 route.points.addAll(listPoint)
-                it.onSuccess(route)
+                emitter.onSuccess(route)
             } catch (e: Exception) {
-                it.onError(e)
+                emitter.onError(e)
             }
         }
     }
@@ -61,7 +62,8 @@ class RouteBuilderImpl @Inject constructor() : RouteBuilder {
 
     private fun getPathBetweenTwoPoints(start: Point, finish: Point): List<Point> {
         try {
-            val serverURL = "https://graphhopper.com/api/1/route?point=" + start.lat + "," + start.lon + "&point=" + finish.lat + "," + finish.lon + "&vehicle=foot&index.max_region_search=8&locale=de&key=" + API_KEY + "&type=json"
+            val serverURL =
+                "https://graphhopper.com/api/1/route?point=" + start.lat + "," + start.lon + "&point=" + finish.lat + "," + finish.lon + "&vehicle=foot&index.max_region_search=8&locale=de&key=" + API_KEY + "&type=json"
             val myResponse = URL(serverURL).readText()
             val jsonResponse = JSONObject(myResponse)
             val paths = jsonResponse.getJSONArray("paths")

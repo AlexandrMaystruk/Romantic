@@ -30,8 +30,11 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="f3f6ff" />
-                            <entry key="outputName" value="ic_find_road" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/iconfinder_road_2969394.svg" />
+                            <entry key="height" value="640" />
+                            <entry key="outputName" value="main_background_alpha" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="$USER_HOME$/Desktop/Group 7.1 (1).svg" />
+                            <entry key="width" value="360" />
                           </map>
                         </option>
                       </PersistentState>

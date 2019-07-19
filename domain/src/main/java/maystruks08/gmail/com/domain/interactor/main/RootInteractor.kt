@@ -15,4 +15,8 @@ interface RootInteractor {
 
     fun uploadParticipants(): Single<Int>
 
+    fun updateRoutes(): Single<Int>
+
+    fun uploadRoutes(): Single<Int>
+
 }

@@ -3,25 +3,22 @@ package maystruks08.gmail.com.data.repository
 
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import maystruks08.gmail.com.data.api.FireStoreApi
 import maystruks08.gmail.com.data.mappers.HikeMapper
 import maystruks08.gmail.com.data.mappers.ParticipantMapper
+import maystruks08.gmail.com.data.mappers.RouteMapper
 import maystruks08.gmail.com.data.room.dao.HikeDAO
-import maystruks08.gmail.com.data.room.dao.ParticipantDAO
-import maystruks08.gmail.com.data.room.entity.ParticipantTable
 import maystruks08.gmail.com.domain.repository.UploadRepository
-import java.util.*
 import javax.inject.Inject
 
 class UploadRepositoryImpl @Inject constructor(
     private val api: FireStoreApi,
     private val hikeDAO: HikeDAO,
     private val hikeMapper: HikeMapper,
-    private val participantDAO: ParticipantDAO,
-    private val participantMapper: ParticipantMapper
+    private val participantMapper: ParticipantMapper,
+    private val routeMapper: RouteMapper
 ) : UploadRepository {
 
     override fun uploadNotUploadedHikes(): Single<Int> {
@@ -58,7 +55,7 @@ class UploadRepositoryImpl @Inject constructor(
     }
 
     override fun uploadNotUploadedParticipants(): Single<Int> {
-        return participantDAO.getNotUploadParticipants()
+        return hikeDAO.getNotUploadParticipants()
             .flatMapCompletable { tableItems ->
                 val participantGroups = tableItems.groupBy { it.hikeId }
                 return@flatMapCompletable Observable.fromIterable(participantGroups.keys)
@@ -69,7 +66,7 @@ class UploadRepositoryImpl @Inject constructor(
                                 .andThen(
                                     Completable.fromAction {
                                         fireStoreParticipants.forEach { participant ->
-                                            participantDAO.setAlreadyUpdated(participant.id)
+                                            hikeDAO.setAlreadyUpdated(participant.id)
                                         }
                                     }.subscribeOn(
                                         Schedulers.io()
@@ -81,12 +78,12 @@ class UploadRepositoryImpl @Inject constructor(
             }
             .andThen(Single.just(0))
             .onErrorResumeNext {
-                participantDAO.getNotUploadParticipantsCount()
+                hikeDAO.getNotUploadParticipantsCount()
             }
     }
 
     override fun updateParticipants(): Single<Int> {
-        return participantDAO.getNotUpdateParticipants()
+        return hikeDAO.getNotUpdateParticipants()
             .flatMapCompletable { tableItems ->
                 val participantGroups = tableItems.groupBy { it.hikeId }
                 return@flatMapCompletable Observable.fromIterable(participantGroups.keys)
@@ -96,7 +93,7 @@ class UploadRepositoryImpl @Inject constructor(
                             api.setParticipantsToGroup(key, fireStoreParticipants)
                                 .andThen(Completable.fromAction {
                                     fireStoreParticipants.forEach { participant ->
-                                        participantDAO.setAlreadyUpdated(participant.id)
+                                        hikeDAO.setAlreadyUpdated(participant.id)
                                     }
                                 })
                         }
@@ -105,7 +102,42 @@ class UploadRepositoryImpl @Inject constructor(
             }
             .andThen(Single.just(0))
             .onErrorResumeNext {
-                participantDAO.getNotUpdatedParticipantCount()
+                hikeDAO.getNotUpdatedParticipantCount()
+            }
+    }
+
+    override fun uploadNotUploadedRoutes(): Single<Int> {
+        return hikeDAO.getNotUploadedRoutes()
+            .flatMapObservable {
+                Observable.fromIterable(it)
+            }
+            .flatMapCompletable { tableItem ->
+                val fireStoreRoute = routeMapper.toRoutePOJO(tableItem)
+
+                //todo remove hardcode hike id
+                return@flatMapCompletable api.uploadRoute(0L, fireStoreRoute)
+                    .andThen(Completable.fromAction { hikeDAO.setRouteUploaded(0L, fireStoreRoute.id) })
+            }
+            .andThen(Single.just(0))
+            .onErrorResumeNext {
+                hikeDAO.getNotUploadRoutesCount()
+            }
+    }
+
+    override fun updateRoutes(): Single<Int> {
+        return hikeDAO.getNotUpdatedRoutes()
+            .flatMapObservable {
+                Observable.fromIterable(it)
+            }
+            .flatMapCompletable { tableItem ->
+                val fireStoreRoute = routeMapper.toRoutePOJO(tableItem)
+                //todo remove hardcode hike id
+                return@flatMapCompletable api.updateHikeRoute(0L, fireStoreRoute)
+                    .andThen(Completable.fromAction { hikeDAO.setRouteAlreadyUpdated(fireStoreRoute.id) })
+            }
+            .andThen(Single.just(0))
+            .onErrorResumeNext {
+                hikeDAO.getNotUpdatedRoutesCount()
             }
     }
 

@@ -8,7 +8,12 @@ interface UploadRepository {
 
     fun uploadNotUploadedParticipants(): Single<Int>
 
+    fun uploadNotUploadedRoutes(): Single<Int>
+
+
     fun updateHike(): Single<Int>
 
     fun updateParticipants(): Single<Int>
+
+    fun updateRoutes(): Single<Int>
 }

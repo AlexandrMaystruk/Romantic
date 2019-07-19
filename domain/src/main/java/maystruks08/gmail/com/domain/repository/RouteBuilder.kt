@@ -7,7 +7,7 @@ import maystruks08.gmail.com.domain.entity.RouteType
 
 interface RouteBuilder {
 
-    fun buildRout(id: Long, type: RouteType, listPoint: List<Point>): Single<Route>
+    fun buildRout(hikeId: Long, name: String, type: RouteType, listPoint: List<Point>): Single<Route>
 
     fun addNewPoint(route: Route, point: Point): Single<Route>
 

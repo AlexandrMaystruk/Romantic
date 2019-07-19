@@ -5,12 +5,12 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    primaryKeys = ["hikeId", "routeId"],
-    tableName = "hike_route_join", indices = [Index(value = ["hikeId", "routeId"])]
+    primaryKeys = ["hikeIdJoin", "routeIdJoin"],
+    tableName = "hike_route_join", indices = [Index(value = ["hikeIdJoin", "hikeIdJoin"])]
 )
 data class HikeRouteJoin(
-    var hikeId: Long,
-    var routeId: Long
+    var hikeIdJoin: Long,
+    var routeIdJoin: Long
 ){
-    fun key() = "$hikeId-$routeId"
+    fun key() = "$hikeIdJoin-$routeIdJoin"
 }

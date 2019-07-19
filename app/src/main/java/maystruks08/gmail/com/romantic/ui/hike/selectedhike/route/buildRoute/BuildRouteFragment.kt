@@ -1,5 +1,6 @@
 package maystruks08.gmail.com.romantic.ui.hike.selectedhike.route.buildRoute
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +15,6 @@ import android.preference.PreferenceManager
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.layout_create_route_header.*
 import maystruks08.gmail.com.domain.entity.Point
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.ui.ToolbarDescriptor
@@ -23,11 +22,15 @@ import maystruks08.gmail.com.romantic.ui.viewmodel.RouteViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_build_route.*
 import kotlinx.android.synthetic.main.fragment_route.map
 import maystruks08.gmail.com.domain.entity.RouteType
 import maystruks08.gmail.com.romantic.DistanceUtil
+import maystruks08.gmail.com.romantic.ui.main.UploadListener
 import org.osmdroid.events.MapEventsReceiver
+import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.overlay.*
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -40,15 +43,35 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
     @Inject
     lateinit var controller: ToolBarController
 
+    private lateinit var uploadListener: UploadListener
+
     private lateinit var adapter: PointAdapter
 
     private var hikeId: Long? = null
+
+    private var routeType: RouteType? = null
+
+    private var routeName: String? = null
+
+    private var route: RouteViewModel? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         App.buildRouteComponent?.inject(this)
         presenter.bindView(this)
-        hikeId = arguments?.getLong(BUILD_HIKE_ROUTE)
+
+        arguments?.let { arg ->
+            hikeId = arg.getLong(BUILD_ROUTE_HIKE_ID)
+            routeType = RouteType.fromId(arg.getInt(BUILD_HIKE_ROUTE_TYPE))
+            routeName = arg.getString(BUILD_HIKE_ROUTE_NAME)
+            route = arg.getParcelable(BUILD_ROUTE)
+            route?.let {
+                hikeId = it.hikeId
+                routeType = it.type
+                routeName = it.name
+
+            }
+        }
 
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
         return inflater.inflate(R.layout.fragment_build_route, container, false)
@@ -59,18 +82,24 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
         initView()
 
         map.setTileSource(TileSourceFactory.MAPNIK)
-        map.setBuiltInZoomControls(false)
+        map.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
         map.setMultiTouchControls(true)
         map.controller.setZoom(9.5)
     }
 
 
     private fun initView() {
+        setAdapter()
+        route?.let { presenter.onRouteNeedToChange(it) }
+        initCardSwipe()
+        initMapEventListener()
+    }
+
+
+    private fun setAdapter() {
         adapter = PointAdapter({ itemClicked(it) }, { itemButtonClicked() })
         recyclerViewGeoPoint.layoutManager = LinearLayoutManager(context)
         recyclerViewGeoPoint.adapter = adapter
-        initCardSwipe()
-        initMapEventListener()
     }
 
     private fun initCardSwipe() {
@@ -110,6 +139,9 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
         map.invalidate()
     }
 
+    override fun showHeader() {
+    }
+
     override fun showPoints(points: List<Point>) {
         adapter.pointList = points.toMutableList()
         recyclerViewGeoPoint.scrollToPosition(adapter.pointList.lastIndex + 1)
@@ -128,26 +160,36 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
     }
 
     private fun itemButtonClicked() {
-        presenter.buildPath(hikeId!!, RouteType.MAIN)
+        presenter.buildPath(hikeId!!, routeName!!, routeType!!)
     }
 
     override fun configToolbar() {
         controller.configure(
             ToolbarDescriptor.Builder()
                 .visibility(true)
+                .collapse(true)
                 .title("Create Route")
                 .navigationIcon(R.drawable.ic_arrow_back_white_24dp)
                 .bottomBarVisibility(false)
+                .menu(R.menu.menu_build_route)
                 .build(),
             activity as ConfigToolbar
         )
+
+        controller.addMenuClickListener(activity as ConfigToolbar, ::onMenuClicked)
+    }
+
+    private fun onMenuClicked(menuId: Int) {
+        if (menuId == R.id.action_show_find_road_header) {
+            presenter.onShowHeaderClicked()
+        }
     }
 
     override fun showRoute(geoPointList: List<GeoPoint>) {
         Polyline(map).apply {
             subDescription = Polyline::class.java.canonicalName
             width = 6f
-            points = geoPointList
+            setPoints(geoPointList)
             isGeodesic = true
             context?.let {
                 this.color = ContextCompat.getColor(it, R.color.colorGrey)
@@ -161,7 +203,7 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
         Polyline(map).apply {
             subDescription = Polyline::class.java.canonicalName
             width = 6f
-            points = geoPointList
+            setPoints(geoPointList)
             isGeodesic = true
             context?.let {
                 this.color = ContextCompat.getColor(it, color)
@@ -179,7 +221,7 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
                 ContextCompat.getDrawable(
                     context,
                     R.drawable.marker_default
-                )?.let { setIcon(it) }
+                )?.let { icon = it }
             }
             isDraggable = true
             map.overlays.add(this)
@@ -201,7 +243,7 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
             id = markerId
             position = point
             isDraggable = true
-            setIcon(context?.getDrawable(drawable))
+            icon = context?.getDrawable(drawable)
             map.overlays.add(this)
 
             setOnMarkerDragListener(object : Marker.OnMarkerDragListener {
@@ -215,6 +257,13 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
                 override fun onMarkerDrag(marker: Marker) {}
             })
             map.invalidate()
+        }
+    }
+
+    override fun changeCameraFocus(geoPoint: GeoPoint, zoom: Double) {
+        map.controller.apply {
+            setZoom(zoom)
+            setCenter(geoPoint)
         }
     }
 
@@ -305,6 +354,14 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
         return BigDecimal(distance).apply { setScale(3, RoundingMode.DOWN) }.toDouble()
     }
 
+    override fun buildRouteSuccess() {
+        uploadListener.uploadHikes()
+    }
+
+    override fun enableInputButton(enable: Boolean) {
+        recyclerViewGeoPoint.isEnabled = enable
+    }
+
     override fun showLoading() {
     }
 
@@ -312,7 +369,13 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
     }
 
     override fun showError(t: Throwable) {
+    }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (activity is UploadListener) {
+            uploadListener = activity as UploadListener
+        }
     }
 
     override fun onDetach() {
@@ -322,21 +385,24 @@ class BuildRouteFragment : Fragment(), BuildRouteContract.View {
 
     companion object {
 
-        private const val BUILD_HIKE_ROUTE = "buildHikeRoute"
+        private const val BUILD_ROUTE = "buildRoute"
+        private const val BUILD_ROUTE_HIKE_ID = "buildRouteHikeId"
+        private const val BUILD_HIKE_ROUTE_TYPE = "buildRouteType"
+        private const val BUILD_HIKE_ROUTE_NAME = "buildRouteName"
 
-        fun getInstance(hikeId: Long): BuildRouteFragment =
+        fun getInstance(hikeId: Long, name: String, type: RouteType): BuildRouteFragment =
             BuildRouteFragment().apply {
                 arguments = Bundle().apply {
-                    putLong(BUILD_HIKE_ROUTE, hikeId)
+                    putLong(BUILD_ROUTE_HIKE_ID, hikeId)
+                    putInt(BUILD_HIKE_ROUTE_TYPE, type.id)
+                    putString(BUILD_HIKE_ROUTE_NAME, name)
                 }
             }
-
-        fun getInstance(): BuildRouteFragment = BuildRouteFragment()
 
         fun getInstance(route: RouteViewModel): BuildRouteFragment =
             BuildRouteFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(BUILD_HIKE_ROUTE, route)
+                    putParcelable(BUILD_ROUTE, route)
                 }
             }
     }

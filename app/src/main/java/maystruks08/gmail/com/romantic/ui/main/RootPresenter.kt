@@ -53,6 +53,14 @@ class RootPresenter @Inject constructor(private val rootInteractor: RootInteract
         )
     }
 
+    override fun uploadRoutes() {
+        //todo uploadRoutes
+    }
+
+    override fun updateRoutes() {
+        //todo updateRoutes
+    }
+
     private fun onUploadHikesSuccess(countError: Int) {
         println("Upload hike error count: $countError")
         view?.hideLoading()

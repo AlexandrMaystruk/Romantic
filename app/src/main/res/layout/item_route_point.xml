@@ -9,7 +9,6 @@
         android:layout_marginStart="@dimen/margin_xs"
         android:layout_marginEnd="@dimen/margin_xs"
         android:layout_marginTop="@dimen/margin_xs"
-        card_view:cardCornerRadius="@dimen/cardview_default_radius"
         card_view:cardElevation="3dp">
 
 

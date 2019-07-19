@@ -15,8 +15,11 @@ class BuildRouteInteractorImpl @Inject constructor(
     private val routeRepository: RouteRepository
 ) : BuildRouteInteractor {
 
-    override fun buildRoute(id: Long, type: RouteType, listPoint: List<Point>): Single<Route> {
-        return routeBuilder.buildRout(id, type, listPoint)
+    override fun buildRoute(hikeId: Long, name: String, type: RouteType, listPoint: List<Point>): Single<Route> {
+        return routeBuilder.buildRout(hikeId, name, type, listPoint)
+            .flatMap {
+                routeRepository.saveRote(hikeId, it)
+            }
             .subscribeOn(executor.mainExecutor)
             .observeOn(executor.postExecutor)
 

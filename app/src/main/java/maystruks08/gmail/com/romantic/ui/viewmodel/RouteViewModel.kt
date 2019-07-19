@@ -3,23 +3,39 @@ package maystruks08.gmail.com.romantic.ui.viewmodel
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import maystruks08.gmail.com.data.fromJson
+import maystruks08.gmail.com.data.toJsonOrNull
 import maystruks08.gmail.com.domain.entity.Point
 import maystruks08.gmail.com.domain.entity.Route
-import org.osmdroid.util.GeoPoint
+import maystruks08.gmail.com.domain.entity.RouteType
 
-data class RouteViewModel(val id: Long, val type: String, val geoPoints: MutableList<GeoPoint>?) : Parcelable {
+data class RouteViewModel(
+    val id: Long,
+    val name: String,
+    val hikeId: Long,
+    var type: RouteType,
+    val points: MutableList<Point>,
+    var completeRoutePath: MutableList<Point>?
+) : Parcelable {
+
+    private val gson = Gson()
 
     constructor(parcel: Parcel) : this(
-        parcel.readLong(),
-        parcel.readString() ?: "",
-        Gson().fromJson<MutableList<GeoPoint>>(parcel.readString() ?: "")
+        id = parcel.readLong(),
+        hikeId = parcel.readLong(),
+        name = parcel.readString()?:"",
+        type = Gson().fromJson(parcel.readString() ?: ""),
+        points = Gson().fromJson<MutableList<Point>>(parcel.readString() ?: ""),
+        completeRoutePath = Gson().fromJson<MutableList<Point>>(parcel.readString() ?: "")
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)
-        parcel.writeString(type)
-        parcel.writeString(Gson().toJson(geoPoints))
+        parcel.writeLong(hikeId)
+        parcel.writeString(name)
+        parcel.writeString(gson.toJson(type))
+        parcel.writeString(gson.toJson(points))
+        parcel.writeString(gson.toJsonOrNull(completeRoutePath))
     }
 
     override fun describeContents(): Int {
@@ -35,27 +51,17 @@ data class RouteViewModel(val id: Long, val type: String, val geoPoints: Mutable
             return arrayOfNulls(size)
         }
 
-        private inline fun <reified T> Gson.fromJson(json: String) =
-            this.fromJson<T>(json, object : TypeToken<T>() {}.type)
-
         fun toRouteViewModel(route: Route): RouteViewModel {
             return route.let {
                 RouteViewModel(
                     it.id,
-                    it.type.name,
-                    it.completeRoutePath?.map { toGeoPoint(it) }?.toMutableList()
-                )
-            }
-        }
-
-        private fun toGeoPoint(point: Point): GeoPoint {
-            return point.let {
-                GeoPoint(
-                    it.lat,
-                    it.lon
+                    it.name,
+                    it.hikeId,
+                    it.type,
+                    it.points,
+                    it.completeRoutePath
                 )
             }
         }
     }
-
 }

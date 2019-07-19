@@ -6,6 +6,9 @@ import maystruks08.gmail.com.domain.entity.RouteType
 import maystruks08.gmail.com.domain.interactor.hike.selectedhike.route.build.BuildRouteInteractor
 import maystruks08.gmail.com.romantic.R
 import maystruks08.gmail.com.romantic.core.base.BasePresenter
+import maystruks08.gmail.com.romantic.toGeoPoint
+import maystruks08.gmail.com.romantic.toPoint
+import maystruks08.gmail.com.romantic.ui.viewmodel.RouteViewModel
 import org.osmdroid.util.GeoPoint
 import java.util.*
 
@@ -20,9 +23,14 @@ class BuildRoutePresenter @Inject constructor(
     private val pointsOnMap = mutableListOf<Point>()
     private var pointCount = 0
 
-    override fun buildPath(id: Long, type: RouteType) {
+    override fun onShowHeaderClicked() {
+        view?.showHeader()
+    }
+
+    override fun buildPath(hikeId: Long, name: String, type: RouteType) {
+        view?.enableInputButton(false)
         compositeDisposable.add(
-            routeInteractor.buildRoute(id, type, pointsOnMap)
+            routeInteractor.buildRoute(hikeId, name, type, pointsOnMap)
                 .subscribe(::renderRoutePath, ::onBuildPathFailure)
         )
     }
@@ -35,8 +43,7 @@ class BuildRoutePresenter @Inject constructor(
     }
 
     override fun onPointAdd(geoPoint: GeoPoint) {
-        val point = Point(UUID.randomUUID().toString(), ++pointCount, geoPoint.latitude, geoPoint.longitude)
-        pointsOnMap.add(point)
+        pointsOnMap.add(geoPoint.toPoint(number = ++pointCount))
         view?.showPoints(pointsOnMap)
         renderRouteScheme()
     }
@@ -73,11 +80,14 @@ class BuildRoutePresenter @Inject constructor(
         renderRouteScheme()
     }
 
-    private fun renderRouteScheme() {
-        val geoPoints = pointsOnMap.map { toGeoPoint(it) }
+    private fun renderRouteScheme(isShowInPointAdapter: Boolean = false) {
+        val geoPoints = pointsOnMap.map { it.toGeoPoint() }
         view?.removeMarkers()
         view?.removeAllPolyline()
         view?.showRoute(geoPoints)
+        if (isShowInPointAdapter) {
+            view?.showPoints(pointsOnMap)
+        }
 
         geoPoints.forEachIndexed { index, gp ->
             pointsOnMap[index].number = index + 1
@@ -92,6 +102,8 @@ class BuildRoutePresenter @Inject constructor(
     }
 
     private fun renderRoutePath(route: Route) {
+        view?.enableInputButton(true)
+        view?.buildRouteSuccess()
         //remove all overlays object
         view?.removeMarkers()
         view?.removeAllPolyline()
@@ -122,6 +134,12 @@ class BuildRoutePresenter @Inject constructor(
 
     private fun onNewPointAddFailure(t: Throwable) {
         t.printStackTrace()
+    }
+
+    override fun onRouteNeedToChange(route: RouteViewModel) {
+        pointsOnMap.addAll(route.points)
+        renderRouteScheme(true)
+        view?.changeCameraFocus(route.points.first().toGeoPoint(), 14.0)
     }
 
     private fun toGeoPoint(point: Point): GeoPoint {

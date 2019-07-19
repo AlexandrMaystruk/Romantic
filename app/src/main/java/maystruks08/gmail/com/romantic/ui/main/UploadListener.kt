@@ -10,4 +10,8 @@ interface UploadListener {
 
     fun uploadParticipants()
 
+    fun uploadRoutes()
+
+    fun updateRoutes()
+
 }

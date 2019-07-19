@@ -9,7 +9,6 @@ import maystruks08.gmail.com.data.mappers.HikeMapper
 import maystruks08.gmail.com.data.mappers.ParticipantMapper
 import maystruks08.gmail.com.data.mappers.UserMapper
 import maystruks08.gmail.com.data.room.dao.HikeDAO
-import maystruks08.gmail.com.data.room.dao.ParticipantDAO
 import maystruks08.gmail.com.data.room.dao.UserDAO
 import maystruks08.gmail.com.domain.entity.User
 import maystruks08.gmail.com.domain.entity.firebase.POJOHike
@@ -32,16 +31,13 @@ class RefreshCacheWorker(context: Context, workerParams: WorkerParameters) : Wor
     lateinit var userMapper: UserMapper
 
     @Inject
-    lateinit var participantDAO: ParticipantDAO
-
-    @Inject
     lateinit var participantMapper: ParticipantMapper
 
     override fun doWork(): Result {
 
 //        api.setUpdateListener(::hikesUpdated, ::usersUpdated)
 
-        return Result.RETRY
+        return Result.Retry()
     }
 
 

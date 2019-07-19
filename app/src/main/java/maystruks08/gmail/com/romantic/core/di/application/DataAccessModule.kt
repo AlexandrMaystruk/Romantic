@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
-import maystruks08.gmail.com.data.mappers.UserMapper
+import maystruks08.gmail.com.data.getGsonInstanceWithTypeAdapter
 import maystruks08.gmail.com.data.preferences.AuthPreferences
 import maystruks08.gmail.com.romantic.core.executors.BaseExecutor
 import maystruks08.gmail.com.data.room.AppDatabase
 import maystruks08.gmail.com.data.room.dao.HikeDAO
-import maystruks08.gmail.com.data.room.dao.ParticipantDAO
 import maystruks08.gmail.com.data.room.dao.UserDAO
 import maystruks08.gmail.com.domain.executor.ThreadExecutor
 
@@ -25,10 +25,6 @@ class DataAccessModule {
     @Singleton
     fun appDatabase(context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, "sc_db").build()
-
-    @Provides
-    @Singleton
-    fun participantDao(appDatabase: AppDatabase): ParticipantDAO = appDatabase.participantsDAO()
 
     @Provides
     @Singleton
@@ -56,5 +52,14 @@ class DataAccessModule {
     @Provides
     @Singleton
     fun authPreferences(context: Context): AuthPreferences = AuthPreferences(context)
+
+    @Module
+    companion object {
+
+        @JvmStatic
+        @Provides
+        @Singleton
+        fun gson(): Gson = getGsonInstanceWithTypeAdapter()
+    }
 
 }
